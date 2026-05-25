@@ -94,6 +94,10 @@ export const DICT: Dict = {
   tbd: { en: "TBD", bn: "টিবিডি" },
   predicted: { en: "Predicted", bn: "ভবিষ্যদ্বাণী" },
   actual: { en: "Actual", bn: "প্রকৃত" },
+  days: { en: "Days", bn: "দিন" },
+  hours: { en: "Hours", bn: "ঘণ্টা" },
+  minutes: { en: "Minutes", bn: "মিনিট" },
+  seconds: { en: "Seconds", bn: "সেকেন্ড" },
 };
 
 type Ctx = {
