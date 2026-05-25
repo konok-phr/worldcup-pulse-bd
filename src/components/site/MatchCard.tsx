@@ -29,7 +29,7 @@ export function MatchCard({
   emojiMap?: Record<string, string | null>;
   compact?: boolean;
 }) {
-  const { t, locale, banglaNumerals } = useI18n();
+  const { t, tn, locale, banglaNumerals } = useI18n();
   const isLive = ["live", "in_play", "half_time"].includes(match.status);
   const isFinished = ["finished", "ft", "full_time"].includes(match.status);
 
@@ -47,7 +47,7 @@ export function MatchCard({
     >
       <div className="flex items-center justify-between text-[10px] uppercase tracking-wider text-muted-foreground mb-2 font-mono">
         <span>
-          {match.stage}
+          {tn("stage", match.stage)}
           {match.group_letter ? ` · ${t("group")} ${match.group_letter}` : ""}
         </span>
         {isLive ? (
@@ -65,7 +65,7 @@ export function MatchCard({
       <div className="flex items-center gap-2 mb-1">
         <TeamCrest code={home} emoji={emojiMap?.[home] ?? null} size={22} />
         <span className="flex-1 text-sm font-medium truncate">
-          {match.home_team_name ?? home}
+          {tn("team", match.home_team_name) || home}
         </span>
         <span className={cn("font-mono text-base tabular-nums w-6 text-right", isLive && "text-primary")}>
           {match.home_score != null ? fmtNumber(match.home_score, banglaNumerals) : "–"}
@@ -74,7 +74,7 @@ export function MatchCard({
       <div className="flex items-center gap-2">
         <TeamCrest code={away} emoji={emojiMap?.[away] ?? null} size={22} />
         <span className="flex-1 text-sm font-medium truncate">
-          {match.away_team_name ?? away}
+          {tn("team", match.away_team_name) || away}
         </span>
         <span className={cn("font-mono text-base tabular-nums w-6 text-right", isLive && "text-primary")}>
           {match.away_score != null ? fmtNumber(match.away_score, banglaNumerals) : "–"}
