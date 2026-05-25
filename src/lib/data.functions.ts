@@ -47,6 +47,25 @@ export const getMatchById = createServerFn({ method: "GET" })
     return { match: matchRes.data, events: eventsRes.data ?? [] };
   });
 
+// Past meetings between two team codes across all editions.
+export const getHeadToHead = createServerFn({ method: "GET" })
+  .inputValidator((d: { home: string; away: string }) => d)
+  .handler(async ({ data }) => {
+    const a = data.home.toUpperCase();
+    const b = data.away.toUpperCase();
+    const { data: rows, error } = await supabaseAdmin
+      .from("matches")
+      .select("id,tournament_year,stage,home_team_code,away_team_code,home_team_name,away_team_name,home_score,away_score,kickoff_utc,status")
+      .or(
+        `and(home_team_code.eq.${a},away_team_code.eq.${b}),and(home_team_code.eq.${b},away_team_code.eq.${a})`,
+      )
+      .in("status", ["finished", "ft", "full_time"])
+      .order("kickoff_utc", { ascending: false })
+      .limit(10);
+    if (error) throw new Error(error.message);
+    return rows ?? [];
+  });
+
 // ----- Teams -----
 export const getAllTeams = createServerFn({ method: "GET" }).handler(async () => {
   const { data, error } = await supabaseAdmin

@@ -11,6 +11,7 @@
 import { Route as rootRouteImport } from './routes/__root'
 import { Route as TeamsRouteImport } from './routes/teams'
 import { Route as StadiumsRouteImport } from './routes/stadiums'
+import { Route as SimulatorRouteImport } from './routes/simulator'
 import { Route as SearchRouteImport } from './routes/search'
 import { Route as RecordsRouteImport } from './routes/records'
 import { Route as PlayersRouteImport } from './routes/players'
@@ -35,6 +36,11 @@ const TeamsRoute = TeamsRouteImport.update({
 const StadiumsRoute = StadiumsRouteImport.update({
   id: '/stadiums',
   path: '/stadiums',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const SimulatorRoute = SimulatorRouteImport.update({
+  id: '/simulator',
+  path: '/simulator',
   getParentRoute: () => rootRouteImport,
 } as any)
 const SearchRoute = SearchRouteImport.update({
@@ -123,6 +129,7 @@ export interface FileRoutesByFullPath {
   '/players': typeof PlayersRoute
   '/records': typeof RecordsRoute
   '/search': typeof SearchRoute
+  '/simulator': typeof SimulatorRoute
   '/stadiums': typeof StadiumsRouteWithChildren
   '/teams': typeof TeamsRouteWithChildren
   '/groups/$letter': typeof GroupsLetterRoute
@@ -142,6 +149,7 @@ export interface FileRoutesByTo {
   '/players': typeof PlayersRoute
   '/records': typeof RecordsRoute
   '/search': typeof SearchRoute
+  '/simulator': typeof SimulatorRoute
   '/stadiums': typeof StadiumsRouteWithChildren
   '/teams': typeof TeamsRouteWithChildren
   '/groups/$letter': typeof GroupsLetterRoute
@@ -162,6 +170,7 @@ export interface FileRoutesById {
   '/players': typeof PlayersRoute
   '/records': typeof RecordsRoute
   '/search': typeof SearchRoute
+  '/simulator': typeof SimulatorRoute
   '/stadiums': typeof StadiumsRouteWithChildren
   '/teams': typeof TeamsRouteWithChildren
   '/groups/$letter': typeof GroupsLetterRoute
@@ -183,6 +192,7 @@ export interface FileRouteTypes {
     | '/players'
     | '/records'
     | '/search'
+    | '/simulator'
     | '/stadiums'
     | '/teams'
     | '/groups/$letter'
@@ -202,6 +212,7 @@ export interface FileRouteTypes {
     | '/players'
     | '/records'
     | '/search'
+    | '/simulator'
     | '/stadiums'
     | '/teams'
     | '/groups/$letter'
@@ -221,6 +232,7 @@ export interface FileRouteTypes {
     | '/players'
     | '/records'
     | '/search'
+    | '/simulator'
     | '/stadiums'
     | '/teams'
     | '/groups/$letter'
@@ -241,6 +253,7 @@ export interface RootRouteChildren {
   PlayersRoute: typeof PlayersRoute
   RecordsRoute: typeof RecordsRoute
   SearchRoute: typeof SearchRoute
+  SimulatorRoute: typeof SimulatorRoute
   StadiumsRoute: typeof StadiumsRouteWithChildren
   TeamsRoute: typeof TeamsRouteWithChildren
   MatchIdRoute: typeof MatchIdRoute
@@ -261,6 +274,13 @@ declare module '@tanstack/react-router' {
       path: '/stadiums'
       fullPath: '/stadiums'
       preLoaderRoute: typeof StadiumsRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/simulator': {
+      id: '/simulator'
+      path: '/simulator'
+      fullPath: '/simulator'
+      preLoaderRoute: typeof SimulatorRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/search': {
@@ -425,6 +445,7 @@ const rootRouteChildren: RootRouteChildren = {
   PlayersRoute: PlayersRoute,
   RecordsRoute: RecordsRoute,
   SearchRoute: SearchRoute,
+  SimulatorRoute: SimulatorRoute,
   StadiumsRoute: StadiumsRouteWithChildren,
   TeamsRoute: TeamsRouteWithChildren,
   MatchIdRoute: MatchIdRoute,
