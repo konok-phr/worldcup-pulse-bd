@@ -2,10 +2,10 @@ import { createFileRoute, Link } from "@tanstack/react-router";
 import { queryOptions, useSuspenseQuery } from "@tanstack/react-query";
 import { getHomeData, getAllTeams } from "@/lib/data.functions";
 import { MatchCard, type MatchRow } from "@/components/site/MatchCard";
-import { CountdownPill } from "@/components/site/CountdownPill";
+import { HeroCountdown } from "@/components/site/HeroCountdown";
 import { useI18n, fmtNumber } from "@/lib/i18n";
 import { buildHead } from "@/lib/seo";
-import { ArrowRight, Calendar, Trophy, MapPin } from "lucide-react";
+import { Calendar, Trophy, MapPin } from "lucide-react";
 
 const homeQO = queryOptions({ queryKey: ["home"], queryFn: () => getHomeData(), staleTime: 60_000 });
 const teamsQO = queryOptions({ queryKey: ["teams-all"], queryFn: () => getAllTeams(), staleTime: 600_000 });
