@@ -13,7 +13,7 @@ export const Route = createFileRoute("/stadiums")({
 });
 
 function StadiumsPage() {
-  const { t, banglaNumerals } = useI18n();
+  const { t, tn, banglaNumerals } = useI18n();
   const { data: stadiums } = useSuspenseQuery(stadiumsQO);
   return (
     <div className="mx-auto max-w-7xl px-4 py-6">
@@ -32,9 +32,9 @@ function StadiumsPage() {
               )}
             </div>
             <div className="p-4">
-              <div className="text-[10px] font-mono uppercase tracking-wider text-primary">{s.country}</div>
-              <div className="mt-1 font-bold text-lg">{s.name}</div>
-              <div className="text-sm text-muted-foreground">{s.city}</div>
+              <div className="text-[10px] font-mono uppercase tracking-wider text-primary">{tn("country", s.country)}</div>
+              <div className="mt-1 font-bold text-lg">{tn("stadium", s.name)}</div>
+              <div className="text-sm text-muted-foreground">{tn("city", s.city)}</div>
               {s.capacity != null && <div className="mt-2 font-mono text-xs text-muted-foreground">{t("capacity")}: {fmtNumber(s.capacity, banglaNumerals)}</div>}
             </div>
           </Link>
