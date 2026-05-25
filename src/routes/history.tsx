@@ -31,7 +31,7 @@ function HistoryPage() {
       </header>
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3">
         {tournaments.map((tn) => (
-          <Link key={tn.year} to="/history_/$year" params={{ year: String(tn.year) }} className="group rounded-lg border border-border/60 bg-card hover:border-primary/60 hover:bg-card/80 p-4 transition-colors">
+          <Link key={tn.year} to="/history/$year" params={{ year: String(tn.year) }} className="group rounded-lg border border-border/60 bg-card hover:border-primary/60 hover:bg-card/80 p-4 transition-colors">
             <div className="flex items-start justify-between gap-3">
               <div>
                 <div className="font-mono text-3xl font-bold tabular-nums group-hover:text-primary transition-colors">{fmtNumber(tn.year, banglaNumerals)}</div>
