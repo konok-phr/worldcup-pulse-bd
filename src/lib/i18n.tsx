@@ -77,6 +77,22 @@ export const DICT: Dict = {
   matches_played: { en: "Matches played", bn: "ম্যাচ অনুষ্ঠিত" },
   teams_count: { en: "Teams", bn: "দল সংখ্যা" },
   about: { en: "The premier hub for FIFA World Cup 2026 — live scores, fixtures, standings, teams, stadiums, history, and records. Bangladesh time (BST) and bilingual.", bn: "ফিফা বিশ্বকাপ ২০২৬-এর শীর্ষ হাব — লাইভ স্কোর, সূচি, পয়েন্ট তালিকা, দল, স্টেডিয়াম, ইতিহাস ও রেকর্ড। বাংলাদেশ সময় (বিএসটি) ও দ্বিভাষিক।" },
+  timeline: { en: "Timeline", bn: "টাইমলাইন" },
+  no_events: { en: "No events yet.", bn: "এখনো কোনো ঘটনা নেই।" },
+  head_to_head: { en: "Head to head", bn: "মুখোমুখি লড়াই" },
+  no_h2h: { en: "No prior meetings on record.", bn: "আগের কোনো সাক্ষাৎ নেই।" },
+  lineups: { en: "Lineups", bn: "একাদশ" },
+  lineups_tba: { en: "Lineups will appear here ~1 hour before kickoff.", bn: "একাদশ কিকঅফের প্রায় ১ ঘন্টা আগে দেখা যাবে।" },
+  match_info: { en: "Match info", bn: "ম্যাচের তথ্য" },
+  referee: { en: "Referee", bn: "রেফারি" },
+  attendance: { en: "Attendance", bn: "দর্শক সংখ্যা" },
+  simulator: { en: "Simulator", bn: "সিমুলেটর" },
+  simulator_desc: { en: "Predict scores and watch the standings recompute instantly.", bn: "স্কোর ভবিষ্যদ্বাণী করুন এবং সাথে সাথে পয়েন্ট তালিকা দেখুন।" },
+  reset: { en: "Reset", bn: "রিসেট" },
+  bracket: { en: "Bracket", bn: "ব্র্যাকেট" },
+  tbd: { en: "TBD", bn: "টিবিডি" },
+  predicted: { en: "Predicted", bn: "ভবিষ্যদ্বাণী" },
+  actual: { en: "Actual", bn: "প্রকৃত" },
 };
 
 type Ctx = {
