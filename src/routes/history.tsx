@@ -30,19 +30,19 @@ function HistoryPage() {
         <h1 className="text-2xl font-bold">World Cup Archive · 1930–2026</h1>
       </header>
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3">
-        {tournaments.map((tn) => (
-          <Link key={tn.year} to="/history/$year" params={{ year: String(tn.year) }} className="group rounded-lg border border-border/60 bg-card hover:border-primary/60 hover:bg-card/80 p-4 transition-colors">
+        {tournaments.map((row) => (
+          <Link key={row.year} to="/history/$year" params={{ year: String(row.year) }} className="group rounded-lg border border-border/60 bg-card hover:border-primary/60 hover:bg-card/80 p-4 transition-colors">
             <div className="flex items-start justify-between gap-3">
               <div>
-                <div className="font-mono text-3xl font-bold tabular-nums group-hover:text-primary transition-colors">{fmtNumber(tnRow.year, banglaNumerals)}</div>
-                <div className="text-sm text-muted-foreground line-clamp-1">{(tnRow.host_countries ?? []).map((c) => tn("country", c)).join(", ")}</div>
+                <div className="font-mono text-3xl font-bold tabular-nums group-hover:text-primary transition-colors">{fmtNumber(row.year, banglaNumerals)}</div>
+                <div className="text-sm text-muted-foreground line-clamp-1">{(row.host_countries ?? []).map((c) => tn("country", c)).join(", ")}</div>
               </div>
-              {tnRow.winner_code && <TeamCrest code={tnRow.winner_code} emoji={emojiMap[tnRow.winner_code]} size={40} />}
+              {row.winner_code && <TeamCrest code={row.winner_code} emoji={emojiMap[row.winner_code]} size={40} />}
             </div>
-            {tn.winner_code && (
+            {row.winner_code && (
               <div className="mt-3 flex items-center gap-1.5 text-xs font-mono text-muted-foreground">
                 <Trophy className="h-3 w-3 text-primary" />
-                <span>{t("champions")}: <span className="text-foreground font-semibold">{tn.winner_code}</span></span>
+                <span>{t("champions")}: <span className="text-foreground font-semibold">{row.winner_code}</span></span>
               </div>
             )}
           </Link>
