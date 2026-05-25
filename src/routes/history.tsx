@@ -34,7 +34,7 @@ function HistoryPage() {
           <Link key={row.year} to="/history/$year" params={{ year: String(row.year) }} className="group rounded-lg border border-border/60 bg-card hover:border-primary/60 hover:bg-card/80 p-4 transition-colors">
             <div className="flex items-start justify-between gap-3">
               <div>
-                <div className="font-mono text-3xl font-bold tabular-nums group-hover:text-primary transition-colors">{fmtNumber(row.year, banglaNumerals)}</div>
+                <div className="font-mono text-3xl font-bold tabular-nums group-hover:text-primary transition-colors">{fmtNumber(String(row.year), banglaNumerals)}</div>
                 <div className="text-sm text-muted-foreground line-clamp-1">{(row.host_countries ?? []).map((c) => tn("country", c)).join(", ")}</div>
               </div>
               {row.winner_code && <TeamCrest code={row.winner_code} emoji={emojiMap[row.winner_code]} size={40} />}
