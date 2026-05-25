@@ -17,7 +17,7 @@ export const Route = createFileRoute("/teams/$code")({
 });
 
 function TeamDetail() {
-  const { t, banglaNumerals } = useI18n();
+  const { t, tn, banglaNumerals } = useI18n();
   const { code } = Route.useLoaderData();
   const { data } = useSuspenseQuery(teamQO(code));
   const { data: allTeams } = useSuspenseQuery(teamsQO);
@@ -30,8 +30,8 @@ function TeamDetail() {
       <header className="flex items-center gap-4 mb-6">
         <TeamCrest code={tm.code} emoji={tm.flag_emoji} size={64} />
         <div>
-          <h1 className="text-3xl font-bold">{tm.name}</h1>
-          <div className="text-sm font-mono text-muted-foreground">{tm.confederation} · {tm.nickname ?? tm.code}</div>
+          <h1 className="text-3xl font-bold">{tn("team", tm.name)}</h1>
+          <div className="text-sm font-mono text-muted-foreground">{tn("confederation", tm.confederation)} · {tm.nickname ?? tm.code}</div>
         </div>
       </header>
       <div className="grid grid-cols-2 md:grid-cols-4 gap-3 mb-6">
