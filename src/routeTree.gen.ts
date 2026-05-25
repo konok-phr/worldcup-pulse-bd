@@ -24,6 +24,7 @@ import { Route as FixturesRouteImport } from './routes/fixtures'
 import { Route as IndexRouteImport } from './routes/index'
 import { Route as TeamsCodeRouteImport } from './routes/teams.$code'
 import { Route as StadiumsSlugRouteImport } from './routes/stadiums.$slug'
+import { Route as NewsReadRouteImport } from './routes/news.read'
 import { Route as MatchIdRouteImport } from './routes/match.$id'
 import { Route as HistoryYearRouteImport } from './routes/history_.$year'
 import { Route as GroupsLetterRouteImport } from './routes/groups.$letter'
@@ -104,6 +105,11 @@ const StadiumsSlugRoute = StadiumsSlugRouteImport.update({
   path: '/$slug',
   getParentRoute: () => StadiumsRoute,
 } as any)
+const NewsReadRoute = NewsReadRouteImport.update({
+  id: '/read',
+  path: '/read',
+  getParentRoute: () => NewsRoute,
+} as any)
 const MatchIdRoute = MatchIdRouteImport.update({
   id: '/match/$id',
   path: '/match/$id',
@@ -132,7 +138,7 @@ export interface FileRoutesByFullPath {
   '/history': typeof HistoryRoute
   '/knockout': typeof KnockoutRoute
   '/live': typeof LiveRoute
-  '/news': typeof NewsRoute
+  '/news': typeof NewsRouteWithChildren
   '/players': typeof PlayersRoute
   '/records': typeof RecordsRoute
   '/search': typeof SearchRoute
@@ -142,6 +148,7 @@ export interface FileRoutesByFullPath {
   '/groups/$letter': typeof GroupsLetterRoute
   '/history/$year': typeof HistoryYearRoute
   '/match/$id': typeof MatchIdRoute
+  '/news/read': typeof NewsReadRoute
   '/stadiums/$slug': typeof StadiumsSlugRoute
   '/teams/$code': typeof TeamsCodeRoute
   '/api/public/hooks/sync-live': typeof ApiPublicHooksSyncLiveRoute
@@ -153,7 +160,7 @@ export interface FileRoutesByTo {
   '/history': typeof HistoryRoute
   '/knockout': typeof KnockoutRoute
   '/live': typeof LiveRoute
-  '/news': typeof NewsRoute
+  '/news': typeof NewsRouteWithChildren
   '/players': typeof PlayersRoute
   '/records': typeof RecordsRoute
   '/search': typeof SearchRoute
@@ -163,6 +170,7 @@ export interface FileRoutesByTo {
   '/groups/$letter': typeof GroupsLetterRoute
   '/history/$year': typeof HistoryYearRoute
   '/match/$id': typeof MatchIdRoute
+  '/news/read': typeof NewsReadRoute
   '/stadiums/$slug': typeof StadiumsSlugRoute
   '/teams/$code': typeof TeamsCodeRoute
   '/api/public/hooks/sync-live': typeof ApiPublicHooksSyncLiveRoute
@@ -175,7 +183,7 @@ export interface FileRoutesById {
   '/history': typeof HistoryRoute
   '/knockout': typeof KnockoutRoute
   '/live': typeof LiveRoute
-  '/news': typeof NewsRoute
+  '/news': typeof NewsRouteWithChildren
   '/players': typeof PlayersRoute
   '/records': typeof RecordsRoute
   '/search': typeof SearchRoute
@@ -185,6 +193,7 @@ export interface FileRoutesById {
   '/groups/$letter': typeof GroupsLetterRoute
   '/history_/$year': typeof HistoryYearRoute
   '/match/$id': typeof MatchIdRoute
+  '/news/read': typeof NewsReadRoute
   '/stadiums/$slug': typeof StadiumsSlugRoute
   '/teams/$code': typeof TeamsCodeRoute
   '/api/public/hooks/sync-live': typeof ApiPublicHooksSyncLiveRoute
@@ -208,6 +217,7 @@ export interface FileRouteTypes {
     | '/groups/$letter'
     | '/history/$year'
     | '/match/$id'
+    | '/news/read'
     | '/stadiums/$slug'
     | '/teams/$code'
     | '/api/public/hooks/sync-live'
@@ -229,6 +239,7 @@ export interface FileRouteTypes {
     | '/groups/$letter'
     | '/history/$year'
     | '/match/$id'
+    | '/news/read'
     | '/stadiums/$slug'
     | '/teams/$code'
     | '/api/public/hooks/sync-live'
@@ -250,6 +261,7 @@ export interface FileRouteTypes {
     | '/groups/$letter'
     | '/history_/$year'
     | '/match/$id'
+    | '/news/read'
     | '/stadiums/$slug'
     | '/teams/$code'
     | '/api/public/hooks/sync-live'
@@ -262,7 +274,7 @@ export interface RootRouteChildren {
   HistoryRoute: typeof HistoryRoute
   KnockoutRoute: typeof KnockoutRoute
   LiveRoute: typeof LiveRoute
-  NewsRoute: typeof NewsRoute
+  NewsRoute: typeof NewsRouteWithChildren
   PlayersRoute: typeof PlayersRoute
   RecordsRoute: typeof RecordsRoute
   SearchRoute: typeof SearchRoute
@@ -381,6 +393,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof StadiumsSlugRouteImport
       parentRoute: typeof StadiumsRoute
     }
+    '/news/read': {
+      id: '/news/read'
+      path: '/read'
+      fullPath: '/news/read'
+      preLoaderRoute: typeof NewsReadRouteImport
+      parentRoute: typeof NewsRoute
+    }
     '/match/$id': {
       id: '/match/$id'
       path: '/match/$id'
@@ -423,6 +442,16 @@ const GroupsRouteChildren: GroupsRouteChildren = {
 const GroupsRouteWithChildren =
   GroupsRoute._addFileChildren(GroupsRouteChildren)
 
+interface NewsRouteChildren {
+  NewsReadRoute: typeof NewsReadRoute
+}
+
+const NewsRouteChildren: NewsRouteChildren = {
+  NewsReadRoute: NewsReadRoute,
+}
+
+const NewsRouteWithChildren = NewsRoute._addFileChildren(NewsRouteChildren)
+
 interface StadiumsRouteChildren {
   StadiumsSlugRoute: typeof StadiumsSlugRoute
 }
@@ -452,7 +481,7 @@ const rootRouteChildren: RootRouteChildren = {
   HistoryRoute: HistoryRoute,
   KnockoutRoute: KnockoutRoute,
   LiveRoute: LiveRoute,
-  NewsRoute: NewsRoute,
+  NewsRoute: NewsRouteWithChildren,
   PlayersRoute: PlayersRoute,
   RecordsRoute: RecordsRoute,
   SearchRoute: SearchRoute,
@@ -466,3 +495,13 @@ const rootRouteChildren: RootRouteChildren = {
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)
   ._addFileTypes<FileRouteTypes>()
+
+import type { getRouter } from './router.tsx'
+import type { startInstance } from './start.ts'
+declare module '@tanstack/react-start' {
+  interface Register {
+    ssr: true
+    router: Awaited<ReturnType<typeof getRouter>>
+    config: Awaited<ReturnType<typeof startInstance.getOptions>>
+  }
+}
