@@ -26,11 +26,24 @@ function StadiumDetail() {
   return (
     <div className="mx-auto max-w-5xl px-4 py-6">
       <Link to="/stadiums" className="inline-flex items-center gap-1 text-xs font-mono uppercase tracking-wider text-muted-foreground hover:text-primary mb-3"><ArrowLeft className="h-3 w-3" /> {t("nav_stadiums")}</Link>
-      <header className="mb-6">
-        <div className="text-[10px] font-mono uppercase tracking-wider text-primary">{s.country}</div>
-        <h1 className="text-3xl font-bold mt-1">{s.name}</h1>
-        <div className="text-muted-foreground">{s.city}</div>
-      </header>
+      {s.image_url && (
+        <div className="relative aspect-[21/9] w-full overflow-hidden rounded-lg border border-border/60 mb-5">
+          <img src={s.image_url} alt={s.name} className="h-full w-full object-cover" />
+          <div className="absolute inset-0 bg-gradient-to-t from-background via-background/40 to-transparent" />
+          <div className="absolute bottom-0 left-0 right-0 p-5">
+            <div className="text-[10px] font-mono uppercase tracking-wider text-primary">{s.country}</div>
+            <h1 className="text-4xl font-bold mt-1 drop-shadow">{s.name}</h1>
+            <div className="text-muted-foreground">{s.city}</div>
+          </div>
+        </div>
+      )}
+      {!s.image_url && (
+        <header className="mb-6">
+          <div className="text-[10px] font-mono uppercase tracking-wider text-primary">{s.country}</div>
+          <h1 className="text-3xl font-bold mt-1">{s.name}</h1>
+          <div className="text-muted-foreground">{s.city}</div>
+        </header>
+      )}
       <div className="grid grid-cols-2 md:grid-cols-3 gap-3 mb-6">
         <div className="rounded-md border border-border/60 bg-card/60 p-3"><div className="text-[10px] uppercase tracking-wider font-mono text-muted-foreground">{t("capacity")}</div><div className="mt-0.5 font-mono font-semibold">{s.capacity != null ? fmtNumber(s.capacity, banglaNumerals) : "—"}</div></div>
         <div className="rounded-md border border-border/60 bg-card/60 p-3"><div className="text-[10px] uppercase tracking-wider font-mono text-muted-foreground">{t("city")}</div><div className="mt-0.5 font-mono font-semibold">{s.city}</div></div>
