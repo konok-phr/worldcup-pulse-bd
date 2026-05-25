@@ -14,7 +14,7 @@ export const Route = createFileRoute("/teams")({
 });
 
 function TeamsPage() {
-  const { t } = useI18n();
+  const { t, tn } = useI18n();
   const { data: teams } = useSuspenseQuery(teamsQO);
   const byGroup = teams.reduce<Record<string, typeof teams>>((acc, tm) => {
     const k = tm.group_letter ?? "—";
@@ -36,8 +36,8 @@ function TeamsPage() {
                 <Link key={tm.code} to="/teams/$code" params={{ code: tm.code }} className="flex items-center gap-3 rounded-md border border-border/60 bg-card hover:border-primary/60 hover:bg-card/80 p-3 transition-colors">
                   <TeamCrest code={tm.code} emoji={tm.flag_emoji} size={28} />
                   <div className="min-w-0">
-                    <div className="text-sm font-semibold truncate">{tm.name}</div>
-                    <div className="text-[10px] font-mono text-muted-foreground uppercase">{tm.confederation ?? tm.code}</div>
+                    <div className="text-sm font-semibold truncate">{tn("team", tm.name)}</div>
+                    <div className="text-[10px] font-mono text-muted-foreground uppercase">{tn("confederation", tm.confederation) || tm.code}</div>
                   </div>
                 </Link>
               ))}
