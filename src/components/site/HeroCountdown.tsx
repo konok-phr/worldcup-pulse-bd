@@ -18,10 +18,10 @@ export function HeroCountdown({ utc }: { utc: string }) {
   if (!mounted) {
     return (
       <div className="grid grid-cols-4 gap-2 md:gap-4 max-w-xl">
-        <TimeCard value="--" label={t("days")} />
-        <TimeCard value="--" label={t("hours")} />
-        <TimeCard value="--" label={t("minutes")} />
-        <TimeCard value="--" label={t("seconds")} />
+        <TimeCard value={0} label={t("days")} banglaNumerals={banglaNumerals} loading />
+        <TimeCard value={0} label={t("hours")} banglaNumerals={banglaNumerals} loading />
+        <TimeCard value={0} label={t("minutes")} banglaNumerals={banglaNumerals} loading />
+        <TimeCard value={0} label={t("seconds")} banglaNumerals={banglaNumerals} loading />
       </div>
     );
   }
