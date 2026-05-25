@@ -65,26 +65,30 @@ function TimeCard({
 }) {
   const display = loading ? "--" : fmtNumber(String(value).padStart(2, "0"), banglaNumerals);
   const [pop, setPop] = React.useState(false);
+  const prevRef = React.useRef(value);
 
   React.useEffect(() => {
     if (loading) return;
+    if (prevRef.current === value) return;
+    prevRef.current = value;
     setPop(true);
-    const id = setTimeout(() => setPop(false), 400);
+    const id = setTimeout(() => setPop(false), 300);
     return () => clearTimeout(id);
-  }, [tick, loading]);
+  }, [value, loading]);
 
   return (
     <div className="flex flex-col items-center">
-      <div
-        className={`
-          relative w-full max-w-[120px] md:max-w-[140px] aspect-[4/5] rounded-xl
-          border border-primary/20 bg-card/80 backdrop-blur
-          flex flex-col items-center justify-center overflow-hidden
-          shadow-[0_0_30px_-12px_rgba(255,255,255,0.05)]
-          transition-transform duration-300
-          ${pop ? "scale-105 border-primary/40 shadow-[0_0_40px_-10px_rgba(255,255,255,0.1)]" : "scale-100"}
-        `}
-      >
+      <div className="relative w-full max-w-[120px] md:max-w-[140px] aspect-[4/5]">
+        <div
+          className={`
+            absolute inset-0 rounded-xl
+            border border-primary/20 bg-card/80 backdrop-blur
+            flex flex-col items-center justify-center overflow-hidden
+            shadow-[0_0_30px_-12px_rgba(255,255,255,0.05)]
+            transition-transform duration-300 will-change-transform origin-center
+            ${pop ? "scale-[1.03] border-primary/40" : "scale-100"}
+          `}
+        >
         {/* Top decorative line */}
         <div className="absolute inset-x-0 top-0 h-px bg-gradient-to-r from-transparent via-primary/50 to-transparent" />
         {/* Bottom decorative line */}
@@ -100,6 +104,7 @@ function TimeCard({
         <span className="relative text-4xl md:text-6xl font-black tabular-nums text-foreground tracking-tight leading-none">
           {display}
         </span>
+        </div>
       </div>
       <span className="mt-2.5 text-[10px] md:text-xs uppercase tracking-wider font-mono text-muted-foreground">
         {label}
