@@ -1,4 +1,5 @@
 import * as React from "react";
+import { translateData, type DataEntity } from "./i18n-data";
 
 export type Locale = "en" | "bn";
 
@@ -99,6 +100,7 @@ type Ctx = {
   locale: Locale;
   setLocale: (l: Locale) => void;
   t: (k: keyof typeof DICT) => string;
+  tn: (entity: DataEntity, value: string | null | undefined) => string;
   banglaNumerals: boolean;
   setBanglaNumerals: (b: boolean) => void;
 };
@@ -126,9 +128,11 @@ export function I18nProvider({ children }: { children: React.ReactNode }) {
     if (typeof window !== "undefined") localStorage.setItem("wc26.bn-numerals", b ? "1" : "0");
   };
   const t = (k: keyof typeof DICT) => DICT[k]?.[locale] ?? String(k);
+  const tn = (entity: DataEntity, value: string | null | undefined) =>
+    translateData(entity, value, locale);
 
   return (
-    <I18nContext.Provider value={{ locale, setLocale, t, banglaNumerals, setBanglaNumerals }}>
+    <I18nContext.Provider value={{ locale, setLocale, t, tn, banglaNumerals, setBanglaNumerals }}>
       {children}
     </I18nContext.Provider>
   );
@@ -142,6 +146,7 @@ export function useI18n() {
       locale: "en" as Locale,
       setLocale: () => {},
       t: (k: keyof typeof DICT) => DICT[k]?.en ?? String(k),
+      tn: (_e: DataEntity, value: string | null | undefined) => value ?? "",
       banglaNumerals: false,
       setBanglaNumerals: () => {},
     };
