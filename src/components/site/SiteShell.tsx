@@ -121,7 +121,7 @@ export function SiteShell({ children }: { children: React.ReactNode }) {
               className="h-7 w-7 object-contain drop-shadow-[0_0_6px_rgba(var(--primary-rgb,59_130_246)/0.3)]"
             />
             <span className="font-mono text-xs font-bold tracking-tight text-foreground">{t("brand")}</span>
-          </p>
+          </div>
           <div className="flex items-center gap-1.5 font-mono text-[11px] text-muted-foreground/80">
             <span>Made with care by</span>
             <span className="text-foreground/90 font-semibold">Khaled Saifullah Sadi</span>
