@@ -67,20 +67,23 @@ function TimeCard({
   label,
   banglaNumerals,
   tick,
+  loading,
 }: {
   value: number;
   label: string;
   banglaNumerals: boolean;
-  tick: number;
+  tick?: number;
+  loading?: boolean;
 }) {
-  const display = fmtNumber(String(value).padStart(2, "0"), banglaNumerals);
+  const display = loading ? "--" : fmtNumber(String(value).padStart(2, "0"), banglaNumerals);
   const [pop, setPop] = React.useState(false);
 
   React.useEffect(() => {
+    if (loading) return;
     setPop(true);
     const id = setTimeout(() => setPop(false), 400);
     return () => clearTimeout(id);
-  }, [tick]);
+  }, [tick, loading]);
 
   return (
     <div className="flex flex-col items-center">
