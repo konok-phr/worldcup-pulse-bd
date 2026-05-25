@@ -23,11 +23,20 @@ function StadiumsPage() {
       </header>
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3">
         {stadiums.map((s) => (
-          <Link key={s.slug} to="/stadiums/$slug" params={{ slug: s.slug }} className="rounded-lg border border-border/60 bg-card hover:border-primary/60 transition-colors p-4">
-            <div className="text-[10px] font-mono uppercase tracking-wider text-primary">{s.country}</div>
-            <div className="mt-1 font-bold text-lg">{s.name}</div>
-            <div className="text-sm text-muted-foreground">{s.city}</div>
-            {s.capacity != null && <div className="mt-2 font-mono text-xs text-muted-foreground">{t("capacity")}: {fmtNumber(s.capacity, banglaNumerals)}</div>}
+          <Link key={s.slug} to="/stadiums/$slug" params={{ slug: s.slug }} className="group rounded-lg border border-border/60 bg-card hover:border-primary/60 transition-colors overflow-hidden">
+            <div className="aspect-[16/10] bg-secondary/30 overflow-hidden">
+              {s.image_url ? (
+                <img src={s.image_url} alt={s.name} loading="lazy" decoding="async" className="h-full w-full object-cover group-hover:scale-105 transition-transform duration-500" />
+              ) : (
+                <div className="h-full w-full grid place-items-center text-muted-foreground/40 text-xs font-mono">no image</div>
+              )}
+            </div>
+            <div className="p-4">
+              <div className="text-[10px] font-mono uppercase tracking-wider text-primary">{s.country}</div>
+              <div className="mt-1 font-bold text-lg">{s.name}</div>
+              <div className="text-sm text-muted-foreground">{s.city}</div>
+              {s.capacity != null && <div className="mt-2 font-mono text-xs text-muted-foreground">{t("capacity")}: {fmtNumber(s.capacity, banglaNumerals)}</div>}
+            </div>
           </Link>
         ))}
       </div>
