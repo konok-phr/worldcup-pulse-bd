@@ -14,8 +14,7 @@ import { SiteShell } from "@/components/site/SiteShell";
 
 function NotFoundComponent() {
   return (
-    <SiteShell>
-      <div className="flex min-h-[60vh] items-center justify-center px-4">
+    <div className="flex min-h-[60vh] items-center justify-center px-4">
         <div className="max-w-md text-center">
           <h1 className="text-7xl font-bold text-foreground font-mono">404</h1>
           <h2 className="mt-4 text-xl font-semibold text-foreground">Page not found</h2>
@@ -31,8 +30,7 @@ function NotFoundComponent() {
             </Link>
           </div>
         </div>
-      </div>
-    </SiteShell>
+    </div>
   );
 }
 
@@ -40,8 +38,7 @@ function ErrorComponent({ error, reset }: { error: Error; reset: () => void }) {
   console.error(error);
   const router = useRouter();
   return (
-    <SiteShell>
-      <div className="flex min-h-[60vh] items-center justify-center px-4">
+    <div className="flex min-h-[60vh] items-center justify-center px-4">
         <div className="max-w-md text-center">
           <h1 className="text-xl font-semibold tracking-tight text-foreground">
             This page didn't load
@@ -67,8 +64,7 @@ function ErrorComponent({ error, reset }: { error: Error; reset: () => void }) {
             </a>
           </div>
         </div>
-      </div>
-    </SiteShell>
+    </div>
   );
 }
 
