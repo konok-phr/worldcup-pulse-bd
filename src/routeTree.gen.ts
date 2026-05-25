@@ -9,14 +9,61 @@
 // Additionally, you should also exclude this file from your linter and/or formatter to prevent it from being checked or modified.
 
 import { Route as rootRouteImport } from './routes/__root'
+import { Route as TeamsRouteImport } from './routes/teams'
+import { Route as StadiumsRouteImport } from './routes/stadiums'
+import { Route as SearchRouteImport } from './routes/search'
+import { Route as RecordsRouteImport } from './routes/records'
+import { Route as PlayersRouteImport } from './routes/players'
 import { Route as LiveRouteImport } from './routes/live'
+import { Route as KnockoutRouteImport } from './routes/knockout'
+import { Route as HistoryRouteImport } from './routes/history'
 import { Route as GroupsRouteImport } from './routes/groups'
 import { Route as FixturesRouteImport } from './routes/fixtures'
 import { Route as IndexRouteImport } from './routes/index'
+import { Route as TeamsCodeRouteImport } from './routes/teams.$code'
+import { Route as StadiumsSlugRouteImport } from './routes/stadiums.$slug'
+import { Route as MatchIdRouteImport } from './routes/match.$id'
+import { Route as HistoryYearRouteImport } from './routes/history.$year'
+import { Route as GroupsLetterRouteImport } from './routes/groups.$letter'
 
+const TeamsRoute = TeamsRouteImport.update({
+  id: '/teams',
+  path: '/teams',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const StadiumsRoute = StadiumsRouteImport.update({
+  id: '/stadiums',
+  path: '/stadiums',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const SearchRoute = SearchRouteImport.update({
+  id: '/search',
+  path: '/search',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const RecordsRoute = RecordsRouteImport.update({
+  id: '/records',
+  path: '/records',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const PlayersRoute = PlayersRouteImport.update({
+  id: '/players',
+  path: '/players',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const LiveRoute = LiveRouteImport.update({
   id: '/live',
   path: '/live',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const KnockoutRoute = KnockoutRouteImport.update({
+  id: '/knockout',
+  path: '/knockout',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const HistoryRoute = HistoryRouteImport.update({
+  id: '/history',
+  path: '/history',
   getParentRoute: () => rootRouteImport,
 } as any)
 const GroupsRoute = GroupsRouteImport.update({
@@ -34,48 +81,215 @@ const IndexRoute = IndexRouteImport.update({
   path: '/',
   getParentRoute: () => rootRouteImport,
 } as any)
+const TeamsCodeRoute = TeamsCodeRouteImport.update({
+  id: '/$code',
+  path: '/$code',
+  getParentRoute: () => TeamsRoute,
+} as any)
+const StadiumsSlugRoute = StadiumsSlugRouteImport.update({
+  id: '/$slug',
+  path: '/$slug',
+  getParentRoute: () => StadiumsRoute,
+} as any)
+const MatchIdRoute = MatchIdRouteImport.update({
+  id: '/match/$id',
+  path: '/match/$id',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const HistoryYearRoute = HistoryYearRouteImport.update({
+  id: '/$year',
+  path: '/$year',
+  getParentRoute: () => HistoryRoute,
+} as any)
+const GroupsLetterRoute = GroupsLetterRouteImport.update({
+  id: '/$letter',
+  path: '/$letter',
+  getParentRoute: () => GroupsRoute,
+} as any)
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
   '/fixtures': typeof FixturesRoute
-  '/groups': typeof GroupsRoute
+  '/groups': typeof GroupsRouteWithChildren
+  '/history': typeof HistoryRouteWithChildren
+  '/knockout': typeof KnockoutRoute
   '/live': typeof LiveRoute
+  '/players': typeof PlayersRoute
+  '/records': typeof RecordsRoute
+  '/search': typeof SearchRoute
+  '/stadiums': typeof StadiumsRouteWithChildren
+  '/teams': typeof TeamsRouteWithChildren
+  '/groups/$letter': typeof GroupsLetterRoute
+  '/history/$year': typeof HistoryYearRoute
+  '/match/$id': typeof MatchIdRoute
+  '/stadiums/$slug': typeof StadiumsSlugRoute
+  '/teams/$code': typeof TeamsCodeRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
   '/fixtures': typeof FixturesRoute
-  '/groups': typeof GroupsRoute
+  '/groups': typeof GroupsRouteWithChildren
+  '/history': typeof HistoryRouteWithChildren
+  '/knockout': typeof KnockoutRoute
   '/live': typeof LiveRoute
+  '/players': typeof PlayersRoute
+  '/records': typeof RecordsRoute
+  '/search': typeof SearchRoute
+  '/stadiums': typeof StadiumsRouteWithChildren
+  '/teams': typeof TeamsRouteWithChildren
+  '/groups/$letter': typeof GroupsLetterRoute
+  '/history/$year': typeof HistoryYearRoute
+  '/match/$id': typeof MatchIdRoute
+  '/stadiums/$slug': typeof StadiumsSlugRoute
+  '/teams/$code': typeof TeamsCodeRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
   '/fixtures': typeof FixturesRoute
-  '/groups': typeof GroupsRoute
+  '/groups': typeof GroupsRouteWithChildren
+  '/history': typeof HistoryRouteWithChildren
+  '/knockout': typeof KnockoutRoute
   '/live': typeof LiveRoute
+  '/players': typeof PlayersRoute
+  '/records': typeof RecordsRoute
+  '/search': typeof SearchRoute
+  '/stadiums': typeof StadiumsRouteWithChildren
+  '/teams': typeof TeamsRouteWithChildren
+  '/groups/$letter': typeof GroupsLetterRoute
+  '/history/$year': typeof HistoryYearRoute
+  '/match/$id': typeof MatchIdRoute
+  '/stadiums/$slug': typeof StadiumsSlugRoute
+  '/teams/$code': typeof TeamsCodeRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
-  fullPaths: '/' | '/fixtures' | '/groups' | '/live'
+  fullPaths:
+    | '/'
+    | '/fixtures'
+    | '/groups'
+    | '/history'
+    | '/knockout'
+    | '/live'
+    | '/players'
+    | '/records'
+    | '/search'
+    | '/stadiums'
+    | '/teams'
+    | '/groups/$letter'
+    | '/history/$year'
+    | '/match/$id'
+    | '/stadiums/$slug'
+    | '/teams/$code'
   fileRoutesByTo: FileRoutesByTo
-  to: '/' | '/fixtures' | '/groups' | '/live'
-  id: '__root__' | '/' | '/fixtures' | '/groups' | '/live'
+  to:
+    | '/'
+    | '/fixtures'
+    | '/groups'
+    | '/history'
+    | '/knockout'
+    | '/live'
+    | '/players'
+    | '/records'
+    | '/search'
+    | '/stadiums'
+    | '/teams'
+    | '/groups/$letter'
+    | '/history/$year'
+    | '/match/$id'
+    | '/stadiums/$slug'
+    | '/teams/$code'
+  id:
+    | '__root__'
+    | '/'
+    | '/fixtures'
+    | '/groups'
+    | '/history'
+    | '/knockout'
+    | '/live'
+    | '/players'
+    | '/records'
+    | '/search'
+    | '/stadiums'
+    | '/teams'
+    | '/groups/$letter'
+    | '/history/$year'
+    | '/match/$id'
+    | '/stadiums/$slug'
+    | '/teams/$code'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
   FixturesRoute: typeof FixturesRoute
-  GroupsRoute: typeof GroupsRoute
+  GroupsRoute: typeof GroupsRouteWithChildren
+  HistoryRoute: typeof HistoryRouteWithChildren
+  KnockoutRoute: typeof KnockoutRoute
   LiveRoute: typeof LiveRoute
+  PlayersRoute: typeof PlayersRoute
+  RecordsRoute: typeof RecordsRoute
+  SearchRoute: typeof SearchRoute
+  StadiumsRoute: typeof StadiumsRouteWithChildren
+  TeamsRoute: typeof TeamsRouteWithChildren
+  MatchIdRoute: typeof MatchIdRoute
 }
 
 declare module '@tanstack/react-router' {
   interface FileRoutesByPath {
+    '/teams': {
+      id: '/teams'
+      path: '/teams'
+      fullPath: '/teams'
+      preLoaderRoute: typeof TeamsRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/stadiums': {
+      id: '/stadiums'
+      path: '/stadiums'
+      fullPath: '/stadiums'
+      preLoaderRoute: typeof StadiumsRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/search': {
+      id: '/search'
+      path: '/search'
+      fullPath: '/search'
+      preLoaderRoute: typeof SearchRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/records': {
+      id: '/records'
+      path: '/records'
+      fullPath: '/records'
+      preLoaderRoute: typeof RecordsRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/players': {
+      id: '/players'
+      path: '/players'
+      fullPath: '/players'
+      preLoaderRoute: typeof PlayersRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/live': {
       id: '/live'
       path: '/live'
       fullPath: '/live'
       preLoaderRoute: typeof LiveRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/knockout': {
+      id: '/knockout'
+      path: '/knockout'
+      fullPath: '/knockout'
+      preLoaderRoute: typeof KnockoutRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/history': {
+      id: '/history'
+      path: '/history'
+      fullPath: '/history'
+      preLoaderRoute: typeof HistoryRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/groups': {
@@ -99,14 +313,101 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof IndexRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/teams/$code': {
+      id: '/teams/$code'
+      path: '/$code'
+      fullPath: '/teams/$code'
+      preLoaderRoute: typeof TeamsCodeRouteImport
+      parentRoute: typeof TeamsRoute
+    }
+    '/stadiums/$slug': {
+      id: '/stadiums/$slug'
+      path: '/$slug'
+      fullPath: '/stadiums/$slug'
+      preLoaderRoute: typeof StadiumsSlugRouteImport
+      parentRoute: typeof StadiumsRoute
+    }
+    '/match/$id': {
+      id: '/match/$id'
+      path: '/match/$id'
+      fullPath: '/match/$id'
+      preLoaderRoute: typeof MatchIdRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/history/$year': {
+      id: '/history/$year'
+      path: '/$year'
+      fullPath: '/history/$year'
+      preLoaderRoute: typeof HistoryYearRouteImport
+      parentRoute: typeof HistoryRoute
+    }
+    '/groups/$letter': {
+      id: '/groups/$letter'
+      path: '/$letter'
+      fullPath: '/groups/$letter'
+      preLoaderRoute: typeof GroupsLetterRouteImport
+      parentRoute: typeof GroupsRoute
+    }
   }
 }
+
+interface GroupsRouteChildren {
+  GroupsLetterRoute: typeof GroupsLetterRoute
+}
+
+const GroupsRouteChildren: GroupsRouteChildren = {
+  GroupsLetterRoute: GroupsLetterRoute,
+}
+
+const GroupsRouteWithChildren =
+  GroupsRoute._addFileChildren(GroupsRouteChildren)
+
+interface HistoryRouteChildren {
+  HistoryYearRoute: typeof HistoryYearRoute
+}
+
+const HistoryRouteChildren: HistoryRouteChildren = {
+  HistoryYearRoute: HistoryYearRoute,
+}
+
+const HistoryRouteWithChildren =
+  HistoryRoute._addFileChildren(HistoryRouteChildren)
+
+interface StadiumsRouteChildren {
+  StadiumsSlugRoute: typeof StadiumsSlugRoute
+}
+
+const StadiumsRouteChildren: StadiumsRouteChildren = {
+  StadiumsSlugRoute: StadiumsSlugRoute,
+}
+
+const StadiumsRouteWithChildren = StadiumsRoute._addFileChildren(
+  StadiumsRouteChildren,
+)
+
+interface TeamsRouteChildren {
+  TeamsCodeRoute: typeof TeamsCodeRoute
+}
+
+const TeamsRouteChildren: TeamsRouteChildren = {
+  TeamsCodeRoute: TeamsCodeRoute,
+}
+
+const TeamsRouteWithChildren = TeamsRoute._addFileChildren(TeamsRouteChildren)
 
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
   FixturesRoute: FixturesRoute,
-  GroupsRoute: GroupsRoute,
+  GroupsRoute: GroupsRouteWithChildren,
+  HistoryRoute: HistoryRouteWithChildren,
+  KnockoutRoute: KnockoutRoute,
   LiveRoute: LiveRoute,
+  PlayersRoute: PlayersRoute,
+  RecordsRoute: RecordsRoute,
+  SearchRoute: SearchRoute,
+  StadiumsRoute: StadiumsRouteWithChildren,
+  TeamsRoute: TeamsRouteWithChildren,
+  MatchIdRoute: MatchIdRoute,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)
