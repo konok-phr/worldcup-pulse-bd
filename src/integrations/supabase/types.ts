@@ -14,7 +14,527 @@ export type Database = {
   }
   public: {
     Tables: {
-      [_ in never]: never
+      groups_2026: {
+        Row: {
+          letter: string
+          name: string
+        }
+        Insert: {
+          letter: string
+          name: string
+        }
+        Update: {
+          letter?: string
+          name?: string
+        }
+        Relationships: []
+      }
+      match_events: {
+        Row: {
+          added_time: number | null
+          assist_name: string | null
+          created_at: string
+          detail: string | null
+          event_type: string
+          id: number
+          match_id: number
+          minute: number
+          player_name: string | null
+          team_code: string | null
+        }
+        Insert: {
+          added_time?: number | null
+          assist_name?: string | null
+          created_at?: string
+          detail?: string | null
+          event_type: string
+          id?: number
+          match_id: number
+          minute: number
+          player_name?: string | null
+          team_code?: string | null
+        }
+        Update: {
+          added_time?: number | null
+          assist_name?: string | null
+          created_at?: string
+          detail?: string | null
+          event_type?: string
+          id?: number
+          match_id?: number
+          minute?: number
+          player_name?: string | null
+          team_code?: string | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "match_events_match_id_fkey"
+            columns: ["match_id"]
+            isOneToOne: false
+            referencedRelation: "matches"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      matches: {
+        Row: {
+          attendance: number | null
+          away_pens: number | null
+          away_score: number | null
+          away_score_ht: number | null
+          away_team_code: string | null
+          away_team_name: string | null
+          created_at: string
+          external_id: string | null
+          group_letter: string | null
+          home_pens: number | null
+          home_score: number | null
+          home_score_ht: number | null
+          home_team_code: string | null
+          home_team_name: string | null
+          id: number
+          kickoff_utc: string | null
+          last_synced_at: string | null
+          matchday: number | null
+          minute: number | null
+          referee: string | null
+          stadium_slug: string | null
+          stage: string
+          status: string
+          tournament_year: number
+        }
+        Insert: {
+          attendance?: number | null
+          away_pens?: number | null
+          away_score?: number | null
+          away_score_ht?: number | null
+          away_team_code?: string | null
+          away_team_name?: string | null
+          created_at?: string
+          external_id?: string | null
+          group_letter?: string | null
+          home_pens?: number | null
+          home_score?: number | null
+          home_score_ht?: number | null
+          home_team_code?: string | null
+          home_team_name?: string | null
+          id?: number
+          kickoff_utc?: string | null
+          last_synced_at?: string | null
+          matchday?: number | null
+          minute?: number | null
+          referee?: string | null
+          stadium_slug?: string | null
+          stage: string
+          status?: string
+          tournament_year: number
+        }
+        Update: {
+          attendance?: number | null
+          away_pens?: number | null
+          away_score?: number | null
+          away_score_ht?: number | null
+          away_team_code?: string | null
+          away_team_name?: string | null
+          created_at?: string
+          external_id?: string | null
+          group_letter?: string | null
+          home_pens?: number | null
+          home_score?: number | null
+          home_score_ht?: number | null
+          home_team_code?: string | null
+          home_team_name?: string | null
+          id?: number
+          kickoff_utc?: string | null
+          last_synced_at?: string | null
+          matchday?: number | null
+          minute?: number | null
+          referee?: string | null
+          stadium_slug?: string | null
+          stage?: string
+          status?: string
+          tournament_year?: number
+        }
+        Relationships: [
+          {
+            foreignKeyName: "matches_away_team_code_fkey"
+            columns: ["away_team_code"]
+            isOneToOne: false
+            referencedRelation: "teams"
+            referencedColumns: ["code"]
+          },
+          {
+            foreignKeyName: "matches_home_team_code_fkey"
+            columns: ["home_team_code"]
+            isOneToOne: false
+            referencedRelation: "teams"
+            referencedColumns: ["code"]
+          },
+          {
+            foreignKeyName: "matches_stadium_slug_fkey"
+            columns: ["stadium_slug"]
+            isOneToOne: false
+            referencedRelation: "stadiums"
+            referencedColumns: ["slug"]
+          },
+          {
+            foreignKeyName: "matches_tournament_year_fkey"
+            columns: ["tournament_year"]
+            isOneToOne: false
+            referencedRelation: "tournaments"
+            referencedColumns: ["year"]
+          },
+        ]
+      }
+      players: {
+        Row: {
+          assists: number | null
+          club: string | null
+          created_at: string
+          date_of_birth: string | null
+          goals: number | null
+          height_cm: number | null
+          id: number
+          image_url: string | null
+          is_captain: boolean | null
+          jersey_number: number | null
+          minutes_played: number | null
+          name: string
+          position: string | null
+          red_cards: number | null
+          team_code: string | null
+          tournament_year: number | null
+          yellow_cards: number | null
+        }
+        Insert: {
+          assists?: number | null
+          club?: string | null
+          created_at?: string
+          date_of_birth?: string | null
+          goals?: number | null
+          height_cm?: number | null
+          id?: number
+          image_url?: string | null
+          is_captain?: boolean | null
+          jersey_number?: number | null
+          minutes_played?: number | null
+          name: string
+          position?: string | null
+          red_cards?: number | null
+          team_code?: string | null
+          tournament_year?: number | null
+          yellow_cards?: number | null
+        }
+        Update: {
+          assists?: number | null
+          club?: string | null
+          created_at?: string
+          date_of_birth?: string | null
+          goals?: number | null
+          height_cm?: number | null
+          id?: number
+          image_url?: string | null
+          is_captain?: boolean | null
+          jersey_number?: number | null
+          minutes_played?: number | null
+          name?: string
+          position?: string | null
+          red_cards?: number | null
+          team_code?: string | null
+          tournament_year?: number | null
+          yellow_cards?: number | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "players_team_code_fkey"
+            columns: ["team_code"]
+            isOneToOne: false
+            referencedRelation: "teams"
+            referencedColumns: ["code"]
+          },
+        ]
+      }
+      records: {
+        Row: {
+          category: string
+          created_at: string
+          description: string | null
+          holder: string
+          id: number
+          sort_order: number | null
+          title: string
+          value: string
+          year: number | null
+        }
+        Insert: {
+          category: string
+          created_at?: string
+          description?: string | null
+          holder: string
+          id?: number
+          sort_order?: number | null
+          title: string
+          value: string
+          year?: number | null
+        }
+        Update: {
+          category?: string
+          created_at?: string
+          description?: string | null
+          holder?: string
+          id?: number
+          sort_order?: number | null
+          title?: string
+          value?: string
+          year?: number | null
+        }
+        Relationships: []
+      }
+      stadiums: {
+        Row: {
+          capacity: number | null
+          city: string
+          country: string
+          country_code: string | null
+          created_at: string
+          description: string | null
+          image_url: string | null
+          is_wc26: boolean | null
+          lat: number | null
+          lng: number | null
+          name: string
+          opened_year: number | null
+          slug: string
+        }
+        Insert: {
+          capacity?: number | null
+          city: string
+          country: string
+          country_code?: string | null
+          created_at?: string
+          description?: string | null
+          image_url?: string | null
+          is_wc26?: boolean | null
+          lat?: number | null
+          lng?: number | null
+          name: string
+          opened_year?: number | null
+          slug: string
+        }
+        Update: {
+          capacity?: number | null
+          city?: string
+          country?: string
+          country_code?: string | null
+          created_at?: string
+          description?: string | null
+          image_url?: string | null
+          is_wc26?: boolean | null
+          lat?: number | null
+          lng?: number | null
+          name?: string
+          opened_year?: number | null
+          slug?: string
+        }
+        Relationships: []
+      }
+      standings: {
+        Row: {
+          drawn: number | null
+          goal_diff: number | null
+          goals_against: number | null
+          goals_for: number | null
+          group_letter: string
+          id: number
+          lost: number | null
+          played: number | null
+          points: number | null
+          position: number | null
+          qualification_status: string | null
+          team_code: string
+          tournament_year: number
+          updated_at: string
+          won: number | null
+        }
+        Insert: {
+          drawn?: number | null
+          goal_diff?: number | null
+          goals_against?: number | null
+          goals_for?: number | null
+          group_letter: string
+          id?: number
+          lost?: number | null
+          played?: number | null
+          points?: number | null
+          position?: number | null
+          qualification_status?: string | null
+          team_code: string
+          tournament_year: number
+          updated_at?: string
+          won?: number | null
+        }
+        Update: {
+          drawn?: number | null
+          goal_diff?: number | null
+          goals_against?: number | null
+          goals_for?: number | null
+          group_letter?: string
+          id?: number
+          lost?: number | null
+          played?: number | null
+          points?: number | null
+          position?: number | null
+          qualification_status?: string | null
+          team_code?: string
+          tournament_year?: number
+          updated_at?: string
+          won?: number | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "standings_team_code_fkey"
+            columns: ["team_code"]
+            isOneToOne: false
+            referencedRelation: "teams"
+            referencedColumns: ["code"]
+          },
+        ]
+      }
+      teams: {
+        Row: {
+          best_finish: string | null
+          captain: string | null
+          coach: string | null
+          code: string
+          confederation: string | null
+          created_at: string
+          fifa_ranking: number | null
+          flag_emoji: string | null
+          flag_url: string | null
+          founded_year: number | null
+          group_letter: string | null
+          name: string
+          nickname: string | null
+          short_name: string | null
+          wc_appearances: number | null
+          wc_titles: number | null
+        }
+        Insert: {
+          best_finish?: string | null
+          captain?: string | null
+          coach?: string | null
+          code: string
+          confederation?: string | null
+          created_at?: string
+          fifa_ranking?: number | null
+          flag_emoji?: string | null
+          flag_url?: string | null
+          founded_year?: number | null
+          group_letter?: string | null
+          name: string
+          nickname?: string | null
+          short_name?: string | null
+          wc_appearances?: number | null
+          wc_titles?: number | null
+        }
+        Update: {
+          best_finish?: string | null
+          captain?: string | null
+          coach?: string | null
+          code?: string
+          confederation?: string | null
+          created_at?: string
+          fifa_ranking?: number | null
+          flag_emoji?: string | null
+          flag_url?: string | null
+          founded_year?: number | null
+          group_letter?: string | null
+          name?: string
+          nickname?: string | null
+          short_name?: string | null
+          wc_appearances?: number | null
+          wc_titles?: number | null
+        }
+        Relationships: []
+      }
+      tournaments: {
+        Row: {
+          created_at: string
+          final_score: string | null
+          golden_ball: string | null
+          golden_glove: string | null
+          host_countries: string[]
+          matches_played: number | null
+          runner_up_code: string | null
+          summary: string | null
+          teams_count: number | null
+          third_place_code: string | null
+          top_scorer: string | null
+          top_scorer_goals: number | null
+          total_goals: number | null
+          winner_code: string | null
+          year: number
+        }
+        Insert: {
+          created_at?: string
+          final_score?: string | null
+          golden_ball?: string | null
+          golden_glove?: string | null
+          host_countries: string[]
+          matches_played?: number | null
+          runner_up_code?: string | null
+          summary?: string | null
+          teams_count?: number | null
+          third_place_code?: string | null
+          top_scorer?: string | null
+          top_scorer_goals?: number | null
+          total_goals?: number | null
+          winner_code?: string | null
+          year: number
+        }
+        Update: {
+          created_at?: string
+          final_score?: string | null
+          golden_ball?: string | null
+          golden_glove?: string | null
+          host_countries?: string[]
+          matches_played?: number | null
+          runner_up_code?: string | null
+          summary?: string | null
+          teams_count?: number | null
+          third_place_code?: string | null
+          top_scorer?: string | null
+          top_scorer_goals?: number | null
+          total_goals?: number | null
+          winner_code?: string | null
+          year?: number
+        }
+        Relationships: []
+      }
+      translations: {
+        Row: {
+          entity_key: string
+          entity_type: string
+          id: number
+          locale: string
+          value: string
+        }
+        Insert: {
+          entity_key: string
+          entity_type: string
+          id?: number
+          locale: string
+          value: string
+        }
+        Update: {
+          entity_key?: string
+          entity_type?: string
+          id?: number
+          locale?: string
+          value?: string
+        }
+        Relationships: []
+      }
     }
     Views: {
       [_ in never]: never
