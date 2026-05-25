@@ -170,18 +170,24 @@ export const globalSearch = createServerFn({ method: "GET" })
     const q = data.q.trim();
     if (!q) return { teams: [], stadiums: [], tournaments: [] };
     const like = `%${q}%`;
-    const [teams, stadiums, tournaments] = await Promise.all([
+    const yearNum = /^\d{4}$/.test(q) ? parseInt(q, 10) : null;
+    const [teams, stadiums, tournaments, players] = await Promise.all([
       supabaseAdmin.from("teams").select("code,name,group_letter,flag_emoji")
         .or(`name.ilike.${like},code.ilike.${like},nickname.ilike.${like}`).limit(20),
       supabaseAdmin.from("stadiums").select("slug,name,city,country").eq("is_wc26", true)
         .or(`name.ilike.${like},city.ilike.${like},country.ilike.${like}`).limit(20),
-      supabaseAdmin.from("tournaments").select("year,winner_code,host_countries")
-        .or(`winner_code.ilike.${like}`).limit(10),
+      yearNum
+        ? supabaseAdmin.from("tournaments").select("year,winner_code,host_countries").eq("year", yearNum).limit(10)
+        : supabaseAdmin.from("tournaments").select("year,winner_code,host_countries")
+            .or(`winner_code.ilike.${like}`).limit(10),
+      supabaseAdmin.from("players").select("id,name,team_code,position,club,jersey_number")
+        .or(`name.ilike.${like},club.ilike.${like}`).limit(30),
     ]);
     return {
       teams: teams.data ?? [],
       stadiums: stadiums.data ?? [],
       tournaments: tournaments.data ?? [],
+      players: players.data ?? [],
     };
   });
 
