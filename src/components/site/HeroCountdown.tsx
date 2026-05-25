@@ -5,7 +5,7 @@ import { fmtNumber, useI18n } from "@/lib/i18n";
 export function HeroCountdown({ utc }: { utc: string }) {
   const { t, banglaNumerals, locale } = useI18n();
   const [mounted, setMounted] = React.useState(false);
-  const [tick, setTick] = React.useState(1);
+  const [tick, setTick] = React.useState(0);
 
   React.useEffect(() => {
     setMounted(true);
@@ -35,18 +35,16 @@ export function HeroCountdown({ utc }: { utc: string }) {
     );
   }
 
-  const pad2 = (n: number) => String(n).padStart(2, "0");
-
   return (
     <div className="w-full max-w-3xl">
       <div className="grid grid-cols-4 gap-2 md:gap-4">
-        <AnimatedCard value={c.days} max={99} label={t("days")} banglaNumerals={banglaNumerals} tick={tick} />
+        <TimeCard value={c.days} label={t("days")} banglaNumerals={banglaNumerals} tick={tick} />
         <Separator />
-        <AnimatedCard value={c.hours} max={23} label={t("hours")} banglaNumerals={banglaNumerals} tick={tick} />
+        <TimeCard value={c.hours} label={t("hours")} banglaNumerals={banglaNumerals} tick={tick} />
         <Separator />
-        <AnimatedCard value={c.minutes} max={59} label={t("minutes")} banglaNumerals={banglaNumerals} tick={tick} />
+        <TimeCard value={c.minutes} label={t("minutes")} banglaNumerals={banglaNumerals} tick={tick} />
         <Separator />
-        <AnimatedCard value={c.seconds} max={59} label={t("seconds")} banglaNumerals={banglaNumerals} tick={tick} />
+        <TimeCard value={c.seconds} label={t("seconds")} banglaNumerals={banglaNumerals} tick={tick} />
       </div>
       <p className="mt-3 text-[10px] md:text-xs uppercase tracking-[0.2em] font-mono text-muted-foreground/80">
         {locale === "bn" ? "বিশ্বকাপ ২০২৬ শুরু হতে আর" : "FIFA World Cup 2026 kickoff in"} · {t("bst")}
@@ -57,85 +55,60 @@ export function HeroCountdown({ utc }: { utc: string }) {
 
 function Separator() {
   return (
-    <div className="hidden md:flex flex-col items-center justify-center gap-1 py-4">
-      <span className="h-2 w-2 rounded-full bg-primary/60 animate-pulse" />
-      <span className="h-2 w-2 rounded-full bg-primary/40 animate-pulse delay-150" />
+    <div className="hidden md:flex flex-col items-center justify-center gap-1.5 py-4">
+      <span className="h-1.5 w-1.5 rounded-full bg-primary/80 animate-pulse" />
+      <span className="h-1.5 w-1.5 rounded-full bg-primary/50 animate-pulse" style={{ animationDelay: "150ms" }} />
     </div>
   );
 }
 
-function TimeCard({ value, label }: { value: string | number; label: string }) {
-  return (
-    <div className="flex flex-col items-center">
-      <div className="relative w-full aspect-square max-w-[140px] rounded-xl border border-border/60 bg-card/80 backdrop-blur flex items-center justify-center overflow-hidden">
-        <span className="text-3xl md:text-5xl font-black tabular-nums text-foreground tracking-tight">
-          {value}
-        </span>
-        <div className="absolute inset-x-0 top-0 h-px bg-gradient-to-r from-transparent via-primary/30 to-transparent" />
-        <div className="absolute inset-x-0 bottom-0 h-px bg-gradient-to-r from-transparent via-primary/30 to-transparent" />
-      </div>
-      <span className="mt-2 text-[10px] md:text-xs uppercase tracking-wider font-mono text-muted-foreground">
-        {label}
-      </span>
-    </div>
-  );
-}
-
-function AnimatedCard({
+function TimeCard({
   value,
   label,
   banglaNumerals,
   tick,
 }: {
   value: number;
-  max: number;
   label: string;
   banglaNumerals: boolean;
   tick: number;
 }) {
   const display = fmtNumber(String(value).padStart(2, "0"), banglaNumerals);
-  const [prev, setPrev] = React.useState(display);
-  const [flipping, setFlipping] = React.useState(false);
+  const [pop, setPop] = React.useState(false);
 
   React.useEffect(() => {
-    if (prev !== display) {
-      setFlipping(true);
-      const id = setTimeout(() => {
-        setPrev(display);
-        setFlipping(false);
-      }, 300);
-      return () => clearTimeout(id);
-    }
-  }, [display, prev]);
+    setPop(true);
+    const id = setTimeout(() => setPop(false), 400);
+    return () => clearTimeout(id);
+  }, [tick]);
 
   return (
     <div className="flex flex-col items-center">
-      <div className="relative w-full aspect-square max-w-[140px] rounded-xl border border-primary/20 bg-gradient-to-b from-primary/5 to-card overflow-hidden shadow-[0_0_30px_-10px_rgba(var(--primary-rgb),0.15)]">
-        {/* Top half */}
-        <div className="absolute inset-1/2 bottom-0 top-1/2 flex items-center justify-center overflow-hidden">
-          <span
-            className={`text-4xl md:text-6xl font-black tabular-nums text-foreground tracking-tight transition-transform duration-300 ${flipping ? "scale-y-0" : "scale-y-100"}`}
-            style={{ transformOrigin: "center bottom" }}
-          >
-            {display}
-          </span>
-        </div>
+      <div
+        className={`
+          relative w-full max-w-[120px] md:max-w-[140px] aspect-[4/5] rounded-xl
+          border border-primary/20 bg-card/80 backdrop-blur
+          flex flex-col items-center justify-center overflow-hidden
+          shadow-[0_0_30px_-12px_rgba(255,255,255,0.05)]
+          transition-transform duration-300
+          ${pop ? "scale-105 border-primary/40 shadow-[0_0_40px_-10px_rgba(255,255,255,0.1)]" : "scale-100"}
+        `}
+      >
+        {/* Top decorative line */}
+        <div className="absolute inset-x-0 top-0 h-px bg-gradient-to-r from-transparent via-primary/50 to-transparent" />
+        {/* Bottom decorative line */}
+        <div className="absolute inset-x-0 bottom-0 h-px bg-gradient-to-r from-transparent via-primary/50 to-transparent" />
+        {/* Middle line */}
+        <div className="absolute inset-x-0 top-1/2 h-px bg-gradient-to-r from-transparent via-primary/10 to-transparent" />
+
+        {/* Glow behind number */}
         <div className="absolute inset-0 flex items-center justify-center">
-          <span
-            className={`text-4xl md:text-6xl font-black tabular-nums text-foreground tracking-tight transition-transform duration-300 ${flipping ? "scale-y-100" : "scale-y-0"}`}
-            style={{ transformOrigin: "center top" }}
-          >
-            {prev}
-          </span>
+          <div className="w-16 h-16 md:w-20 md:h-20 rounded-full bg-primary/[0.06] blur-2xl" />
         </div>
 
-        {/* Decorative lines */}
-        <div className="absolute inset-x-0 top-1/2 h-px bg-gradient-to-r from-transparent via-primary/20 to-transparent" />
-        <div className="absolute inset-x-0 top-0 h-px bg-gradient-to-r from-transparent via-primary/40 to-transparent" />
-        <div className="absolute inset-x-0 bottom-0 h-px bg-gradient-to-r from-transparent via-primary/40 to-transparent" />
-
-        {/* Glow */}
-        <div className="absolute inset-1/2 -translate-x-1/2 -translate-y-1/2 w-3/4 h-3/4 rounded-full bg-primary/[0.04] blur-xl" />
+        <span className="relative text-4xl md:text-6xl font-black tabular-nums text-foreground tracking-tight leading-none">
+          {display}
+        </span>
       </div>
       <span className="mt-2.5 text-[10px] md:text-xs uppercase tracking-wider font-mono text-muted-foreground">
         {label}
