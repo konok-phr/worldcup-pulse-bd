@@ -38,13 +38,13 @@ export const Route = createFileRoute("/history_/$year")({
 });
 
 function HistoryDetail() {
-  const { t, banglaNumerals } = useI18n();
+  const { t, tn, banglaNumerals } = useI18n();
   const { year } = Route.useLoaderData();
-  const { data: tn } = useSuspenseQuery(yearQO(year));
+  const { data: row } = useSuspenseQuery(yearQO(year));
   const { data: teams } = useSuspenseQuery(teamsQO);
   const emojiMap = Object.fromEntries(teams.map((tm) => [tm.code, tm.flag_emoji]));
 
-  if (!tn) {
+  if (!row) {
     return (
       <div className="mx-auto max-w-3xl px-4 py-16 text-center text-muted-foreground">
         Tournament not found.
@@ -68,34 +68,34 @@ function HistoryDetail() {
           <div className="text-[10px] font-mono uppercase tracking-[0.25em] text-primary mb-2">▸ FIFA World Cup</div>
           <div className="flex items-baseline gap-4 flex-wrap">
             <h1 className="font-mono text-6xl md:text-7xl font-bold tabular-nums leading-none">
-              {fmtNumber(tn.year, banglaNumerals)}
+              {fmtNumber(row.year, banglaNumerals)}
             </h1>
-            {tn.winner_code && (
+            {row.winner_code && (
               <div className="flex items-center gap-2 px-3 py-1.5 rounded-md border border-primary/40 bg-primary/10">
                 <Trophy className="h-4 w-4 text-primary" />
-                <span className="font-mono text-sm font-semibold">{tn.winner_code} Champions</span>
+                <span className="font-mono text-sm font-semibold">{row.winner_code} Champions</span>
               </div>
             )}
           </div>
           <div className="mt-3 flex items-center gap-2 text-muted-foreground">
             <Calendar className="h-4 w-4" />
-            <span>{t("hosts")}: {(tn.host_countries ?? []).join(", ") || "—"}</span>
+            <span>{t("hosts")}: {(row.host_countries ?? []).map((c) => tn("country", c)).join(", ") || "—"}</span>
           </div>
         </div>
       </div>
 
       {/* Podium */}
-      {(tn.winner_code || tn.runner_up_code || tn.third_place_code) && (
+      {(row.winner_code || row.runner_up_code || row.third_place_code) && (
         <section className="mb-6">
           <h2 className="text-xs uppercase tracking-[0.2em] font-mono text-muted-foreground mb-3"><span className="text-primary">▸</span> Podium</h2>
           <div className="grid grid-cols-1 sm:grid-cols-3 gap-3">
-            <PodiumCard place={1} code={tn.winner_code} label={t("winner")} emoji={emojiMap[tn.winner_code ?? ""]} />
-            <PodiumCard place={2} code={tn.runner_up_code} label={t("runner_up")} emoji={emojiMap[tn.runner_up_code ?? ""]} />
-            <PodiumCard place={3} code={tn.third_place_code} label={t("third")} emoji={emojiMap[tn.third_place_code ?? ""]} />
+            <PodiumCard place={1} code={row.winner_code} label={t("winner")} emoji={emojiMap[row.winner_code ?? ""]} />
+            <PodiumCard place={2} code={row.runner_up_code} label={t("runner_up")} emoji={emojiMap[row.runner_up_code ?? ""]} />
+            <PodiumCard place={3} code={row.third_place_code} label={t("third")} emoji={emojiMap[row.third_place_code ?? ""]} />
           </div>
-          {tn.final_score && (
+          {row.final_score && (
             <div className="mt-3 text-center text-sm text-muted-foreground">
-              Final: <span className="font-mono font-semibold text-foreground">{tn.final_score}</span>
+              Final: <span className="font-mono font-semibold text-foreground">{row.final_score}</span>
             </div>
           )}
         </section>
@@ -108,11 +108,11 @@ function HistoryDetail() {
           <AwardCard
             icon={<Target className="h-4 w-4" />}
             label={t("top_scorer")}
-            value={tn.top_scorer ?? "—"}
-            sub={tn.top_scorer_goals != null ? `${fmtNumber(tn.top_scorer_goals, banglaNumerals)} ${t("goals") ?? "goals"}` : null}
+            value={row.top_scorer ?? "—"}
+            sub={row.top_scorer_goals != null ? `${fmtNumber(row.top_scorer_goals, banglaNumerals)} ${t("goals") ?? "goals"}` : null}
           />
-          <AwardCard icon={<Star className="h-4 w-4" />} label={t("golden_ball")} value={tn.golden_ball ?? "—"} />
-          <AwardCard icon={<Shield className="h-4 w-4" />} label={t("golden_glove")} value={tn.golden_glove ?? "—"} />
+          <AwardCard icon={<Star className="h-4 w-4" />} label={t("golden_ball")} value={row.golden_ball ?? "—"} />
+          <AwardCard icon={<Shield className="h-4 w-4" />} label={t("golden_glove")} value={row.golden_glove ?? "—"} />
         </div>
       </section>
 
@@ -120,22 +120,22 @@ function HistoryDetail() {
       <section className="mb-6">
         <h2 className="text-xs uppercase tracking-[0.2em] font-mono text-muted-foreground mb-3"><span className="text-primary">▸</span> Tournament Stats</h2>
         <div className="grid grid-cols-2 md:grid-cols-4 gap-3">
-          <StatTile icon={<Users className="h-4 w-4" />} label={t("teams_count")} value={tn.teams_count != null ? fmtNumber(tn.teams_count, banglaNumerals) : "—"} />
-          <StatTile icon={<Calendar className="h-4 w-4" />} label={t("matches_played")} value={tn.matches_played != null ? fmtNumber(tn.matches_played, banglaNumerals) : "—"} />
-          <StatTile icon={<Goal className="h-4 w-4" />} label={t("total_goals")} value={tn.total_goals != null ? fmtNumber(tn.total_goals, banglaNumerals) : "—"} />
+          <StatTile icon={<Users className="h-4 w-4" />} label={t("teams_count")} value={row.teams_count != null ? fmtNumber(row.teams_count, banglaNumerals) : "—"} />
+          <StatTile icon={<Calendar className="h-4 w-4" />} label={t("matches_played")} value={row.matches_played != null ? fmtNumber(row.matches_played, banglaNumerals) : "—"} />
+          <StatTile icon={<Goal className="h-4 w-4" />} label={t("total_goals")} value={row.total_goals != null ? fmtNumber(row.total_goals, banglaNumerals) : "—"} />
           <StatTile
             icon={<Award className="h-4 w-4" />}
             label="Goals / match"
-            value={tn.total_goals && tn.matches_played ? (tn.total_goals / tn.matches_played).toFixed(2) : "—"}
+            value={row.total_goals && row.matches_played ? (row.total_goals / row.matches_played).toFixed(2) : "—"}
           />
         </div>
       </section>
 
       {/* Summary */}
-      {tn.summary && (
+      {row.summary && (
         <section className="rounded-lg border border-border/60 bg-card/60 p-5">
           <h2 className="text-xs uppercase tracking-[0.2em] font-mono text-muted-foreground mb-2"><span className="text-primary">▸</span> Summary</h2>
-          <p className="text-sm md:text-base text-foreground/90 leading-relaxed">{tn.summary}</p>
+          <p className="text-sm md:text-base text-foreground/90 leading-relaxed">{row.summary}</p>
         </section>
       )}
     </div>
