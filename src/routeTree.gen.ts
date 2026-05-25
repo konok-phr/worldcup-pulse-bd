@@ -24,7 +24,7 @@ import { Route as IndexRouteImport } from './routes/index'
 import { Route as TeamsCodeRouteImport } from './routes/teams.$code'
 import { Route as StadiumsSlugRouteImport } from './routes/stadiums.$slug'
 import { Route as MatchIdRouteImport } from './routes/match.$id'
-import { Route as HistoryYearRouteImport } from './routes/history.$year'
+import { Route as HistoryYearRouteImport } from './routes/history_.$year'
 import { Route as GroupsLetterRouteImport } from './routes/groups.$letter'
 import { Route as ApiPublicHooksSyncLiveRouteImport } from './routes/api/public/hooks.sync-live'
 
@@ -104,9 +104,9 @@ const MatchIdRoute = MatchIdRouteImport.update({
   getParentRoute: () => rootRouteImport,
 } as any)
 const HistoryYearRoute = HistoryYearRouteImport.update({
-  id: '/$year',
-  path: '/$year',
-  getParentRoute: () => HistoryRoute,
+  id: '/history_/$year',
+  path: '/history/$year',
+  getParentRoute: () => rootRouteImport,
 } as any)
 const GroupsLetterRoute = GroupsLetterRouteImport.update({
   id: '/$letter',
@@ -123,7 +123,7 @@ export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
   '/fixtures': typeof FixturesRoute
   '/groups': typeof GroupsRouteWithChildren
-  '/history': typeof HistoryRouteWithChildren
+  '/history': typeof HistoryRoute
   '/knockout': typeof KnockoutRoute
   '/live': typeof LiveRoute
   '/players': typeof PlayersRoute
@@ -143,7 +143,7 @@ export interface FileRoutesByTo {
   '/': typeof IndexRoute
   '/fixtures': typeof FixturesRoute
   '/groups': typeof GroupsRouteWithChildren
-  '/history': typeof HistoryRouteWithChildren
+  '/history': typeof HistoryRoute
   '/knockout': typeof KnockoutRoute
   '/live': typeof LiveRoute
   '/players': typeof PlayersRoute
@@ -164,7 +164,7 @@ export interface FileRoutesById {
   '/': typeof IndexRoute
   '/fixtures': typeof FixturesRoute
   '/groups': typeof GroupsRouteWithChildren
-  '/history': typeof HistoryRouteWithChildren
+  '/history': typeof HistoryRoute
   '/knockout': typeof KnockoutRoute
   '/live': typeof LiveRoute
   '/players': typeof PlayersRoute
@@ -174,7 +174,7 @@ export interface FileRoutesById {
   '/stadiums': typeof StadiumsRouteWithChildren
   '/teams': typeof TeamsRouteWithChildren
   '/groups/$letter': typeof GroupsLetterRoute
-  '/history/$year': typeof HistoryYearRoute
+  '/history_/$year': typeof HistoryYearRoute
   '/match/$id': typeof MatchIdRoute
   '/stadiums/$slug': typeof StadiumsSlugRoute
   '/teams/$code': typeof TeamsCodeRoute
@@ -236,7 +236,7 @@ export interface FileRouteTypes {
     | '/stadiums'
     | '/teams'
     | '/groups/$letter'
-    | '/history/$year'
+    | '/history_/$year'
     | '/match/$id'
     | '/stadiums/$slug'
     | '/teams/$code'
@@ -247,7 +247,7 @@ export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
   FixturesRoute: typeof FixturesRoute
   GroupsRoute: typeof GroupsRouteWithChildren
-  HistoryRoute: typeof HistoryRouteWithChildren
+  HistoryRoute: typeof HistoryRoute
   KnockoutRoute: typeof KnockoutRoute
   LiveRoute: typeof LiveRoute
   PlayersRoute: typeof PlayersRoute
@@ -256,6 +256,7 @@ export interface RootRouteChildren {
   SimulatorRoute: typeof SimulatorRoute
   StadiumsRoute: typeof StadiumsRouteWithChildren
   TeamsRoute: typeof TeamsRouteWithChildren
+  HistoryYearRoute: typeof HistoryYearRoute
   MatchIdRoute: typeof MatchIdRoute
   ApiPublicHooksSyncLiveRoute: typeof ApiPublicHooksSyncLiveRoute
 }
@@ -367,12 +368,12 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof MatchIdRouteImport
       parentRoute: typeof rootRouteImport
     }
-    '/history/$year': {
-      id: '/history/$year'
-      path: '/$year'
+    '/history_/$year': {
+      id: '/history_/$year'
+      path: '/history/$year'
       fullPath: '/history/$year'
       preLoaderRoute: typeof HistoryYearRouteImport
-      parentRoute: typeof HistoryRoute
+      parentRoute: typeof rootRouteImport
     }
     '/groups/$letter': {
       id: '/groups/$letter'
@@ -402,17 +403,6 @@ const GroupsRouteChildren: GroupsRouteChildren = {
 const GroupsRouteWithChildren =
   GroupsRoute._addFileChildren(GroupsRouteChildren)
 
-interface HistoryRouteChildren {
-  HistoryYearRoute: typeof HistoryYearRoute
-}
-
-const HistoryRouteChildren: HistoryRouteChildren = {
-  HistoryYearRoute: HistoryYearRoute,
-}
-
-const HistoryRouteWithChildren =
-  HistoryRoute._addFileChildren(HistoryRouteChildren)
-
 interface StadiumsRouteChildren {
   StadiumsSlugRoute: typeof StadiumsSlugRoute
 }
@@ -439,7 +429,7 @@ const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
   FixturesRoute: FixturesRoute,
   GroupsRoute: GroupsRouteWithChildren,
-  HistoryRoute: HistoryRouteWithChildren,
+  HistoryRoute: HistoryRoute,
   KnockoutRoute: KnockoutRoute,
   LiveRoute: LiveRoute,
   PlayersRoute: PlayersRoute,
@@ -448,9 +438,20 @@ const rootRouteChildren: RootRouteChildren = {
   SimulatorRoute: SimulatorRoute,
   StadiumsRoute: StadiumsRouteWithChildren,
   TeamsRoute: TeamsRouteWithChildren,
+  HistoryYearRoute: HistoryYearRoute,
   MatchIdRoute: MatchIdRoute,
   ApiPublicHooksSyncLiveRoute: ApiPublicHooksSyncLiveRoute,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)
   ._addFileTypes<FileRouteTypes>()
+
+import type { getRouter } from './router.tsx'
+import type { startInstance } from './start.ts'
+declare module '@tanstack/react-start' {
+  interface Register {
+    ssr: true
+    router: Awaited<ReturnType<typeof getRouter>>
+    config: Awaited<ReturnType<typeof startInstance.getOptions>>
+  }
+}
