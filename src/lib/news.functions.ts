@@ -20,6 +20,12 @@ const FEEDS: Feed[] = [
   { name: "Jago News Sports", url: "https://www.jagonews24.com/rss/sports.xml", lang: "bn" },
   { name: "Jago News", url: "https://www.jagonews24.com/rss/rss.xml", lang: "bn" },
   { name: "Bangladesh Pratidin", url: "https://www.bd-pratidin.com/rss.xml", lang: "bn" },
+  // International (English)
+  { name: "BBC Sport Football", url: "https://feeds.bbci.co.uk/sport/football/rss.xml", lang: "en" },
+  { name: "Goal.com", url: "https://www.goal.com/feeds/news?fmt=rss", lang: "en" },
+  { name: "Sky Sports Football", url: "https://www.skysports.com/rss/12040", lang: "en" },
+  { name: "ESPN FC", url: "https://www.espn.com/espn/rss/soccer/news", lang: "en" },
+  { name: "Guardian Football", url: "https://www.theguardian.com/football/rss", lang: "en" },
 ];
 
 // Keywords to identify football / World Cup news
@@ -31,6 +37,13 @@ const KEYWORDS = [
   "প্রিমিয়ার লিগ", "লা লিগা", "চ্যাম্পিয়নস লিগ", "উয়েফা", "কনমেবল",
   "বুন্দেসলিগা", "বার্সেলোনা", "রিয়াল মাদ্রিদ", "ম্যানচেস্টার", "লিভারপুল",
   "গোল", "ম্যাচ", "ক্লাব", "কোচ", "লিগ", "টুর্নামেন্ট", "বাফুফে", "হামজা",
+  // English
+  "world cup", "fifa", "2026", "football", "soccer",
+  "messi", "ronaldo", "neymar", "mbappe", "haaland", "vinicius",
+  "brazil", "argentina", "france", "germany", "spain", "england", "portugal",
+  "premier league", "la liga", "champions league", "uefa", "conmebol",
+  "bundesliga", "barcelona", "real madrid", "manchester", "liverpool",
+  "goal", "match", "club", "coach", "league", "tournament",
 ];
 
 function decodeEntities(s: string): string {
