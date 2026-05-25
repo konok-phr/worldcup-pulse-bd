@@ -35,30 +35,32 @@ function Home() {
   return (
     <div className="mx-auto max-w-7xl px-4 py-6 space-y-8">
       {/* Hero / countdown */}
-      <section className="rounded-lg border border-primary/30 bg-gradient-to-br from-primary/10 via-card to-card p-6 md:p-8 relative overflow-hidden">
-        <div className="absolute inset-0 opacity-[0.03] bg-[radial-gradient(circle_at_30%_20%,white,transparent_60%)]" />
-        <div className="relative">
-          <div className="font-mono text-[10px] uppercase tracking-[0.25em] text-primary mb-3">
-            ★ {t("tagline")} · USA · Canada · Mexico
+      <section className="rounded-xl border border-primary/25 bg-gradient-to-br from-primary/[0.08] via-card to-card p-6 md:p-10 relative overflow-hidden">
+        {/* Ambient background glow */}
+        <div className="absolute -top-20 -right-20 w-64 h-64 bg-primary/10 rounded-full blur-3xl opacity-60" />
+        <div className="absolute -bottom-20 -left-20 w-48 h-48 bg-primary/5 rounded-full blur-3xl opacity-60" />
+        <div className="absolute inset-1/2 -translate-x-1/2 -translate-y-1/2 w-[120%] h-[120%] opacity-[0.03] bg-[radial-gradient(circle_at_30%_20%,white,transparent_70%)]" />
+
+        <div className="relative flex flex-col md:flex-row md:items-center gap-6 md:gap-10">
+          <div className="flex-1">
+            <div className="inline-flex items-center gap-2 font-mono text-[10px] uppercase tracking-[0.25em] text-primary mb-4 border border-primary/20 rounded-full px-3 py-1 bg-primary/5">
+              <span className="inline-block h-1.5 w-1.5 rounded-full bg-primary animate-pulse" />
+              {t("tagline")} · USA · Canada · Mexico
+            </div>
+            <h1 className="text-3xl md:text-5xl lg:text-6xl font-bold tracking-tight max-w-2xl leading-[1.1]">
+              {locale === "bn"
+                ? "ফিফা বিশ্বকাপ ২০২৬ — সব তথ্য এক জায়গায়।"
+                : "FIFA World Cup 2026 — every match, every moment."}
+            </h1>
+            <p className="mt-4 text-muted-foreground max-w-xl text-sm md:text-base leading-relaxed">
+              {t("about")}
+            </p>
           </div>
-          <h1 className="text-3xl md:text-5xl font-bold tracking-tight max-w-3xl">
-            {locale === "bn"
-              ? "ফিফা বিশ্বকাপ ২০২৬ — সব তথ্য এক জায়গায়।"
-              : "FIFA World Cup 2026 — every match, every moment."}
-          </h1>
-          <p className="mt-3 text-muted-foreground max-w-2xl">
-            {t("about")}
-          </p>
-          <div className="mt-5 flex flex-wrap items-center gap-3">
+
+          <div className="shrink-1">
             {home.opener?.kickoff_utc && (
-              <CountdownPill utc={home.opener.kickoff_utc} label={t("opener")} />
+              <HeroCountdown utc={home.opener.kickoff_utc} />
             )}
-            <Link to="/fixtures" className="inline-flex items-center gap-1.5 text-sm font-mono uppercase tracking-wider text-primary hover:underline">
-              {t("nav_fixtures")} <ArrowRight className="h-3.5 w-3.5" />
-            </Link>
-            <Link to="/groups" className="inline-flex items-center gap-1.5 text-sm font-mono uppercase tracking-wider text-primary hover:underline">
-              {t("nav_groups")} <ArrowRight className="h-3.5 w-3.5" />
-            </Link>
           </div>
         </div>
       </section>
