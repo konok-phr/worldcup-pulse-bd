@@ -1,9 +1,10 @@
-import { createFileRoute, Link } from "@tanstack/react-router";
+import { createFileRoute } from "@tanstack/react-router";
+import { useState } from "react";
 import { queryOptions, useSuspenseQuery } from "@tanstack/react-query";
 import { getNews, type NewsItem } from "@/lib/news.functions";
 import { useI18n } from "@/lib/i18n";
 import { buildHead } from "@/lib/seo";
-import { Newspaper, Globe } from "lucide-react";
+import { Newspaper, Globe, ExternalLink } from "lucide-react";
 
 const newsQO = queryOptions({
   queryKey: ["news"],
@@ -32,7 +33,18 @@ export const Route = createFileRoute("/news")({
 function NewsPage() {
   const { t, locale } = useI18n();
   const { data } = useSuspenseQuery(newsQO);
-  const filtered = data.items;
+  const [filter, setFilter] = useState<"all" | "bn" | "en">("all");
+  const filtered = filter === "all" ? data.items : data.items.filter((i) => i.lang === filter);
+  const counts = {
+    all: data.items.length,
+    bn: data.items.filter((i) => i.lang === "bn").length,
+    en: data.items.filter((i) => i.lang === "en").length,
+  };
+  const tabs: { key: "all" | "bn" | "en"; label: string }[] = [
+    { key: "all", label: locale === "bn" ? `সব (${counts.all})` : `All (${counts.all})` },
+    { key: "bn", label: locale === "bn" ? `বাংলা (${counts.bn})` : `Bangla (${counts.bn})` },
+    { key: "en", label: locale === "bn" ? `আন্তর্জাতিক (${counts.en})` : `International (${counts.en})` },
+  ];
 
   return (
     <div className="mx-auto max-w-7xl px-4 py-6 space-y-6">
@@ -46,11 +58,27 @@ function NewsPage() {
           </h1>
           <p className="text-sm text-muted-foreground mt-1">
             {locale === "bn"
-              ? "প্রথম আলো, জাগো নিউজ, বাংলাদেশ প্রতিদিন থেকে সর্বশেষ বাংলা খবর।"
-              : "Latest Bangla stories from Prothom Alo, Jago News and Bangladesh Pratidin."}
+              ? "বাংলা ও আন্তর্জাতিক উৎস থেকে সর্বশেষ ফুটবল খবর।"
+              : "Latest football news from Bangla and international sources."}
           </p>
         </div>
       </header>
+
+      <div className="flex flex-wrap gap-2">
+        {tabs.map((tab) => (
+          <button
+            key={tab.key}
+            onClick={() => setFilter(tab.key)}
+            className={`px-3 py-1.5 rounded-full text-xs font-mono uppercase tracking-wider border transition-colors ${
+              filter === tab.key
+                ? "bg-primary text-primary-foreground border-primary"
+                : "bg-card/40 border-border/60 text-muted-foreground hover:text-foreground hover:border-primary/50"
+            }`}
+          >
+            {tab.label}
+          </button>
+        ))}
+      </div>
 
       {filtered.length === 0 ? (
         <div className="rounded-md border border-border/60 bg-card/40 p-8 text-center text-muted-foreground font-mono text-sm">
@@ -73,9 +101,10 @@ function NewsPage() {
 function NewsCard({ item, locale }: { item: NewsItem; locale: "en" | "bn" }) {
   const ago = timeAgo(item.pubDate, locale);
   return (
-    <Link
-      to="/news/read"
-      search={{ url: item.link, title: item.title, source: item.source }}
+    <a
+      href={item.link}
+      target="_blank"
+      rel="noopener noreferrer"
       className="group flex flex-col rounded-lg border border-border/60 bg-card/60 overflow-hidden hover:border-primary/50 hover:bg-card/80 transition-colors"
     >
       {item.image ? (
@@ -84,6 +113,7 @@ function NewsCard({ item, locale }: { item: NewsItem; locale: "en" | "bn" }) {
             src={item.image}
             alt=""
             loading="lazy"
+            referrerPolicy="no-referrer"
             className="w-full h-full object-cover group-hover:scale-[1.03] transition-transform duration-300"
             onError={(e) => {
               (e.currentTarget.parentElement as HTMLElement).style.display = "none";
@@ -110,10 +140,10 @@ function NewsCard({ item, locale }: { item: NewsItem; locale: "en" | "bn" }) {
           <p className="text-xs text-muted-foreground line-clamp-3">{item.description}</p>
         )}
         <span className="mt-auto inline-flex items-center gap-1 text-[10px] uppercase tracking-wider font-mono text-primary opacity-0 group-hover:opacity-100 transition-opacity">
-          {locale === "bn" ? "পড়ুন →" : "Read →"}
+          {locale === "bn" ? "পড়ুন" : "Read"} <ExternalLink className="h-3 w-3" />
         </span>
       </div>
-    </Link>
+    </a>
   );
 }
 
