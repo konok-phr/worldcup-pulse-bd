@@ -79,7 +79,7 @@ function HistoryDetail() {
           </div>
           <div className="mt-3 flex items-center gap-2 text-muted-foreground">
             <Calendar className="h-4 w-4" />
-            <span>{t("hosts")}: {(row.host_countries ?? []).join(", ") || "—"}</span>
+            <span>{t("hosts")}: {(row.host_countries ?? []).map((c) => tn("country", c)).join(", ") || "—"}</span>
           </div>
         </div>
       </div>
