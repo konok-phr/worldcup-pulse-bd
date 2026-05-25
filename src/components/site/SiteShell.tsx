@@ -3,7 +3,7 @@ import { Link, useRouterState } from "@tanstack/react-router";
 import { useI18n } from "@/lib/i18n";
 import { LiveScoreRail } from "./LiveScoreRail";
 import { cn } from "@/lib/utils";
-import { Menu, Search as SearchIcon, X } from "lucide-react";
+import { Menu, Search as SearchIcon, X, Facebook, Linkedin } from "lucide-react";
 import wc26Logo from "@/assets/wc26-logo.png";
 
 const NAV = [
