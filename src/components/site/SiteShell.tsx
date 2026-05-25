@@ -11,6 +11,7 @@ const NAV = [
   { to: "/fixtures", key: "nav_fixtures" as const },
   { to: "/groups", key: "nav_groups" as const },
   { to: "/knockout", key: "nav_knockout" as const },
+  { to: "/simulator", key: "simulator" as const },
   { to: "/teams", key: "nav_teams" as const },
   { to: "/stadiums", key: "nav_stadiums" as const },
   { to: "/history", key: "nav_history" as const },
