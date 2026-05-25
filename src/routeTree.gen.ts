@@ -25,6 +25,7 @@ import { Route as StadiumsSlugRouteImport } from './routes/stadiums.$slug'
 import { Route as MatchIdRouteImport } from './routes/match.$id'
 import { Route as HistoryYearRouteImport } from './routes/history.$year'
 import { Route as GroupsLetterRouteImport } from './routes/groups.$letter'
+import { Route as ApiPublicHooksSyncLiveRouteImport } from './routes/api/public/hooks.sync-live'
 
 const TeamsRoute = TeamsRouteImport.update({
   id: '/teams',
@@ -106,6 +107,11 @@ const GroupsLetterRoute = GroupsLetterRouteImport.update({
   path: '/$letter',
   getParentRoute: () => GroupsRoute,
 } as any)
+const ApiPublicHooksSyncLiveRoute = ApiPublicHooksSyncLiveRouteImport.update({
+  id: '/api/public/hooks/sync-live',
+  path: '/api/public/hooks/sync-live',
+  getParentRoute: () => rootRouteImport,
+} as any)
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
@@ -124,6 +130,7 @@ export interface FileRoutesByFullPath {
   '/match/$id': typeof MatchIdRoute
   '/stadiums/$slug': typeof StadiumsSlugRoute
   '/teams/$code': typeof TeamsCodeRoute
+  '/api/public/hooks/sync-live': typeof ApiPublicHooksSyncLiveRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
@@ -142,6 +149,7 @@ export interface FileRoutesByTo {
   '/match/$id': typeof MatchIdRoute
   '/stadiums/$slug': typeof StadiumsSlugRoute
   '/teams/$code': typeof TeamsCodeRoute
+  '/api/public/hooks/sync-live': typeof ApiPublicHooksSyncLiveRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
@@ -161,6 +169,7 @@ export interface FileRoutesById {
   '/match/$id': typeof MatchIdRoute
   '/stadiums/$slug': typeof StadiumsSlugRoute
   '/teams/$code': typeof TeamsCodeRoute
+  '/api/public/hooks/sync-live': typeof ApiPublicHooksSyncLiveRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
@@ -181,6 +190,7 @@ export interface FileRouteTypes {
     | '/match/$id'
     | '/stadiums/$slug'
     | '/teams/$code'
+    | '/api/public/hooks/sync-live'
   fileRoutesByTo: FileRoutesByTo
   to:
     | '/'
@@ -199,6 +209,7 @@ export interface FileRouteTypes {
     | '/match/$id'
     | '/stadiums/$slug'
     | '/teams/$code'
+    | '/api/public/hooks/sync-live'
   id:
     | '__root__'
     | '/'
@@ -217,6 +228,7 @@ export interface FileRouteTypes {
     | '/match/$id'
     | '/stadiums/$slug'
     | '/teams/$code'
+    | '/api/public/hooks/sync-live'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
@@ -232,6 +244,7 @@ export interface RootRouteChildren {
   StadiumsRoute: typeof StadiumsRouteWithChildren
   TeamsRoute: typeof TeamsRouteWithChildren
   MatchIdRoute: typeof MatchIdRoute
+  ApiPublicHooksSyncLiveRoute: typeof ApiPublicHooksSyncLiveRoute
 }
 
 declare module '@tanstack/react-router' {
@@ -348,6 +361,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof GroupsLetterRouteImport
       parentRoute: typeof GroupsRoute
     }
+    '/api/public/hooks/sync-live': {
+      id: '/api/public/hooks/sync-live'
+      path: '/api/public/hooks/sync-live'
+      fullPath: '/api/public/hooks/sync-live'
+      preLoaderRoute: typeof ApiPublicHooksSyncLiveRouteImport
+      parentRoute: typeof rootRouteImport
+    }
   }
 }
 
@@ -408,6 +428,7 @@ const rootRouteChildren: RootRouteChildren = {
   StadiumsRoute: StadiumsRouteWithChildren,
   TeamsRoute: TeamsRouteWithChildren,
   MatchIdRoute: MatchIdRoute,
+  ApiPublicHooksSyncLiveRoute: ApiPublicHooksSyncLiveRoute,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)
