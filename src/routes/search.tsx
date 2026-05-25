@@ -45,6 +45,25 @@ function SearchPage() {
               </Link>
             ))}
           </Section>
+          <Section title={t("nav_players")} count={data.players?.length ?? 0}>
+            {(data.players ?? []).map((p) => (
+              <Link
+                key={p.id}
+                to="/teams/$code"
+                params={{ code: p.team_code ?? "" }}
+                disabled={!p.team_code}
+                className="flex items-center gap-2 rounded border border-border/60 bg-card hover:border-primary/60 p-2"
+              >
+                <span className="text-sm font-semibold">{p.name}</span>
+                {p.jersey_number != null && (
+                  <span className="text-[10px] font-mono text-muted-foreground">#{p.jersey_number}</span>
+                )}
+                <span className="ml-auto text-[10px] font-mono text-muted-foreground">
+                  {[p.position, p.team_code, p.club].filter(Boolean).join(" · ")}
+                </span>
+              </Link>
+            ))}
+          </Section>
           <Section title={t("nav_stadiums")} count={data.stadiums.length}>
             {data.stadiums.map((s) => (
               <Link key={s.slug} to="/stadiums/$slug" params={{ slug: s.slug }} className="block rounded border border-border/60 bg-card hover:border-primary/60 p-2">
