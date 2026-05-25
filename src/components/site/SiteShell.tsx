@@ -1,9 +1,9 @@
 import * as React from "react";
 import { Link, useRouterState } from "@tanstack/react-router";
-import { Menu, Search as SearchIcon, X } from "lucide-react";
 import { useI18n } from "@/lib/i18n";
 import { LiveScoreRail } from "./LiveScoreRail";
 import { cn } from "@/lib/utils";
+import { Menu, Search as SearchIcon, X } from "lucide-react";
 
 const NAV = [
   { to: "/", key: "nav_home" as const },
@@ -18,19 +18,6 @@ const NAV = [
   { to: "/records", key: "nav_records" as const },
   { to: "/news", key: "nav_news" as const },
 ];
-
-function LangToggle() {
-  const { locale, setLocale } = useI18n();
-  return (
-    <button
-      onClick={() => setLocale(locale === "en" ? "bn" : "en")}
-      className="font-mono text-xs uppercase tracking-wider px-2 py-1 rounded border border-border/60 hover:border-primary/60 hover:text-primary transition-colors"
-      aria-label="Toggle language"
-    >
-      {locale === "en" ? "EN · বাং" : "বাং · EN"}
-    </button>
-  );
-}
 
 export function SiteShell({ children }: { children: React.ReactNode }) {
   const { t } = useI18n();
@@ -84,8 +71,6 @@ export function SiteShell({ children }: { children: React.ReactNode }) {
             <SearchIcon className="h-3.5 w-3.5" />
             <span>{t("nav_search")}</span>
           </Link>
-
-          <LangToggle />
 
           <button
             className="lg:hidden inline-flex items-center justify-center h-9 w-9 rounded border border-border/60"
