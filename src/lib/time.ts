@@ -4,40 +4,40 @@ const BST_TZ = "Asia/Dhaka";
 
 export type TZ = "BST" | "UTC";
 
-export function formatKickoff(utc: string | null | undefined, tz: TZ = "BST", locale: "en" | "bn" = "en"): string {
+export function formatKickoff(utc: string | null | undefined, _tz: TZ = "BST", locale: "en" | "bn" = "en"): string {
   if (!utc) return locale === "bn" ? "টিবিডি" : "TBD";
   const d = new Date(utc);
   const fmt = new Intl.DateTimeFormat("en-GB", {
-    timeZone: tz === "BST" ? BST_TZ : "UTC",
+    timeZone: BST_TZ,
     weekday: "short",
     day: "2-digit",
     month: "short",
     hour: "2-digit",
     minute: "2-digit",
-    hour12: false,
+    hour12: true,
   });
-  let s = fmt.format(d) + " " + tz;
+  let s = fmt.format(d) + " BST";
   if (locale === "bn") s = toBanglaNumerals(s);
   return s;
 }
 
-export function formatTimeOnly(utc: string | null | undefined, tz: TZ = "BST", locale: "en" | "bn" = "en"): string {
+export function formatTimeOnly(utc: string | null | undefined, _tz: TZ = "BST", locale: "en" | "bn" = "en"): string {
   if (!utc) return locale === "bn" ? "টিবিডি" : "TBD";
   const d = new Date(utc);
   const s = new Intl.DateTimeFormat("en-GB", {
-    timeZone: tz === "BST" ? BST_TZ : "UTC",
+    timeZone: BST_TZ,
     hour: "2-digit",
     minute: "2-digit",
-    hour12: false,
+    hour12: true,
   }).format(d);
   return locale === "bn" ? toBanglaNumerals(s) : s;
 }
 
-export function formatDateLabel(utc: string | null | undefined, tz: TZ = "BST", locale: "en" | "bn" = "en"): string {
+export function formatDateLabel(utc: string | null | undefined, _tz: TZ = "BST", locale: "en" | "bn" = "en"): string {
   if (!utc) return "";
   const d = new Date(utc);
   const s = new Intl.DateTimeFormat("en-GB", {
-    timeZone: tz === "BST" ? BST_TZ : "UTC",
+    timeZone: BST_TZ,
     weekday: "long",
     day: "2-digit",
     month: "long",
