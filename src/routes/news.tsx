@@ -3,8 +3,7 @@ import { queryOptions, useSuspenseQuery } from "@tanstack/react-query";
 import { getNews, type NewsItem } from "@/lib/news.functions";
 import { useI18n } from "@/lib/i18n";
 import { buildHead } from "@/lib/seo";
-import { ExternalLink, Newspaper, Globe } from "lucide-react";
-import * as React from "react";
+import { Newspaper, Globe } from "lucide-react";
 
 const newsQO = queryOptions({
   queryKey: ["news"],
@@ -30,18 +29,10 @@ export const Route = createFileRoute("/news")({
   ),
 });
 
-type Filter = "all" | "en" | "bn";
-
 function NewsPage() {
   const { t, locale } = useI18n();
   const { data } = useSuspenseQuery(newsQO);
-  const [filter, setFilter] = React.useState<Filter>(locale);
-
-  React.useEffect(() => {
-    setFilter(locale);
-  }, [locale]);
-
-  const filtered = data.items.filter((i) => (filter === "all" ? true : i.lang === filter));
+  const filtered = data.items;
 
   return (
     <div className="mx-auto max-w-7xl px-4 py-6 space-y-6">
@@ -55,25 +46,9 @@ function NewsPage() {
           </h1>
           <p className="text-sm text-muted-foreground mt-1">
             {locale === "bn"
-              ? "বিবিসি, গোল ডটকম, প্রথম আলো, বিডিনিউজ২৪ ও আরও উৎস থেকে সর্বশেষ খবর।"
-              : "Latest stories aggregated from BBC, Goal.com, Prothom Alo, BDNews24 and more."}
+              ? "প্রথম আলো, জাগো নিউজ, বাংলাদেশ প্রতিদিন থেকে সর্বশেষ বাংলা খবর।"
+              : "Latest Bangla stories from Prothom Alo, Jago News and Bangladesh Pratidin."}
           </p>
-        </div>
-
-        <div className="inline-flex border border-border/60 rounded-md p-0.5 bg-card/60 text-xs font-mono">
-          {(["all", "en", "bn"] as Filter[]).map((f) => (
-            <button
-              key={f}
-              onClick={() => setFilter(f)}
-              className={`px-3 py-1.5 rounded uppercase tracking-wider transition-colors ${
-                filter === f
-                  ? "bg-primary/15 text-primary"
-                  : "text-muted-foreground hover:text-foreground"
-              }`}
-            >
-              {f === "all" ? t("filter_all") : f === "en" ? "EN" : "বাংলা"}
-            </button>
-          ))}
         </div>
       </header>
 
@@ -98,10 +73,9 @@ function NewsPage() {
 function NewsCard({ item, locale }: { item: NewsItem; locale: "en" | "bn" }) {
   const ago = timeAgo(item.pubDate, locale);
   return (
-    <a
-      href={item.link}
-      target="_blank"
-      rel="noopener noreferrer"
+    <Link
+      to="/news/read"
+      search={{ url: item.link, title: item.title, source: item.source }}
       className="group flex flex-col rounded-lg border border-border/60 bg-card/60 overflow-hidden hover:border-primary/50 hover:bg-card/80 transition-colors"
     >
       {item.image ? (
@@ -136,10 +110,10 @@ function NewsCard({ item, locale }: { item: NewsItem; locale: "en" | "bn" }) {
           <p className="text-xs text-muted-foreground line-clamp-3">{item.description}</p>
         )}
         <span className="mt-auto inline-flex items-center gap-1 text-[10px] uppercase tracking-wider font-mono text-primary opacity-0 group-hover:opacity-100 transition-opacity">
-          Read <ExternalLink className="h-3 w-3" />
+          {locale === "bn" ? "পড়ুন →" : "Read →"}
         </span>
       </div>
-    </a>
+    </Link>
   );
 }
 
