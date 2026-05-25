@@ -4,6 +4,7 @@ import { useI18n } from "@/lib/i18n";
 import { LiveScoreRail } from "./LiveScoreRail";
 import { cn } from "@/lib/utils";
 import { Menu, Search as SearchIcon, X } from "lucide-react";
+import wc26Logo from "@/assets/wc26-logo.png";
 
 const NAV = [
   { to: "/", key: "nav_home" as const },
@@ -39,11 +40,15 @@ export function SiteShell({ children }: { children: React.ReactNode }) {
 
       <header className="border-b border-border/60 bg-background/95 backdrop-blur sticky top-0 z-40">
         <div className="mx-auto max-w-7xl px-4 h-14 flex items-center gap-4">
-          <Link to="/" className="flex items-center gap-2 shrink-0">
-            <span className="inline-block h-7 w-7 rounded-sm bg-gradient-to-br from-primary to-primary/60 grid place-items-center text-primary-foreground font-mono text-[10px] font-bold">
-              WC
-            </span>
-            <span className="font-mono font-bold tracking-tight text-sm">
+          <Link to="/" className="flex items-center gap-2 shrink-0" aria-label="WC26 Home">
+            <img
+              src={wc26Logo}
+              alt="WC26 — FIFA World Cup 2026 logo"
+              width={36}
+              height={36}
+              className="h-9 w-9 object-contain drop-shadow-[0_0_8px_rgba(var(--primary-rgb,59_130_246)/0.35)]"
+            />
+            <span className="font-mono font-bold tracking-tight text-sm hidden sm:inline">
               {t("brand")} <span className="text-muted-foreground">/26</span>
             </span>
           </Link>
