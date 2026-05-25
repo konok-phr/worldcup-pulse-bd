@@ -101,7 +101,7 @@ function TimeCard({
           <div className="w-16 h-16 md:w-20 md:h-20 rounded-full bg-primary/[0.06] blur-2xl" />
         </div>
 
-        <span className="relative text-4xl md:text-6xl font-black tabular-nums text-foreground tracking-tight leading-none">
+        <span className={`relative font-black tabular-nums text-foreground tracking-tight leading-none px-2 text-center ${banglaNumerals ? "text-3xl md:text-5xl" : "text-4xl md:text-6xl"}`}>
           {display}
         </span>
         </div>
