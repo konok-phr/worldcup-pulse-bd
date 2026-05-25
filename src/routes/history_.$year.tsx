@@ -38,7 +38,7 @@ export const Route = createFileRoute("/history_/$year")({
 });
 
 function HistoryDetail() {
-  const { t, banglaNumerals } = useI18n();
+  const { t, tn, banglaNumerals } = useI18n();
   const { year } = Route.useLoaderData();
   const { data: tn } = useSuspenseQuery(yearQO(year));
   const { data: teams } = useSuspenseQuery(teamsQO);
