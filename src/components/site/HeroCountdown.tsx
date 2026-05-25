@@ -17,7 +17,7 @@ export function HeroCountdown({ utc }: { utc: string }) {
 
   if (!mounted) {
     return (
-      <div className="grid grid-cols-4 gap-2 md:gap-4 max-w-xl">
+      <div className="grid grid-cols-4 gap-2 md:gap-3 max-w-xl">
         <TimeCard value={0} label={t("days")} banglaNumerals={banglaNumerals} loading />
         <TimeCard value={0} label={t("hours")} banglaNumerals={banglaNumerals} loading />
         <TimeCard value={0} label={t("minutes")} banglaNumerals={banglaNumerals} loading />
@@ -37,27 +37,15 @@ export function HeroCountdown({ utc }: { utc: string }) {
 
   return (
     <div className="w-full max-w-3xl">
-      <div className="grid grid-cols-4 gap-2 md:gap-4">
+      <div className="grid grid-cols-4 gap-2 md:gap-3">
         <TimeCard value={c.days} label={t("days")} banglaNumerals={banglaNumerals} tick={tick} />
-        <Separator />
         <TimeCard value={c.hours} label={t("hours")} banglaNumerals={banglaNumerals} tick={tick} />
-        <Separator />
         <TimeCard value={c.minutes} label={t("minutes")} banglaNumerals={banglaNumerals} tick={tick} />
-        <Separator />
         <TimeCard value={c.seconds} label={t("seconds")} banglaNumerals={banglaNumerals} tick={tick} />
       </div>
       <p className="mt-3 text-[10px] md:text-xs uppercase tracking-[0.2em] font-mono text-muted-foreground/80">
         {locale === "bn" ? "বিশ্বকাপ ২০২৬ শুরু হতে আর" : "FIFA World Cup 2026 kickoff in"} · {t("bst")}
       </p>
-    </div>
-  );
-}
-
-function Separator() {
-  return (
-    <div className="hidden md:flex flex-col items-center justify-center gap-1.5 py-4">
-      <span className="h-1.5 w-1.5 rounded-full bg-primary/80 animate-pulse" />
-      <span className="h-1.5 w-1.5 rounded-full bg-primary/50 animate-pulse" style={{ animationDelay: "150ms" }} />
     </div>
   );
 }

@@ -3,6 +3,10 @@ import { cn } from "@/lib/utils";
 // Convert a regional-indicator flag emoji (🇺🇸) to its ISO-3166 alpha-2 code (us).
 function emojiToIso2(emoji?: string | null): string | null {
   if (!emoji) return null;
+  // Subdivision flags (England, Scotland, Wales) use tag sequences.
+  if (emoji.includes("\u{E0067}\u{E0062}\u{E0065}\u{E006E}\u{E0067}")) return "gb-eng";
+  if (emoji.includes("\u{E0067}\u{E0062}\u{E0073}\u{E0063}\u{E0074}")) return "gb-sct";
+  if (emoji.includes("\u{E0067}\u{E0062}\u{E0077}\u{E006C}\u{E0073}")) return "gb-wls";
   const cps = Array.from(emoji).map((ch) => ch.codePointAt(0) ?? 0);
   if (cps.length < 2) return null;
   const base = 0x1f1e6;
