@@ -49,7 +49,7 @@ export function SiteShell({ children }: { children: React.ReactNode }) {
               className="h-9 w-9 object-contain drop-shadow-[0_0_8px_rgba(var(--primary-rgb,59_130_246)/0.35)]"
             />
             <span className="font-mono font-bold tracking-tight text-sm hidden sm:inline">
-              {t("brand")} <span className="text-muted-foreground">/26</span>
+              {t("brand")}
             </span>
           </Link>
 
@@ -110,12 +110,41 @@ export function SiteShell({ children }: { children: React.ReactNode }) {
 
       <main className="flex-1">{children}</main>
 
-      <footer className="border-t border-border/60 mt-12 py-6 text-xs text-muted-foreground font-mono">
-        <div className="mx-auto max-w-7xl px-4 flex flex-wrap items-center justify-between gap-3">
-          <span>© 2026 {t("brand")} · {t("tagline")}</span>
-          <span className="text-muted-foreground/70">
-            Data: OpenFootball + football-data.org · Times shown in BST (UTC+6)
-          </span>
+      <footer className="border-t border-border/60 mt-12">
+        <div className="mx-auto max-w-7xl px-4 py-5 flex flex-col sm:flex-row items-center justify-between gap-3">
+          <div className="flex items-center gap-3">
+            <img
+              src={wc26Logo}
+              alt="WC26"
+              width={28}
+              height={28}
+              className="h-7 w-7 object-contain drop-shadow-[0_0_6px_rgba(var(--primary-rgb,59_130_246)/0.3)]"
+            />
+            <span className="font-mono text-xs font-bold tracking-tight text-foreground">{t("brand")}</span>
+          </p>
+          <div className="flex items-center gap-1.5 font-mono text-[11px] text-muted-foreground/80">
+            <span>Made with care by</span>
+            <span className="text-foreground/90 font-semibold">Khaled Saifullah Sadi</span>
+            <span className="mx-1">·</span>
+            <a
+              href="https://facebook.com/mdsadi100"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="hover:text-primary transition-colors"
+              aria-label="Facebook"
+            >
+              FB
+            </a>
+            <a
+              href="https://linkedin.com/in/kssadi"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="hover:text-primary transition-colors"
+              aria-label="LinkedIn"
+            >
+              LI
+            </a>
+          </div>
         </div>
       </footer>
     </div>
