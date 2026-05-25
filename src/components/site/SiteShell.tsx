@@ -122,7 +122,7 @@ export function SiteShell({ children }: { children: React.ReactNode }) {
             />
             <span className="font-mono text-xs font-bold tracking-tight text-foreground">{t("brand")}</span>
           </div>
-          <div className="flex items-center gap-1.5 font-mono text-[11px] text-muted-foreground/80">
+          <div className="flex items-center gap-2 font-mono text-xs text-muted-foreground/80">
             <span>Made with care by</span>
             <span className="text-foreground/90 font-semibold">Khaled Saifullah Sadi</span>
             <span className="mx-1">·</span>
@@ -133,7 +133,7 @@ export function SiteShell({ children }: { children: React.ReactNode }) {
               className="hover:text-primary transition-colors"
               aria-label="Facebook"
             >
-              FB
+              <Facebook className="h-4 w-4" />
             </a>
             <a
               href="https://linkedin.com/in/kssadi"
@@ -142,7 +142,7 @@ export function SiteShell({ children }: { children: React.ReactNode }) {
               className="hover:text-primary transition-colors"
               aria-label="LinkedIn"
             >
-              LI
+              <Linkedin className="h-4 w-4" />
             </a>
           </div>
         </div>
