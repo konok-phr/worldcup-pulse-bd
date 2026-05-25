@@ -19,6 +19,7 @@ const teamsQO = queryOptions({
 });
 
 export const Route = createFileRoute("/history_/$year")({
+  // path resolves to /history/$year (underscore escapes the /history layout)
   loader: ({ context, params }) => {
     const year = Number(params.year);
     return Promise.all([
