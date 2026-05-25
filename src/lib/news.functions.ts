@@ -15,13 +15,6 @@ export type NewsItem = {
 type Feed = { name: string; url: string; lang: "en" | "bn" };
 
 const FEEDS: Feed[] = [
-  // English
-  { name: "BBC Football", url: "https://feeds.bbci.co.uk/sport/football/rss.xml", lang: "en" },
-  { name: "Goal.com", url: "https://www.goal.com/feeds/news?fmt=rss", lang: "en" },
-  { name: "Sky Sports Football", url: "https://www.skysports.com/rss/12040", lang: "en" },
-  { name: "The Daily Star Sports", url: "https://www.thedailystar.net/sports/rss.xml", lang: "en" },
-  { name: "TBS Sports", url: "https://www.tbsnews.net/sports/rss.xml", lang: "en" },
-  { name: "Prothom Alo English", url: "https://en.prothomalo.com/feed", lang: "en" },
   // Bangla
   { name: "Prothom Alo", url: "https://www.prothomalo.com/feed", lang: "bn" },
   { name: "Jago News Sports", url: "https://www.jagonews24.com/rss/sports.xml", lang: "bn" },
@@ -31,12 +24,6 @@ const FEEDS: Feed[] = [
 
 // Keywords to identify football / World Cup news
 const KEYWORDS = [
-  // English
-  "world cup", "fifa", "world-cup", "worldcup", "2026", "football", "soccer",
-  "messi", "ronaldo", "neymar", "mbappe", "haaland", "vinicius",
-  "argentina", "brazil", "france", "germany", "spain", "england", "portugal",
-  "premier league", "la liga", "champions league", "uefa", "concacaf", "conmebol",
-  "bundesliga", "serie a", "ligue 1", "transfer", "matchday",
   // Bangla
   "বিশ্বকাপ", "ফিফা", "২০২৬", "ফুটবল", "ফুটবলার",
   "মেসি", "রোনালদো", "নেইমার", "এমবাপে", "হালান্ড", "ভিনিসিয়ুস",
