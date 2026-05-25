@@ -18,6 +18,7 @@ export const DICT: Dict = {
   nav_stadiums: { en: "Stadiums", bn: "স্টেডিয়াম" },
   nav_history: { en: "History", bn: "ইতিহাস" },
   nav_records: { en: "Records", bn: "রেকর্ড" },
+  nav_news: { en: "News", bn: "খবর" },
   nav_search: { en: "Search", bn: "অনুসন্ধান" },
   live_now: { en: "Live Now", bn: "এখন লাইভ" },
   no_live: { en: "No live matches right now", bn: "এই মুহূর্তে কোনো লাইভ ম্যাচ নেই" },

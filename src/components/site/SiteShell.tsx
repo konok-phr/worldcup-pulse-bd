@@ -16,6 +16,7 @@ const NAV = [
   { to: "/stadiums", key: "nav_stadiums" as const },
   { to: "/history", key: "nav_history" as const },
   { to: "/records", key: "nav_records" as const },
+  { to: "/news", key: "nav_news" as const },
 ];
 
 function LangToggle() {

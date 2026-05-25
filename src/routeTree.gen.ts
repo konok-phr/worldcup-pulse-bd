@@ -15,6 +15,7 @@ import { Route as SimulatorRouteImport } from './routes/simulator'
 import { Route as SearchRouteImport } from './routes/search'
 import { Route as RecordsRouteImport } from './routes/records'
 import { Route as PlayersRouteImport } from './routes/players'
+import { Route as NewsRouteImport } from './routes/news'
 import { Route as LiveRouteImport } from './routes/live'
 import { Route as KnockoutRouteImport } from './routes/knockout'
 import { Route as HistoryRouteImport } from './routes/history'
@@ -56,6 +57,11 @@ const RecordsRoute = RecordsRouteImport.update({
 const PlayersRoute = PlayersRouteImport.update({
   id: '/players',
   path: '/players',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const NewsRoute = NewsRouteImport.update({
+  id: '/news',
+  path: '/news',
   getParentRoute: () => rootRouteImport,
 } as any)
 const LiveRoute = LiveRouteImport.update({
@@ -126,6 +132,7 @@ export interface FileRoutesByFullPath {
   '/history': typeof HistoryRoute
   '/knockout': typeof KnockoutRoute
   '/live': typeof LiveRoute
+  '/news': typeof NewsRoute
   '/players': typeof PlayersRoute
   '/records': typeof RecordsRoute
   '/search': typeof SearchRoute
@@ -146,6 +153,7 @@ export interface FileRoutesByTo {
   '/history': typeof HistoryRoute
   '/knockout': typeof KnockoutRoute
   '/live': typeof LiveRoute
+  '/news': typeof NewsRoute
   '/players': typeof PlayersRoute
   '/records': typeof RecordsRoute
   '/search': typeof SearchRoute
@@ -167,6 +175,7 @@ export interface FileRoutesById {
   '/history': typeof HistoryRoute
   '/knockout': typeof KnockoutRoute
   '/live': typeof LiveRoute
+  '/news': typeof NewsRoute
   '/players': typeof PlayersRoute
   '/records': typeof RecordsRoute
   '/search': typeof SearchRoute
@@ -189,6 +198,7 @@ export interface FileRouteTypes {
     | '/history'
     | '/knockout'
     | '/live'
+    | '/news'
     | '/players'
     | '/records'
     | '/search'
@@ -209,6 +219,7 @@ export interface FileRouteTypes {
     | '/history'
     | '/knockout'
     | '/live'
+    | '/news'
     | '/players'
     | '/records'
     | '/search'
@@ -229,6 +240,7 @@ export interface FileRouteTypes {
     | '/history'
     | '/knockout'
     | '/live'
+    | '/news'
     | '/players'
     | '/records'
     | '/search'
@@ -250,6 +262,7 @@ export interface RootRouteChildren {
   HistoryRoute: typeof HistoryRoute
   KnockoutRoute: typeof KnockoutRoute
   LiveRoute: typeof LiveRoute
+  NewsRoute: typeof NewsRoute
   PlayersRoute: typeof PlayersRoute
   RecordsRoute: typeof RecordsRoute
   SearchRoute: typeof SearchRoute
@@ -303,6 +316,13 @@ declare module '@tanstack/react-router' {
       path: '/players'
       fullPath: '/players'
       preLoaderRoute: typeof PlayersRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/news': {
+      id: '/news'
+      path: '/news'
+      fullPath: '/news'
+      preLoaderRoute: typeof NewsRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/live': {
@@ -432,6 +452,7 @@ const rootRouteChildren: RootRouteChildren = {
   HistoryRoute: HistoryRoute,
   KnockoutRoute: KnockoutRoute,
   LiveRoute: LiveRoute,
+  NewsRoute: NewsRoute,
   PlayersRoute: PlayersRoute,
   RecordsRoute: RecordsRoute,
   SearchRoute: SearchRoute,
