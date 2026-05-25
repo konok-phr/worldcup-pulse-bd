@@ -19,17 +19,31 @@ const FEEDS: Feed[] = [
   { name: "BBC Football", url: "https://feeds.bbci.co.uk/sport/football/rss.xml", lang: "en" },
   { name: "Goal.com", url: "https://www.goal.com/feeds/news?fmt=rss", lang: "en" },
   { name: "Sky Sports Football", url: "https://www.skysports.com/rss/12040", lang: "en" },
+  { name: "The Daily Star Sports", url: "https://www.thedailystar.net/sports/rss.xml", lang: "en" },
+  { name: "TBS Sports", url: "https://www.tbsnews.net/sports/rss.xml", lang: "en" },
+  { name: "Prothom Alo English", url: "https://en.prothomalo.com/feed", lang: "en" },
   // Bangla
-  { name: "Prothom Alo Sports", url: "https://www.prothomalo.com/feed/sports", lang: "bn" },
-  { name: "BDNews24 Sports", url: "https://bangla.bdnews24.com/sport/?widgetName=rssfeed&widgetId=1150&getXmlFeed=true", lang: "bn" },
-  { name: "Kaler Kantho Sports", url: "https://www.kalerkantho.com/rss/sports", lang: "bn" },
+  { name: "Prothom Alo", url: "https://www.prothomalo.com/feed", lang: "bn" },
+  { name: "Jago News Sports", url: "https://www.jagonews24.com/rss/sports.xml", lang: "bn" },
+  { name: "Jago News", url: "https://www.jagonews24.com/rss/rss.xml", lang: "bn" },
+  { name: "Bangladesh Pratidin", url: "https://www.bd-pratidin.com/rss.xml", lang: "bn" },
 ];
 
 // Keywords to identify football / World Cup news
 const KEYWORDS = [
-  "world cup", "fifa", "world-cup", "worldcup", "2026",
-  "বিশ্বকাপ", "ফিফা", "২০২৬", "ফুটবল", "মেসি", "রোনালদো", "নেইমার", "ব্রাজিল", "আর্জেন্টিনা",
-  "messi", "ronaldo", "neymar", "mbappe", "argentina", "brazil", "football", "soccer",
+  // English
+  "world cup", "fifa", "world-cup", "worldcup", "2026", "football", "soccer",
+  "messi", "ronaldo", "neymar", "mbappe", "haaland", "vinicius",
+  "argentina", "brazil", "france", "germany", "spain", "england", "portugal",
+  "premier league", "la liga", "champions league", "uefa", "concacaf", "conmebol",
+  "bundesliga", "serie a", "ligue 1", "transfer", "matchday",
+  // Bangla
+  "বিশ্বকাপ", "ফিফা", "২০২৬", "ফুটবল", "ফুটবলার",
+  "মেসি", "রোনালদো", "নেইমার", "এমবাপে", "হালান্ড", "ভিনিসিয়ুস",
+  "ব্রাজিল", "আর্জেন্টিনা", "ফ্রান্স", "জার্মানি", "স্পেন", "ইংল্যান্ড", "পর্তুগাল",
+  "প্রিমিয়ার লিগ", "লা লিগা", "চ্যাম্পিয়নস লিগ", "উয়েফা", "কনমেবল",
+  "বুন্দেসলিগা", "বার্সেলোনা", "রিয়াল মাদ্রিদ", "ম্যানচেস্টার", "লিভারপুল",
+  "গোল", "ম্যাচ", "ক্লাব", "কোচ", "লিগ", "টুর্নামেন্ট", "বাফুফে", "হামজা",
 ];
 
 function decodeEntities(s: string): string {
