@@ -125,7 +125,7 @@ export function I18nProvider({ children }: { children: React.ReactNode }) {
   const setLocale = (l: Locale) => {
     setLocaleState(l);
     if (typeof window !== "undefined") localStorage.setItem("wc26.locale", l);
-    if (l === "bn") setBanglaNumerals(true);
+    setBanglaNumerals(l === "bn");
   };
   const setBanglaNumerals = (b: boolean) => {
     setBNState(b);
