@@ -186,6 +186,36 @@ export type Database = {
           },
         ]
       }
+      page_visits: {
+        Row: {
+          country: string | null
+          country_code: string | null
+          id: string
+          path: string | null
+          user_agent: string | null
+          visit_date: string
+          visited_at: string
+        }
+        Insert: {
+          country?: string | null
+          country_code?: string | null
+          id?: string
+          path?: string | null
+          user_agent?: string | null
+          visit_date?: string
+          visited_at?: string
+        }
+        Update: {
+          country?: string | null
+          country_code?: string | null
+          id?: string
+          path?: string | null
+          user_agent?: string | null
+          visit_date?: string
+          visited_at?: string
+        }
+        Relationships: []
+      }
       players: {
         Row: {
           assists: number | null
@@ -540,7 +570,7 @@ export type Database = {
       [_ in never]: never
     }
     Functions: {
-      [_ in never]: never
+      cleanup_old_page_visits: { Args: never; Returns: undefined }
     }
     Enums: {
       [_ in never]: never

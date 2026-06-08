@@ -10,6 +10,7 @@
 
 import { Route as rootRouteImport } from './routes/__root'
 import { Route as TeamsRouteImport } from './routes/teams'
+import { Route as StatisticsDataRouteImport } from './routes/statistics-data'
 import { Route as StadiumsRouteImport } from './routes/stadiums'
 import { Route as SimulatorRouteImport } from './routes/simulator'
 import { Route as SearchRouteImport } from './routes/search'
@@ -28,11 +29,17 @@ import { Route as NewsReadRouteImport } from './routes/news.read'
 import { Route as MatchIdRouteImport } from './routes/match.$id'
 import { Route as HistoryYearRouteImport } from './routes/history_.$year'
 import { Route as GroupsLetterRouteImport } from './routes/groups.$letter'
+import { Route as ApiPublicTrackVisitRouteImport } from './routes/api/public/track-visit'
 import { Route as ApiPublicHooksSyncLiveRouteImport } from './routes/api/public/hooks.sync-live'
 
 const TeamsRoute = TeamsRouteImport.update({
   id: '/teams',
   path: '/teams',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const StatisticsDataRoute = StatisticsDataRouteImport.update({
+  id: '/statistics-data',
+  path: '/statistics-data',
   getParentRoute: () => rootRouteImport,
 } as any)
 const StadiumsRoute = StadiumsRouteImport.update({
@@ -125,6 +132,11 @@ const GroupsLetterRoute = GroupsLetterRouteImport.update({
   path: '/$letter',
   getParentRoute: () => GroupsRoute,
 } as any)
+const ApiPublicTrackVisitRoute = ApiPublicTrackVisitRouteImport.update({
+  id: '/api/public/track-visit',
+  path: '/api/public/track-visit',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const ApiPublicHooksSyncLiveRoute = ApiPublicHooksSyncLiveRouteImport.update({
   id: '/api/public/hooks/sync-live',
   path: '/api/public/hooks/sync-live',
@@ -144,6 +156,7 @@ export interface FileRoutesByFullPath {
   '/search': typeof SearchRoute
   '/simulator': typeof SimulatorRoute
   '/stadiums': typeof StadiumsRoute
+  '/statistics-data': typeof StatisticsDataRoute
   '/teams': typeof TeamsRouteWithChildren
   '/groups/$letter': typeof GroupsLetterRoute
   '/history/$year': typeof HistoryYearRoute
@@ -151,6 +164,7 @@ export interface FileRoutesByFullPath {
   '/news/read': typeof NewsReadRoute
   '/stadiums/$slug': typeof StadiumsSlugRoute
   '/teams/$code': typeof TeamsCodeRoute
+  '/api/public/track-visit': typeof ApiPublicTrackVisitRoute
   '/api/public/hooks/sync-live': typeof ApiPublicHooksSyncLiveRoute
 }
 export interface FileRoutesByTo {
@@ -166,6 +180,7 @@ export interface FileRoutesByTo {
   '/search': typeof SearchRoute
   '/simulator': typeof SimulatorRoute
   '/stadiums': typeof StadiumsRoute
+  '/statistics-data': typeof StatisticsDataRoute
   '/teams': typeof TeamsRouteWithChildren
   '/groups/$letter': typeof GroupsLetterRoute
   '/history/$year': typeof HistoryYearRoute
@@ -173,6 +188,7 @@ export interface FileRoutesByTo {
   '/news/read': typeof NewsReadRoute
   '/stadiums/$slug': typeof StadiumsSlugRoute
   '/teams/$code': typeof TeamsCodeRoute
+  '/api/public/track-visit': typeof ApiPublicTrackVisitRoute
   '/api/public/hooks/sync-live': typeof ApiPublicHooksSyncLiveRoute
 }
 export interface FileRoutesById {
@@ -189,6 +205,7 @@ export interface FileRoutesById {
   '/search': typeof SearchRoute
   '/simulator': typeof SimulatorRoute
   '/stadiums': typeof StadiumsRoute
+  '/statistics-data': typeof StatisticsDataRoute
   '/teams': typeof TeamsRouteWithChildren
   '/groups/$letter': typeof GroupsLetterRoute
   '/history_/$year': typeof HistoryYearRoute
@@ -196,6 +213,7 @@ export interface FileRoutesById {
   '/news/read': typeof NewsReadRoute
   '/stadiums_/$slug': typeof StadiumsSlugRoute
   '/teams/$code': typeof TeamsCodeRoute
+  '/api/public/track-visit': typeof ApiPublicTrackVisitRoute
   '/api/public/hooks/sync-live': typeof ApiPublicHooksSyncLiveRoute
 }
 export interface FileRouteTypes {
@@ -213,6 +231,7 @@ export interface FileRouteTypes {
     | '/search'
     | '/simulator'
     | '/stadiums'
+    | '/statistics-data'
     | '/teams'
     | '/groups/$letter'
     | '/history/$year'
@@ -220,6 +239,7 @@ export interface FileRouteTypes {
     | '/news/read'
     | '/stadiums/$slug'
     | '/teams/$code'
+    | '/api/public/track-visit'
     | '/api/public/hooks/sync-live'
   fileRoutesByTo: FileRoutesByTo
   to:
@@ -235,6 +255,7 @@ export interface FileRouteTypes {
     | '/search'
     | '/simulator'
     | '/stadiums'
+    | '/statistics-data'
     | '/teams'
     | '/groups/$letter'
     | '/history/$year'
@@ -242,6 +263,7 @@ export interface FileRouteTypes {
     | '/news/read'
     | '/stadiums/$slug'
     | '/teams/$code'
+    | '/api/public/track-visit'
     | '/api/public/hooks/sync-live'
   id:
     | '__root__'
@@ -257,6 +279,7 @@ export interface FileRouteTypes {
     | '/search'
     | '/simulator'
     | '/stadiums'
+    | '/statistics-data'
     | '/teams'
     | '/groups/$letter'
     | '/history_/$year'
@@ -264,6 +287,7 @@ export interface FileRouteTypes {
     | '/news/read'
     | '/stadiums_/$slug'
     | '/teams/$code'
+    | '/api/public/track-visit'
     | '/api/public/hooks/sync-live'
   fileRoutesById: FileRoutesById
 }
@@ -280,10 +304,12 @@ export interface RootRouteChildren {
   SearchRoute: typeof SearchRoute
   SimulatorRoute: typeof SimulatorRoute
   StadiumsRoute: typeof StadiumsRoute
+  StatisticsDataRoute: typeof StatisticsDataRoute
   TeamsRoute: typeof TeamsRouteWithChildren
   HistoryYearRoute: typeof HistoryYearRoute
   MatchIdRoute: typeof MatchIdRoute
   StadiumsSlugRoute: typeof StadiumsSlugRoute
+  ApiPublicTrackVisitRoute: typeof ApiPublicTrackVisitRoute
   ApiPublicHooksSyncLiveRoute: typeof ApiPublicHooksSyncLiveRoute
 }
 
@@ -294,6 +320,13 @@ declare module '@tanstack/react-router' {
       path: '/teams'
       fullPath: '/teams'
       preLoaderRoute: typeof TeamsRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/statistics-data': {
+      id: '/statistics-data'
+      path: '/statistics-data'
+      fullPath: '/statistics-data'
+      preLoaderRoute: typeof StatisticsDataRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/stadiums': {
@@ -422,6 +455,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof GroupsLetterRouteImport
       parentRoute: typeof GroupsRoute
     }
+    '/api/public/track-visit': {
+      id: '/api/public/track-visit'
+      path: '/api/public/track-visit'
+      fullPath: '/api/public/track-visit'
+      preLoaderRoute: typeof ApiPublicTrackVisitRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/api/public/hooks/sync-live': {
       id: '/api/public/hooks/sync-live'
       path: '/api/public/hooks/sync-live'
@@ -476,10 +516,12 @@ const rootRouteChildren: RootRouteChildren = {
   SearchRoute: SearchRoute,
   SimulatorRoute: SimulatorRoute,
   StadiumsRoute: StadiumsRoute,
+  StatisticsDataRoute: StatisticsDataRoute,
   TeamsRoute: TeamsRouteWithChildren,
   HistoryYearRoute: HistoryYearRoute,
   MatchIdRoute: MatchIdRoute,
   StadiumsSlugRoute: StadiumsSlugRoute,
+  ApiPublicTrackVisitRoute: ApiPublicTrackVisitRoute,
   ApiPublicHooksSyncLiveRoute: ApiPublicHooksSyncLiveRoute,
 }
 export const routeTree = rootRouteImport

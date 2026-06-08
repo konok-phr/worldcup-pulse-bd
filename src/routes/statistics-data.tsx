@@ -1,0 +1,184 @@
+import { createFileRoute } from "@tanstack/react-router";
+import { queryOptions, useSuspenseQuery } from "@tanstack/react-query";
+import { useServerFn } from "@tanstack/react-start";
+import { getVisitStats } from "@/lib/stats.functions";
+import { buildHead } from "@/lib/seo";
+import { useMemo } from "react";
+
+const COUNTRY_NAMES: Record<string, string> = {
+  BD: "Bangladesh", IN: "India", PK: "Pakistan", US: "United States", GB: "United Kingdom",
+  CA: "Canada", AU: "Australia", DE: "Germany", FR: "France", BR: "Brazil", AR: "Argentina",
+  JP: "Japan", CN: "China", RU: "Russia", SA: "Saudi Arabia", AE: "UAE", QA: "Qatar",
+  MY: "Malaysia", SG: "Singapore", ID: "Indonesia", TR: "Turkey", IT: "Italy", ES: "Spain",
+  NL: "Netherlands", PT: "Portugal", MX: "Mexico", KR: "South Korea", NP: "Nepal",
+  LK: "Sri Lanka", TH: "Thailand", VN: "Vietnam", PH: "Philippines", EG: "Egypt", ZA: "South Africa",
+};
+
+function flagEmoji(cc?: string | null) {
+  if (!cc || cc.length !== 2) return "🌐";
+  const codePoints = cc.toUpperCase().split("").map((c) => 127397 + c.charCodeAt(0));
+  return String.fromCodePoint(...codePoints);
+}
+
+const statsQO = queryOptions({
+  queryKey: ["visit-stats"],
+  queryFn: () => getVisitStats(),
+  staleTime: 60_000,
+});
+
+export const Route = createFileRoute("/statistics-data")({
+  head: () => ({
+    ...buildHead({
+      title: "Visitor Statistics — WC26 Hub",
+      description: "Daily visitor statistics by country for the past 30 days.",
+      path: "/statistics-data",
+    }),
+    meta: [{ name: "robots", content: "noindex, nofollow" }],
+  }),
+  loader: ({ context }) => context.queryClient.ensureQueryData(statsQO),
+  component: StatisticsPage,
+  errorComponent: ({ error }) => (
+    <div className="mx-auto max-w-3xl px-4 py-16 text-center text-muted-foreground">
+      Failed to load statistics: {error.message}
+    </div>
+  ),
+});
+
+function StatisticsPage() {
+  const fetcher = useServerFn(getVisitStats);
+  const { data } = useSuspenseQuery({ ...statsQO, queryFn: () => fetcher() });
+
+  const maxDay = useMemo(
+    () => Math.max(1, ...data.totalsByDay.map((d) => d.count)),
+    [data.totalsByDay],
+  );
+  const maxCountry = useMemo(
+    () => Math.max(1, ...data.totalsByCountry.map((c) => c.count)),
+    [data.totalsByCountry],
+  );
+
+  const today = new Date().toISOString().slice(0, 10);
+  const todayCount = data.totalsByDay.find((d) => d.day === today)?.count ?? 0;
+
+  return (
+    <div className="mx-auto max-w-6xl px-4 py-8">
+      <header className="mb-8">
+        <div className="text-[10px] font-mono uppercase tracking-[0.2em] text-primary mb-2">
+          ▸ ANALYTICS · LAST 30 DAYS
+        </div>
+        <h1 className="text-3xl font-bold">Visitor Statistics</h1>
+        <p className="mt-1 text-sm text-muted-foreground">
+          Daily visitor counts grouped by country. Data is retained for 30 days.
+        </p>
+      </header>
+
+      {/* KPI cards */}
+      <div className="grid grid-cols-2 md:grid-cols-4 gap-3 mb-8">
+        <KpiCard label="Total visits (30d)" value={data.total} />
+        <KpiCard label="Today" value={todayCount} />
+        <KpiCard label="Countries" value={data.totalsByCountry.length} />
+        <KpiCard label="Active days" value={data.totalsByDay.length} />
+      </div>
+
+      <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
+        {/* Daily totals */}
+        <section className="rounded-xl border border-border/60 bg-card/60 p-5">
+          <h2 className="text-sm font-mono uppercase tracking-wider text-muted-foreground mb-4">
+            <span className="text-primary">▸</span> Daily visits
+          </h2>
+          {data.totalsByDay.length === 0 ? (
+            <p className="text-sm text-muted-foreground">No visits recorded yet.</p>
+          ) : (
+            <ul className="space-y-2">
+              {[...data.totalsByDay].reverse().map((d) => (
+                <li key={d.day} className="flex items-center gap-3 text-xs font-mono">
+                  <span className="w-24 shrink-0 text-muted-foreground">{d.day}</span>
+                  <div className="flex-1 h-2 rounded-full bg-secondary/40 overflow-hidden">
+                    <div
+                      className="h-full bg-primary"
+                      style={{ width: `${(d.count / maxDay) * 100}%` }}
+                    />
+                  </div>
+                  <span className="w-10 text-right font-semibold">{d.count}</span>
+                </li>
+              ))}
+            </ul>
+          )}
+        </section>
+
+        {/* By country */}
+        <section className="rounded-xl border border-border/60 bg-card/60 p-5">
+          <h2 className="text-sm font-mono uppercase tracking-wider text-muted-foreground mb-4">
+            <span className="text-primary">▸</span> Top countries
+          </h2>
+          {data.totalsByCountry.length === 0 ? (
+            <p className="text-sm text-muted-foreground">No visits recorded yet.</p>
+          ) : (
+            <ul className="space-y-2">
+              {data.totalsByCountry.slice(0, 20).map((c) => (
+                <li key={c.country_code ?? "unk"} className="flex items-center gap-3 text-xs">
+                  <span className="text-lg leading-none">{flagEmoji(c.country_code)}</span>
+                  <span className="w-40 shrink-0 truncate">
+                    {COUNTRY_NAMES[c.country_code ?? ""] ?? c.country_code ?? "Unknown"}
+                  </span>
+                  <div className="flex-1 h-2 rounded-full bg-secondary/40 overflow-hidden">
+                    <div
+                      className="h-full bg-emerald-500"
+                      style={{ width: `${(c.count / maxCountry) * 100}%` }}
+                    />
+                  </div>
+                  <span className="w-10 text-right font-mono font-semibold">{c.count}</span>
+                </li>
+              ))}
+            </ul>
+          )}
+        </section>
+      </div>
+
+      {/* Per-day per-country matrix */}
+      <section className="mt-6 rounded-xl border border-border/60 bg-card/60 p-5">
+        <h2 className="text-sm font-mono uppercase tracking-wider text-muted-foreground mb-4">
+          <span className="text-primary">▸</span> Daily breakdown by country
+        </h2>
+        {data.dailyByCountry.length === 0 ? (
+          <p className="text-sm text-muted-foreground">No data yet.</p>
+        ) : (
+          <div className="overflow-x-auto">
+            <table className="w-full text-xs font-mono">
+              <thead>
+                <tr className="text-left text-muted-foreground border-b border-border/60">
+                  <th className="py-2 pr-4">Date</th>
+                  <th className="py-2 pr-4">Country</th>
+                  <th className="py-2 pr-4 text-right">Visits</th>
+                </tr>
+              </thead>
+              <tbody>
+                {data.dailyByCountry.slice(0, 200).map((row, i) => (
+                  <tr key={i} className="border-b border-border/30">
+                    <td className="py-1.5 pr-4">{row.day}</td>
+                    <td className="py-1.5 pr-4">
+                      <span className="mr-1.5">{flagEmoji(row.country_code)}</span>
+                      {COUNTRY_NAMES[row.country_code ?? ""] ?? row.country_code ?? "Unknown"}
+                    </td>
+                    <td className="py-1.5 pr-4 text-right font-semibold">{row.count}</td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+          </div>
+        )}
+      </section>
+    </div>
+  );
+}
+
+function KpiCard({ label, value }: { label: string; value: number }) {
+  return (
+    <div className="rounded-xl border border-border/60 bg-card/60 p-4">
+      <div className="text-[10px] font-mono uppercase tracking-wider text-muted-foreground">
+        {label}
+      </div>
+      <div className="mt-1 text-2xl font-bold font-mono">{value.toLocaleString()}</div>
+    </div>
+  );
+}
