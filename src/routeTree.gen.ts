@@ -10,6 +10,7 @@
 
 import { Route as rootRouteImport } from './routes/__root'
 import { Route as TeamsRouteImport } from './routes/teams'
+import { Route as StatisticsDataRouteImport } from './routes/statistics-data'
 import { Route as StadiumsRouteImport } from './routes/stadiums'
 import { Route as SimulatorRouteImport } from './routes/simulator'
 import { Route as SearchRouteImport } from './routes/search'
@@ -34,6 +35,11 @@ import { Route as ApiPublicHooksSyncLiveRouteImport } from './routes/api/public/
 const TeamsRoute = TeamsRouteImport.update({
   id: '/teams',
   path: '/teams',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const StatisticsDataRoute = StatisticsDataRouteImport.update({
+  id: '/statistics-data',
+  path: '/statistics-data',
   getParentRoute: () => rootRouteImport,
 } as any)
 const StadiumsRoute = StadiumsRouteImport.update({
@@ -150,6 +156,7 @@ export interface FileRoutesByFullPath {
   '/search': typeof SearchRoute
   '/simulator': typeof SimulatorRoute
   '/stadiums': typeof StadiumsRoute
+  '/statistics-data': typeof StatisticsDataRoute
   '/teams': typeof TeamsRouteWithChildren
   '/groups/$letter': typeof GroupsLetterRoute
   '/history/$year': typeof HistoryYearRoute
@@ -173,6 +180,7 @@ export interface FileRoutesByTo {
   '/search': typeof SearchRoute
   '/simulator': typeof SimulatorRoute
   '/stadiums': typeof StadiumsRoute
+  '/statistics-data': typeof StatisticsDataRoute
   '/teams': typeof TeamsRouteWithChildren
   '/groups/$letter': typeof GroupsLetterRoute
   '/history/$year': typeof HistoryYearRoute
@@ -197,6 +205,7 @@ export interface FileRoutesById {
   '/search': typeof SearchRoute
   '/simulator': typeof SimulatorRoute
   '/stadiums': typeof StadiumsRoute
+  '/statistics-data': typeof StatisticsDataRoute
   '/teams': typeof TeamsRouteWithChildren
   '/groups/$letter': typeof GroupsLetterRoute
   '/history_/$year': typeof HistoryYearRoute
@@ -222,6 +231,7 @@ export interface FileRouteTypes {
     | '/search'
     | '/simulator'
     | '/stadiums'
+    | '/statistics-data'
     | '/teams'
     | '/groups/$letter'
     | '/history/$year'
@@ -245,6 +255,7 @@ export interface FileRouteTypes {
     | '/search'
     | '/simulator'
     | '/stadiums'
+    | '/statistics-data'
     | '/teams'
     | '/groups/$letter'
     | '/history/$year'
@@ -268,6 +279,7 @@ export interface FileRouteTypes {
     | '/search'
     | '/simulator'
     | '/stadiums'
+    | '/statistics-data'
     | '/teams'
     | '/groups/$letter'
     | '/history_/$year'
@@ -292,6 +304,7 @@ export interface RootRouteChildren {
   SearchRoute: typeof SearchRoute
   SimulatorRoute: typeof SimulatorRoute
   StadiumsRoute: typeof StadiumsRoute
+  StatisticsDataRoute: typeof StatisticsDataRoute
   TeamsRoute: typeof TeamsRouteWithChildren
   HistoryYearRoute: typeof HistoryYearRoute
   MatchIdRoute: typeof MatchIdRoute
@@ -307,6 +320,13 @@ declare module '@tanstack/react-router' {
       path: '/teams'
       fullPath: '/teams'
       preLoaderRoute: typeof TeamsRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/statistics-data': {
+      id: '/statistics-data'
+      path: '/statistics-data'
+      fullPath: '/statistics-data'
+      preLoaderRoute: typeof StatisticsDataRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/stadiums': {
@@ -496,6 +516,7 @@ const rootRouteChildren: RootRouteChildren = {
   SearchRoute: SearchRoute,
   SimulatorRoute: SimulatorRoute,
   StadiumsRoute: StadiumsRoute,
+  StatisticsDataRoute: StatisticsDataRoute,
   TeamsRoute: TeamsRouteWithChildren,
   HistoryYearRoute: HistoryYearRoute,
   MatchIdRoute: MatchIdRoute,
@@ -506,3 +527,13 @@ const rootRouteChildren: RootRouteChildren = {
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)
   ._addFileTypes<FileRouteTypes>()
+
+import type { getRouter } from './router.tsx'
+import type { startInstance } from './start.ts'
+declare module '@tanstack/react-start' {
+  interface Register {
+    ssr: true
+    router: Awaited<ReturnType<typeof getRouter>>
+    config: Awaited<ReturnType<typeof startInstance.getOptions>>
+  }
+}
