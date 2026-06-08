@@ -9,7 +9,7 @@ import { ArrowLeft } from "lucide-react";
 const stadiumQO = (slug: string) => queryOptions({ queryKey: ["stadium", slug], queryFn: () => getStadiumBySlug({ data: { slug } }), staleTime: 600_000 });
 const teamsQO = queryOptions({ queryKey: ["teams-all"], queryFn: () => getAllTeams(), staleTime: 600_000 });
 
-export const Route = createFileRoute("/stadiums/$slug")({
+export const Route = createFileRoute("/stadiums_/$slug")({
   loader: ({ context, params }) => Promise.all([context.queryClient.ensureQueryData(stadiumQO(params.slug)), context.queryClient.ensureQueryData(teamsQO)]).then(() => ({ slug: params.slug })),
   head: ({ loaderData }) => ({ ...buildHead({ title: `${loaderData?.slug ?? ""} — FIFA World Cup 2026 Stadium | WC26 Hub`, description: `Stadium info, capacity and matches for ${loaderData?.slug ?? ""} at the FIFA World Cup 2026.`, path: `/stadiums/${loaderData?.slug ?? ""}` }) }),
   component: StadiumDetail,

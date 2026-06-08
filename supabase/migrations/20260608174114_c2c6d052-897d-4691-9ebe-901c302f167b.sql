@@ -1,0 +1,1 @@
+UPDATE public.stadiums SET image_url = '/stadiums/' || slug || '.jpg' WHERE is_wc26 = true;
