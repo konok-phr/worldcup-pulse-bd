@@ -11,6 +11,7 @@ import {
 import appCss from "../styles.css?url";
 import { I18nProvider } from "@/lib/i18n";
 import { SiteShell } from "@/components/site/SiteShell";
+import { VisitTracker } from "@/components/site/VisitTracker";
 
 function NotFoundComponent() {
   return (
@@ -113,6 +114,7 @@ function RootComponent() {
         <SiteShell>
           <Outlet />
         </SiteShell>
+        <VisitTracker />
       </I18nProvider>
     </QueryClientProvider>
   );
