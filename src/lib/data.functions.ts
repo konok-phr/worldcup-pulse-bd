@@ -194,7 +194,18 @@ export const globalSearch = createServerFn({ method: "GET" })
 // ----- Homepage aggregate -----
 export const getHomeData = createServerFn({ method: "GET" }).handler(async () => {
   const nowIso = new Date().toISOString();
-  const [live, upcoming, opener, finalM] = await Promise.all([
+  // BST = UTC+6. Compute today's BST date window in UTC.
+  const now = new Date();
+  const bstNowMs = now.getTime() + 6 * 3600 * 1000;
+  const bstNow = new Date(bstNowMs);
+  const y = bstNow.getUTCFullYear();
+  const m = bstNow.getUTCMonth();
+  const d = bstNow.getUTCDate();
+  // Start of BST day in UTC = (BST midnight) - 6h
+  const startUtc = new Date(Date.UTC(y, m, d, 0, 0, 0) - 6 * 3600 * 1000).toISOString();
+  const endUtc = new Date(Date.UTC(y, m, d, 0, 0, 0) - 6 * 3600 * 1000 + 24 * 3600 * 1000).toISOString();
+
+  const [live, upcoming, opener, finalM, today] = await Promise.all([
     supabaseAdmin.from("matches").select("*").eq("tournament_year", 2026)
       .in("status", ["live", "in_play", "half_time"]),
     supabaseAdmin.from("matches").select("*").eq("tournament_year", 2026)
@@ -203,11 +214,15 @@ export const getHomeData = createServerFn({ method: "GET" }).handler(async () =>
       .order("kickoff_utc", { ascending: true }).limit(1),
     supabaseAdmin.from("matches").select("*").eq("tournament_year", 2026)
       .eq("stage", "Final").maybeSingle(),
+    supabaseAdmin.from("matches").select("*").eq("tournament_year", 2026)
+      .gte("kickoff_utc", startUtc).lt("kickoff_utc", endUtc)
+      .order("kickoff_utc", { ascending: true }),
   ]);
   return {
     live: live.data ?? [],
     upcoming: upcoming.data ?? [],
     opener: opener.data?.[0] ?? null,
     final: finalM.data ?? null,
+    today: today.data ?? [],
   };
 });
