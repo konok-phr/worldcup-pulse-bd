@@ -3,6 +3,7 @@ import { queryOptions, useSuspenseQuery } from "@tanstack/react-query";
 import { getHomeData, getAllTeams } from "@/lib/data.functions";
 import { MatchCard, type MatchRow } from "@/components/site/MatchCard";
 import { HeroCountdown } from "@/components/site/HeroCountdown";
+import { NextMatchWidget } from "@/components/site/NextMatchWidget";
 import { useI18n, fmtNumber } from "@/lib/i18n";
 import { buildHead } from "@/lib/seo";
 import { Calendar, Trophy, MapPin, ArrowRight, Clock } from "lucide-react";
@@ -33,9 +34,15 @@ function Home() {
   const { data: teams } = useSuspenseQuery(teamsQO);
   const emojiMap = Object.fromEntries(teams.map((t) => [t.code, t.flag_emoji]));
   const todayLabel = formatDateLabel(new Date().toISOString(), "BST", locale);
+  const nextMatch = (home.live[0] ?? home.upcoming[0] ?? null) as MatchRow | null;
 
   return (
     <div className="mx-auto max-w-7xl px-4 py-6 space-y-6">
+      {/* Next match strip */}
+      {nextMatch && (
+        <NextMatchWidget match={nextMatch} emojiMap={emojiMap} />
+      )}
+
       {/* Hero / countdown */}
       <section className="relative overflow-hidden rounded-[2rem] border border-white/10 bg-gradient-to-br from-indigo-950 via-slate-950 to-emerald-950 shadow-2xl">
         <div className="pointer-events-none absolute -top-24 -right-24 h-96 w-96 rounded-full bg-blue-600/25 blur-[100px]" />
