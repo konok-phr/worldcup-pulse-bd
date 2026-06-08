@@ -5,7 +5,8 @@ import { MatchCard, type MatchRow } from "@/components/site/MatchCard";
 import { HeroCountdown } from "@/components/site/HeroCountdown";
 import { useI18n, fmtNumber } from "@/lib/i18n";
 import { buildHead } from "@/lib/seo";
-import { Calendar, Trophy, MapPin, ArrowRight } from "lucide-react";
+import { Calendar, Trophy, MapPin, ArrowRight, Clock } from "lucide-react";
+import { formatDateLabel } from "@/lib/time";
 
 const homeQO = queryOptions({ queryKey: ["home"], queryFn: () => getHomeData(), staleTime: 60_000 });
 const teamsQO = queryOptions({ queryKey: ["teams-all"], queryFn: () => getAllTeams(), staleTime: 600_000 });
@@ -31,6 +32,7 @@ function Home() {
   const { data: home } = useSuspenseQuery(homeQO);
   const { data: teams } = useSuspenseQuery(teamsQO);
   const emojiMap = Object.fromEntries(teams.map((t) => [t.code, t.flag_emoji]));
+  const todayLabel = formatDateLabel(new Date().toISOString(), "BST", locale);
 
   return (
     <div className="mx-auto max-w-7xl px-4 py-6 space-y-6">
@@ -91,13 +93,21 @@ function Home() {
             </div>
           </div>
 
-          {home.opener?.kickoff_utc && (
-            <div className="w-full lg:w-auto shrink-0">
-              <HeroCountdown utc={home.opener.kickoff_utc} />
-            </div>
-          )}
         </div>
       </section>
+
+      {/* Prominent countdown banner */}
+      {home.opener?.kickoff_utc && (
+        <section className="relative overflow-hidden rounded-3xl border border-primary/20 bg-gradient-to-r from-blue-600/15 via-emerald-500/10 to-amber-500/15 p-6 md:p-10">
+          <div className="pointer-events-none absolute inset-0 bg-[radial-gradient(circle_at_top_right,oklch(0.72_0.13_180/0.18),transparent_60%)]" />
+          <div className="relative flex flex-col items-center text-center gap-4">
+            <div className="inline-flex items-center gap-2 rounded-full border border-primary/30 bg-primary/10 px-3 py-1 text-[10px] font-bold uppercase tracking-[0.25em] text-primary">
+              <Clock className="h-3 w-3" /> {t("opener")} · {t("countdown_to_kickoff")}
+            </div>
+            <HeroCountdown utc={home.opener.kickoff_utc} />
+          </div>
+        </section>
+      )}
 
       {/* Stats strip */}
       <section className="grid grid-cols-2 md:grid-cols-4 gap-4">
@@ -105,6 +115,24 @@ function Home() {
         <StatTile accent="rose" icon={<Calendar className="h-3.5 w-3.5" />} label={t("matches_played")} value={fmtNumber(104, banglaNumerals)} />
         <StatTile accent="amber" icon={<MapPin className="h-3.5 w-3.5" />} label={t("nav_stadiums")} value={fmtNumber(16, banglaNumerals)} />
         <StatTile accent="emerald" icon={<Trophy className="h-3.5 w-3.5" />} label={t("nav_groups")} value={fmtNumber(12, banglaNumerals)} />
+      </section>
+
+      {/* Today's matches (BST) */}
+      <section>
+        <SectionHeader
+          title={`${t("today")} · ${todayLabel} · ${t("bst")}`}
+          href="/fixtures"
+          linkLabel={t("view_all")}
+        />
+        {home.today.length === 0 ? (
+          <div className="rounded-md border border-border/60 bg-card/40 p-6 text-sm text-muted-foreground font-mono">
+            {locale === "bn" ? "আজ কোনো ম্যাচ নেই" : "No matches scheduled today"}
+          </div>
+        ) : (
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3">
+            {home.today.map((m) => <MatchCard key={m.id} match={m as MatchRow} emojiMap={emojiMap} />)}
+          </div>
+        )}
       </section>
 
       {/* Live + upcoming */}

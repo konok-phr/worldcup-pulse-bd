@@ -5,6 +5,7 @@ import { LiveScoreRail } from "./LiveScoreRail";
 import { cn } from "@/lib/utils";
 import { Menu, Search as SearchIcon, X, Facebook, Linkedin } from "lucide-react";
 import wc26Logo from "@/assets/wc26-logo.png";
+import { ThemeToggle } from "./ThemeToggle";
 
 const NAV = [
   { to: "/", key: "nav_home" as const },
@@ -30,7 +31,7 @@ export function SiteShell({ children }: { children: React.ReactNode }) {
   }, [pathname]);
 
   return (
-    <div className="min-h-screen flex flex-col bg-background text-foreground dark">
+    <div className="min-h-screen flex flex-col bg-background text-foreground">
       {/* Top broadcast bar */}
       <div className="h-7 bg-primary/10 border-b border-primary/20 text-primary text-[10px] uppercase tracking-[0.2em] font-mono flex items-center justify-center px-3">
         <span className="truncate">★ FIFA World Cup 2026 · USA · Canada · Mexico · June 11 – July 19 · Bangladesh Time (BST)</span>
@@ -76,6 +77,8 @@ export function SiteShell({ children }: { children: React.ReactNode }) {
             <SearchIcon className="h-3.5 w-3.5" />
             <span>{t("nav_search")}</span>
           </Link>
+
+          <ThemeToggle />
 
           <button
             className="lg:hidden inline-flex items-center justify-center h-9 w-9 rounded border border-border/60"

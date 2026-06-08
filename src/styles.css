@@ -150,5 +150,6 @@
     color: var(--color-foreground);
     font-family: 'Inter', system-ui, sans-serif;
   }
-  html { color-scheme: dark; }
+  html { color-scheme: light; }
+  html.dark { color-scheme: dark; }
 }

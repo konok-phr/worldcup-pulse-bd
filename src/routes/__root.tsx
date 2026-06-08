@@ -12,6 +12,7 @@ import appCss from "../styles.css?url";
 import { I18nProvider } from "@/lib/i18n";
 import { SiteShell } from "@/components/site/SiteShell";
 import { VisitTracker } from "@/components/site/VisitTracker";
+import { ThemeProvider } from "@/lib/theme";
 
 function NotFoundComponent() {
   return (
@@ -110,12 +111,14 @@ function RootComponent() {
   const { queryClient } = Route.useRouteContext();
   return (
     <QueryClientProvider client={queryClient}>
-      <I18nProvider>
-        <SiteShell>
-          <Outlet />
-        </SiteShell>
-        <VisitTracker />
-      </I18nProvider>
+      <ThemeProvider>
+        <I18nProvider>
+          <SiteShell>
+            <Outlet />
+          </SiteShell>
+          <VisitTracker />
+        </I18nProvider>
+      </ThemeProvider>
     </QueryClientProvider>
   );
 }
