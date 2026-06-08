@@ -93,11 +93,6 @@ function Home() {
             </div>
           </div>
 
-          {home.opener?.kickoff_utc && (
-            <div className="w-full lg:w-auto shrink-0">
-              <HeroCountdown utc={home.opener.kickoff_utc} />
-            </div>
-          )}
         </div>
       </section>
 
