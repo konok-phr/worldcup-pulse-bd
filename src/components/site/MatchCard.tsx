@@ -3,6 +3,7 @@ import { TeamCrest } from "./TeamCrest";
 import { formatKickoff, formatTimeOnly } from "@/lib/time";
 import { fmtNumber, useI18n } from "@/lib/i18n";
 import { cn } from "@/lib/utils";
+import { CountdownChip } from "./CountdownChip";
 
 export type MatchRow = {
   id: number;
@@ -82,8 +83,9 @@ export function MatchCard({
       </div>
 
       {!compact && match.kickoff_utc && !isLive && !isFinished && (
-        <div className="mt-2 text-[10px] text-muted-foreground font-mono">
-          {formatKickoff(match.kickoff_utc, "BST", locale)}
+        <div className="mt-2 flex items-center justify-between gap-2 text-[10px] text-muted-foreground font-mono">
+          <span className="truncate">{formatKickoff(match.kickoff_utc, "BST", locale)}</span>
+          <CountdownChip utc={match.kickoff_utc} size="xs" />
         </div>
       )}
     </Link>
