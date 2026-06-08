@@ -186,10 +186,10 @@ function SectionHeader({ title, href, linkLabel }: { title: string; href: string
 }
 
 const ACCENTS = {
-  blue: { text: "text-blue-400", bg: "bg-blue-500/25", bar: "bg-blue-500" },
-  rose: { text: "text-rose-400", bg: "bg-rose-500/25", bar: "bg-rose-500" },
-  amber: { text: "text-amber-400", bg: "bg-amber-500/25", bar: "bg-amber-500" },
-  emerald: { text: "text-emerald-400", bg: "bg-emerald-500/25", bar: "bg-emerald-500" },
+  blue: { text: "text-blue-600 dark:text-blue-400", bg: "bg-blue-500/25", bar: "bg-blue-500" },
+  rose: { text: "text-rose-600 dark:text-rose-400", bg: "bg-rose-500/25", bar: "bg-rose-500" },
+  amber: { text: "text-amber-600 dark:text-amber-400", bg: "bg-amber-500/25", bar: "bg-amber-500" },
+  emerald: { text: "text-emerald-600 dark:text-emerald-400", bg: "bg-emerald-500/25", bar: "bg-emerald-500" },
 } as const;
 
 function StatTile({
@@ -205,13 +205,13 @@ function StatTile({
 }) {
   const a = ACCENTS[accent];
   return (
-    <div className="group relative overflow-hidden rounded-3xl border border-white/10 bg-white/[0.03] p-5 transition-colors hover:bg-white/[0.06]">
+    <div className="group relative overflow-hidden rounded-3xl border border-border bg-card p-5 transition-colors hover:bg-accent/40">
       <div className={`pointer-events-none absolute -top-10 -right-10 h-24 w-24 rounded-full ${a.bg} blur-2xl transition-transform duration-500 group-hover:scale-150`} />
       <div className="relative flex flex-col">
         <div className={`flex items-center gap-1.5 text-[10px] font-bold uppercase tracking-[0.2em] ${a.text}`}>
           {icon} {label}
         </div>
-        <div className="mt-2 text-3xl md:text-4xl font-black tabular-nums text-white">{value}</div>
+        <div className="mt-2 text-3xl md:text-4xl font-black tabular-nums text-foreground">{value}</div>
         <div className={`mt-4 h-1 w-8 rounded-full ${a.bar}`} />
       </div>
     </div>
