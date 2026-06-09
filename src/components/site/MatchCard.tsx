@@ -82,10 +82,17 @@ export function MatchCard({
         </span>
       </div>
 
-      {!compact && match.kickoff_utc && !isLive && !isFinished && (
-        <div className="mt-2 flex items-center justify-between gap-2 text-[10px] text-muted-foreground font-mono">
-          <span className="truncate">{formatKickoff(match.kickoff_utc, "BST", locale)}</span>
-          <CountdownChip utc={match.kickoff_utc} size="xs" />
+      {match.kickoff_utc && !isLive && !isFinished && (
+        <div
+          className={cn(
+            "flex items-center justify-between gap-2 text-[10px] text-muted-foreground font-mono",
+            compact ? "mt-1.5" : "mt-2",
+          )}
+        >
+          {!compact && (
+            <span className="truncate">{formatKickoff(match.kickoff_utc, "BST", locale)}</span>
+          )}
+          <CountdownChip utc={match.kickoff_utc} size="xs" className={compact ? "ml-auto" : ""} />
         </div>
       )}
     </Link>

@@ -2,7 +2,7 @@ import { createFileRoute, Link, notFound } from "@tanstack/react-router";
 import { queryOptions, useSuspenseQuery } from "@tanstack/react-query";
 import { getMatchById, getAllTeams, getHeadToHead } from "@/lib/data.functions";
 import { TeamCrest } from "@/components/site/TeamCrest";
-import { CountdownPill } from "@/components/site/CountdownPill";
+import { MatchCountdown } from "@/components/site/MatchCountdown";
 import { formatKickoff } from "@/lib/time";
 import { useI18n, fmtNumber } from "@/lib/i18n";
 import { buildHead } from "@/lib/seo";
@@ -137,8 +137,8 @@ function MatchPage() {
         </div>
 
         {isScheduled && m.kickoff_utc && (
-          <div className="flex justify-center mb-2">
-            <CountdownPill utc={m.kickoff_utc} />
+          <div className="flex justify-center mb-3">
+            <MatchCountdown utc={m.kickoff_utc} />
           </div>
         )}
 
