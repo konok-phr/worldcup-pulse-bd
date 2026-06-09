@@ -2,11 +2,11 @@ import { createFileRoute, Link } from "@tanstack/react-router";
 import { queryOptions, useSuspenseQuery } from "@tanstack/react-query";
 import { getHomeData, getAllTeams } from "@/lib/data.functions";
 import { MatchCard, type MatchRow } from "@/components/site/MatchCard";
-import { HeroCountdown } from "@/components/site/HeroCountdown";
 import { NextMatchWidget } from "@/components/site/NextMatchWidget";
+import { LandingKickoffSection } from "@/components/site/LandingKickoffSection";
 import { useI18n, fmtNumber } from "@/lib/i18n";
 import { buildHead } from "@/lib/seo";
-import { Calendar, Trophy, MapPin, ArrowRight, Clock } from "lucide-react";
+import { Calendar, Trophy, MapPin, ArrowRight } from "lucide-react";
 import { formatDateLabel } from "@/lib/time";
 
 const homeQO = queryOptions({ queryKey: ["home"], queryFn: () => getHomeData(), staleTime: 60_000 });
@@ -103,17 +103,13 @@ function Home() {
         </div>
       </section>
 
-      {/* Prominent countdown banner */}
+      {/* Prominent countdown banner (swaps to next match after opener kicks off) */}
       {home.opener?.kickoff_utc && (
-        <section className="relative overflow-hidden rounded-3xl border border-primary/20 bg-gradient-to-r from-blue-600/15 via-emerald-500/10 to-amber-500/15 p-6 md:p-10">
-          <div className="pointer-events-none absolute inset-0 bg-[radial-gradient(circle_at_top_right,oklch(0.72_0.13_180/0.18),transparent_60%)]" />
-          <div className="relative flex flex-col items-center text-center gap-4">
-            <div className="inline-flex items-center gap-2 rounded-full border border-primary/30 bg-primary/10 px-3 py-1 text-[10px] font-bold uppercase tracking-[0.25em] text-primary">
-              <Clock className="h-3 w-3" /> {t("opener")} · {t("countdown_to_kickoff")}
-            </div>
-            <HeroCountdown utc={home.opener.kickoff_utc} />
-          </div>
-        </section>
+        <LandingKickoffSection
+          openerUtc={home.opener.kickoff_utc}
+          nextUpcoming={(home.upcoming.find((m) => m.kickoff_utc) ?? null) as MatchRow | null}
+          emojiMap={emojiMap}
+        />
       )}
 
       {/* Stats strip */}

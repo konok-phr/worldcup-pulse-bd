@@ -3,6 +3,7 @@ import { queryOptions, useSuspenseQuery } from "@tanstack/react-query";
 import { getMatchById, getAllTeams, getHeadToHead } from "@/lib/data.functions";
 import { TeamCrest } from "@/components/site/TeamCrest";
 import { MatchCountdown } from "@/components/site/MatchCountdown";
+import { MatchElapsed } from "@/components/site/MatchElapsed";
 import { formatKickoff } from "@/lib/time";
 import { useI18n, fmtNumber } from "@/lib/i18n";
 import { buildHead } from "@/lib/seo";
@@ -139,6 +140,12 @@ function MatchPage() {
         {isScheduled && m.kickoff_utc && (
           <div className="flex justify-center mb-3">
             <MatchCountdown utc={m.kickoff_utc} />
+          </div>
+        )}
+
+        {isLive && m.kickoff_utc && (
+          <div className="flex justify-center mb-3">
+            <MatchElapsed kickoffUtc={m.kickoff_utc} />
           </div>
         )}
 
