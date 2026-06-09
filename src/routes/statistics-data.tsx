@@ -70,13 +70,22 @@ function StatisticsPage() {
   const fetcher = useServerFn(getVisitStats);
   const { data } = useSuspenseQuery({ ...statsQO, queryFn: () => fetcher() });
 
+  // Hide rows with no country detected.
+  const totalsByCountry = useMemo(
+    () => data.totalsByCountry.filter((c) => c.country_code),
+    [data.totalsByCountry],
+  );
+  const dailyByCountry = useMemo(
+    () => data.dailyByCountry.filter((r) => r.country_code),
+    [data.dailyByCountry],
+  );
   const maxDay = useMemo(
     () => Math.max(1, ...data.totalsByDay.map((d) => d.count)),
     [data.totalsByDay],
   );
   const maxCountry = useMemo(
-    () => Math.max(1, ...data.totalsByCountry.map((c) => c.count)),
-    [data.totalsByCountry],
+    () => Math.max(1, ...totalsByCountry.map((c) => c.count)),
+    [totalsByCountry],
   );
 
   const today = new Date().toISOString().slice(0, 10);
