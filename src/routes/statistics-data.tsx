@@ -14,16 +14,38 @@ const COUNTRY_NAMES: Record<string, string> = {
   LK: "Sri Lanka", TH: "Thailand", VN: "Vietnam", PH: "Philippines", EG: "Egypt", ZA: "South Africa",
 };
 
-function flagEmoji(cc?: string | null) {
-  if (!cc || cc.length !== 2) return "🌐";
-  const codePoints = cc.toUpperCase().split("").map((c) => 127397 + c.charCodeAt(0));
-  return String.fromCodePoint(...codePoints);
+function Flag({ cc, size = 20 }: { cc?: string | null; size?: number }) {
+  if (!cc || cc.length !== 2) {
+    return (
+      <span
+        className="inline-flex items-center justify-center rounded-sm bg-secondary/40 border border-border/60 text-[10px] text-muted-foreground shrink-0"
+        style={{ width: size * 1.4, height: size }}
+        aria-hidden
+      >
+        ?
+      </span>
+    );
+  }
+  const w = size <= 20 ? 40 : 80;
+  return (
+    <img
+      src={`https://flagcdn.com/w${w}/${cc.toLowerCase()}.png`}
+      alt={cc}
+      loading="lazy"
+      decoding="async"
+      width={size * 1.4}
+      height={size}
+      className="inline-block rounded-sm border border-border/60 object-cover shrink-0"
+      style={{ width: size * 1.4, height: size }}
+    />
+  );
 }
 
 const statsQO = queryOptions({
   queryKey: ["visit-stats"],
   queryFn: () => getVisitStats(),
-  staleTime: 60_000,
+  staleTime: 15_000,
+  refetchInterval: 20_000,
 });
 
 export const Route = createFileRoute("/statistics-data")({
@@ -59,6 +81,8 @@ function StatisticsPage() {
 
   const today = new Date().toISOString().slice(0, 10);
   const todayCount = data.totalsByDay.find((d) => d.day === today)?.count ?? 0;
+  const online = data.online ?? { total: 0, byPage: [], byCountry: [] };
+  const maxOnlinePage = Math.max(1, ...online.byPage.map((p) => p.count));
 
   return (
     <div className="mx-auto max-w-6xl px-4 py-8">
@@ -73,11 +97,76 @@ function StatisticsPage() {
       </header>
 
       {/* KPI cards */}
-      <div className="grid grid-cols-2 md:grid-cols-4 gap-3 mb-8">
+      <div className="grid grid-cols-2 md:grid-cols-5 gap-3 mb-8">
+        <KpiCard label="Online now" value={online.total} accent />
         <KpiCard label="Total visits (30d)" value={data.total} />
         <KpiCard label="Today" value={todayCount} />
         <KpiCard label="Countries" value={data.totalsByCountry.length} />
         <KpiCard label="Active days" value={data.totalsByDay.length} />
+      </div>
+
+      {/* Live presence */}
+      <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 mb-6">
+        <section className="rounded-xl border border-border/60 bg-card/60 p-5">
+          <h2 className="text-sm font-mono uppercase tracking-wider text-muted-foreground mb-4 flex items-center gap-2">
+            <span className="relative inline-flex h-2 w-2">
+              <span className="absolute inline-flex h-full w-full rounded-full bg-emerald-500 opacity-75 animate-ping" />
+              <span className="relative inline-flex rounded-full h-2 w-2 bg-emerald-500" />
+            </span>
+            Online now · by page
+          </h2>
+          {online.byPage.length === 0 ? (
+            <p className="text-sm text-muted-foreground">No one online right now.</p>
+          ) : (
+            <ul className="space-y-2">
+              {online.byPage.slice(0, 20).map((p) => (
+                <li key={p.path} className="flex items-center gap-3 text-xs font-mono">
+                  <a
+                    href={p.path || "#"}
+                    className="w-48 shrink-0 truncate text-foreground hover:text-primary"
+                  >
+                    {p.path || "(unknown)"}
+                  </a>
+                  <div className="flex-1 h-2 rounded-full bg-secondary/40 overflow-hidden">
+                    <div
+                      className="h-full bg-emerald-500"
+                      style={{ width: `${(p.count / maxOnlinePage) * 100}%` }}
+                    />
+                  </div>
+                  <span className="w-10 text-right font-semibold">{p.count}</span>
+                </li>
+              ))}
+            </ul>
+          )}
+        </section>
+
+        <section className="rounded-xl border border-border/60 bg-card/60 p-5">
+          <h2 className="text-sm font-mono uppercase tracking-wider text-muted-foreground mb-4 flex items-center gap-2">
+            <span className="relative inline-flex h-2 w-2">
+              <span className="absolute inline-flex h-full w-full rounded-full bg-emerald-500 opacity-75 animate-ping" />
+              <span className="relative inline-flex rounded-full h-2 w-2 bg-emerald-500" />
+            </span>
+            Online now · by country
+          </h2>
+          {online.byCountry.length === 0 ? (
+            <p className="text-sm text-muted-foreground">No one online right now.</p>
+          ) : (
+            <ul className="space-y-2">
+              {online.byCountry.slice(0, 20).map((c) => (
+                <li
+                  key={c.country_code ?? "unk"}
+                  className="flex items-center gap-3 text-xs"
+                >
+                  <Flag cc={c.country_code} />
+                  <span className="w-40 shrink-0 truncate">
+                    {COUNTRY_NAMES[c.country_code ?? ""] ?? c.country_code ?? "Unknown"}
+                  </span>
+                  <span className="ml-auto font-mono font-semibold">{c.count}</span>
+                </li>
+              ))}
+            </ul>
+          )}
+        </section>
       </div>
 
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
@@ -117,7 +206,7 @@ function StatisticsPage() {
             <ul className="space-y-2">
               {data.totalsByCountry.slice(0, 20).map((c) => (
                 <li key={c.country_code ?? "unk"} className="flex items-center gap-3 text-xs">
-                  <span className="text-lg leading-none">{flagEmoji(c.country_code)}</span>
+                  <Flag cc={c.country_code} />
                   <span className="w-40 shrink-0 truncate">
                     {COUNTRY_NAMES[c.country_code ?? ""] ?? c.country_code ?? "Unknown"}
                   </span>
@@ -157,8 +246,10 @@ function StatisticsPage() {
                   <tr key={i} className="border-b border-border/30">
                     <td className="py-1.5 pr-4">{row.day}</td>
                     <td className="py-1.5 pr-4">
-                      <span className="mr-1.5">{flagEmoji(row.country_code)}</span>
-                      {COUNTRY_NAMES[row.country_code ?? ""] ?? row.country_code ?? "Unknown"}
+                      <span className="inline-flex items-center gap-2">
+                        <Flag cc={row.country_code} size={16} />
+                        {COUNTRY_NAMES[row.country_code ?? ""] ?? row.country_code ?? "Unknown"}
+                      </span>
                     </td>
                     <td className="py-1.5 pr-4 text-right font-semibold">{row.count}</td>
                   </tr>
@@ -172,13 +263,35 @@ function StatisticsPage() {
   );
 }
 
-function KpiCard({ label, value }: { label: string; value: number }) {
+function KpiCard({
+  label,
+  value,
+  accent,
+}: {
+  label: string;
+  value: number;
+  accent?: boolean;
+}) {
   return (
-    <div className="rounded-xl border border-border/60 bg-card/60 p-4">
+    <div
+      className={
+        accent
+          ? "rounded-xl border border-emerald-500/40 bg-emerald-500/5 p-4"
+          : "rounded-xl border border-border/60 bg-card/60 p-4"
+      }
+    >
       <div className="text-[10px] font-mono uppercase tracking-wider text-muted-foreground">
         {label}
       </div>
-      <div className="mt-1 text-2xl font-bold font-mono">{value.toLocaleString()}</div>
+      <div
+        className={
+          accent
+            ? "mt-1 text-2xl font-bold font-mono text-emerald-500"
+            : "mt-1 text-2xl font-bold font-mono"
+        }
+      >
+        {value.toLocaleString()}
+      </div>
     </div>
   );
 }
