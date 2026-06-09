@@ -192,6 +192,7 @@ export type Database = {
           country_code: string | null
           id: string
           path: string | null
+          session_id: string | null
           user_agent: string | null
           visit_date: string
           visited_at: string
@@ -201,6 +202,7 @@ export type Database = {
           country_code?: string | null
           id?: string
           path?: string | null
+          session_id?: string | null
           user_agent?: string | null
           visit_date?: string
           visited_at?: string
@@ -210,6 +212,7 @@ export type Database = {
           country_code?: string | null
           id?: string
           path?: string | null
+          session_id?: string | null
           user_agent?: string | null
           visit_date?: string
           visited_at?: string
