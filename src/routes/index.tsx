@@ -4,6 +4,7 @@ import { getHomeData, getAllTeams } from "@/lib/data.functions";
 import { MatchCard, type MatchRow } from "@/components/site/MatchCard";
 import { NextMatchWidget } from "@/components/site/NextMatchWidget";
 import { LandingKickoffSection } from "@/components/site/LandingKickoffSection";
+import { LandingNewsSection } from "@/components/site/LandingNewsSection";
 import { useI18n, fmtNumber } from "@/lib/i18n";
 import { buildHead } from "@/lib/seo";
 import { Calendar, Trophy, MapPin, ArrowRight } from "lucide-react";
@@ -162,6 +163,8 @@ function Home() {
           </div>
         )}
       </section>
+
+      <LandingNewsSection />
     </div>
   );
 }
