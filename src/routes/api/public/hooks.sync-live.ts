@@ -106,6 +106,8 @@ export const Route = createFileRoute("/api/public/hooks/sync-live")({
               referee: m.referees?.[0]?.name ?? null,
               last_synced_at: new Date().toISOString(),
             };
+            const venue = WC26_VENUES[externalId];
+            if (venue) (payload as Record<string, unknown>).stadium_slug = venue;
 
             const { data: existing } = await supabaseAdmin
               .from("matches")
