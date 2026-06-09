@@ -36,6 +36,21 @@ export const Route = createFileRoute("/simulator")({
 type Score = { h: number; a: number };
 type Picks = Record<number, Score>; // match.id -> score
 
+const STORAGE_KEY = "wc26:simulator:picks:v1";
+
+function loadStoredPicks(): Picks | null {
+  if (typeof window === "undefined") return null;
+  try {
+    const raw = window.localStorage.getItem(STORAGE_KEY);
+    if (!raw) return null;
+    const parsed = JSON.parse(raw);
+    if (parsed && typeof parsed === "object") return parsed as Picks;
+  } catch {
+    // ignore
+  }
+  return null;
+}
+
 function SimulatorPage() {
   const { t, banglaNumerals } = useI18n();
   const { data: groups } = useSuspenseQuery(groupsQO);
@@ -57,6 +72,23 @@ function SimulatorPage() {
 
   const [picks, setPicks] = React.useState<Picks>(initial);
 
+  // Hydrate from localStorage on mount (client-only, so SSR HTML stays stable)
+  React.useEffect(() => {
+    const stored = loadStoredPicks();
+    if (stored) setPicks({ ...initial, ...stored });
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
+
+  // Persist picks whenever they change
+  React.useEffect(() => {
+    if (typeof window === "undefined") return;
+    try {
+      window.localStorage.setItem(STORAGE_KEY, JSON.stringify(picks));
+    } catch {
+      // ignore quota / privacy errors
+    }
+  }, [picks]);
+
   const groupFixtures = React.useMemo(() => {
     const by: Record<string, typeof fixtures> = {};
     for (const f of fixtures) {
@@ -77,7 +109,16 @@ function SimulatorPage() {
           <p className="text-sm text-muted-foreground mt-1 max-w-2xl">{t("simulator_desc")}</p>
         </div>
         <button
-          onClick={() => setPicks(initial)}
+          onClick={() => {
+            setPicks(initial);
+            if (typeof window !== "undefined") {
+              try {
+                window.localStorage.removeItem(STORAGE_KEY);
+              } catch {
+                // ignore
+              }
+            }
+          }}
           className="inline-flex items-center gap-1.5 rounded-md border border-border/60 bg-card px-3 py-1.5 text-xs font-mono uppercase tracking-wider hover:border-primary hover:text-primary"
         >
           <RotateCcw className="h-3 w-3" /> {t("reset")}
