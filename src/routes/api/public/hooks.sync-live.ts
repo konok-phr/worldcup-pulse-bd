@@ -42,6 +42,19 @@ function mapStatus(s: string): string {
   }
 }
 
+function mapStage(s: string): string {
+  switch (s) {
+    case "GROUP_STAGE": return "Group Stage";
+    case "LAST_32": return "Round of 32";
+    case "LAST_16": return "Round of 16";
+    case "QUARTER_FINALS": return "Quarter-finals";
+    case "SEMI_FINALS": return "Semi-finals";
+    case "THIRD_PLACE": return "Third-place";
+    case "FINAL": return "Final";
+    default: return s || "Group Stage";
+  }
+}
+
 export const Route = createFileRoute("/api/public/hooks/sync-live")({
   server: {
     handlers: {
@@ -73,7 +86,7 @@ export const Route = createFileRoute("/api/public/hooks/sync-live")({
             const payload = {
               external_id: externalId,
               tournament_year: 2026,
-              stage: m.stage ?? "GROUP",
+              stage: mapStage(m.stage),
               group_letter: m.group ? m.group.replace(/Group\s+/i, "") : null,
               home_team_name: m.homeTeam?.name ?? null,
               away_team_name: m.awayTeam?.name ?? null,
