@@ -84,7 +84,7 @@ export function LandingKickoffSection({
           <ArrowRight className="h-4 w-4 text-muted-foreground group-hover:text-primary group-hover:translate-x-0.5 transition-all" />
         </Link>
         <MatchCountdown utc={match.kickoff_utc!} />
-        <p className="text-[10px] md:text-xs uppercase tracking-[0.2em] font-mono text-muted-foreground/80">
+        <p className="text-[10px] md:text-xs uppercase tracking-[0.2em] font-mono text-muted-foreground">
           {formatKickoff(match.kickoff_utc, "BST", locale)}
           {match.stage ? ` · ${tn("stage", match.stage)}` : ""}
           {match.group_letter ? ` · ${t("group")} ${match.group_letter}` : ""}

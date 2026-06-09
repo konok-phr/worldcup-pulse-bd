@@ -67,7 +67,7 @@ export function NextMatchWidget({
       {/* Right: countdown + arrow */}
       <div className="flex flex-col items-end gap-1 shrink-0">
         <CountdownChip utc={match.kickoff_utc} size="sm" />
-        <span className="hidden md:inline text-[10px] font-mono text-muted-foreground/80">
+        <span className="hidden md:inline text-[10px] font-mono text-muted-foreground">
           {formatKickoff(match.kickoff_utc, "BST", locale)}
         </span>
       </div>
