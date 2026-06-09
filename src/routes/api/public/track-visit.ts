@@ -6,16 +6,22 @@ export const Route = createFileRoute("/api/public/track-visit")({
     handlers: {
       POST: async ({ request }) => {
         try {
-          const body = (await request.json().catch(() => ({}))) as { path?: string };
+          const body = (await request.json().catch(() => ({}))) as {
+            path?: string;
+            session_id?: string;
+          };
           const country_code = request.headers.get("cf-ipcountry") || null;
           const user_agent = request.headers.get("user-agent")?.slice(0, 255) || null;
           const path = typeof body?.path === "string" ? body.path.slice(0, 255) : null;
+          const session_id =
+            typeof body?.session_id === "string" ? body.session_id.slice(0, 64) : null;
 
           await supabaseAdmin.from("page_visits").insert({
             country_code,
             country: country_code,
             path,
             user_agent,
+            session_id,
           });
 
           // best-effort cleanup (older than 30 days)
