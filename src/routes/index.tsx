@@ -57,7 +57,7 @@ function Home() {
                 <div className="h-4 w-4 rounded-full bg-red-600 border border-slate-950" />
                 <div className="h-4 w-4 rounded-full bg-emerald-500 border border-slate-950" />
               </div>
-              <span className="text-[10px] font-bold uppercase tracking-[0.2em] text-white/70">
+              <span className="text-[10px] font-bold uppercase tracking-[0.2em] text-white/90">
                 {t("tagline")} · USA · Canada · Mexico
               </span>
             </div>
@@ -78,7 +78,7 @@ function Home() {
               )}
             </h1>
 
-            <p className="mt-3 max-w-3xl text-sm md:text-base leading-relaxed text-slate-400">
+            <p className="mt-3 max-w-3xl text-sm md:text-base leading-relaxed text-slate-200">
               {t("about")}
             </p>
 
@@ -92,7 +92,7 @@ function Home() {
               </Link>
               <Link
                 to="/fixtures"
-                className="text-sm font-bold uppercase tracking-[0.2em] text-white/40 hover:text-white/70 transition-colors"
+                className="text-sm font-bold uppercase tracking-[0.2em] text-white/70 hover:text-white/90 transition-colors"
               >
                 {t("nav_fixtures")} →
               </Link>
