@@ -1,4 +1,4 @@
-import { createFileRoute, Link } from "@tanstack/react-router";
+import { createFileRoute } from "@tanstack/react-router";
 import { queryOptions, useSuspenseQuery } from "@tanstack/react-query";
 import { useServerFn } from "@tanstack/react-start";
 import { getVisitStats } from "@/lib/stats.functions";
@@ -121,12 +121,12 @@ function StatisticsPage() {
             <ul className="space-y-2">
               {online.byPage.slice(0, 20).map((p) => (
                 <li key={p.path} className="flex items-center gap-3 text-xs font-mono">
-                  <Link
-                    to={p.path as string}
+                  <a
+                    href={p.path || "#"}
                     className="w-48 shrink-0 truncate text-foreground hover:text-primary"
                   >
                     {p.path || "(unknown)"}
-                  </Link>
+                  </a>
                   <div className="flex-1 h-2 rounded-full bg-secondary/40 overflow-hidden">
                     <div
                       className="h-full bg-emerald-500"
