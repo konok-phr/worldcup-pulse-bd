@@ -3,6 +3,7 @@ import { useQuery } from "@tanstack/react-query";
 import { getNews, type NewsItem } from "@/lib/news.functions";
 import { useI18n } from "@/lib/i18n";
 import { Newspaper, Globe, ExternalLink, ArrowRight } from "lucide-react";
+import newsPlaceholder from "@/assets/news-placeholder.jpg";
 
 export function LandingNewsSection() {
   const { t, locale } = useI18n();
