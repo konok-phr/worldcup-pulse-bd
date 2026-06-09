@@ -12,7 +12,10 @@ export function LandingNewsSection() {
     staleTime: 5 * 60_000,
   });
 
-  const items = (data?.items ?? []).slice(0, 6);
+  const all = data?.items ?? [];
+  const withImg = all.filter((i) => !!i.image);
+  const rest = all.filter((i) => !i.image);
+  const items = [...withImg, ...rest].slice(0, 4);
 
   return (
     <section>
@@ -27,8 +30,8 @@ export function LandingNewsSection() {
       </div>
 
       {isLoading ? (
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3">
-          {Array.from({ length: 6 }).map((_, i) => (
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-3">
+          {Array.from({ length: 4 }).map((_, i) => (
             <div key={i} className="rounded-lg border border-border/60 bg-card/40 overflow-hidden animate-pulse">
               <div className="aspect-video w-full bg-muted/30" />
               <div className="p-3 space-y-2">
@@ -44,7 +47,7 @@ export function LandingNewsSection() {
           {locale === "bn" ? "কোনো খবর পাওয়া যায়নি।" : "No news available."}
         </div>
       ) : (
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3">
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-3">
           {items.map((item) => <CompactNewsCard key={item.id} item={item} locale={locale} />)}
         </div>
       )}
