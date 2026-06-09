@@ -3,6 +3,7 @@ import { useQuery } from "@tanstack/react-query";
 import { getNews, type NewsItem } from "@/lib/news.functions";
 import { useI18n } from "@/lib/i18n";
 import { Newspaper, Globe, ExternalLink, ArrowRight } from "lucide-react";
+import newsPlaceholder from "@/assets/news-placeholder.jpg";
 
 export function LandingNewsSection() {
   const { t, locale } = useI18n();
@@ -64,24 +65,19 @@ function CompactNewsCard({ item, locale }: { item: NewsItem; locale: "en" | "bn"
       rel="noopener noreferrer"
       className="group flex flex-col rounded-lg border border-border/60 bg-card/60 overflow-hidden hover:border-primary/50 hover:bg-card/80 transition-colors"
     >
-      {item.image ? (
-        <div className="aspect-video w-full overflow-hidden bg-muted/30">
-          <img
-            src={item.image}
-            alt=""
-            loading="lazy"
-            referrerPolicy="no-referrer"
-            className="w-full h-full object-cover group-hover:scale-[1.03] transition-transform duration-300"
-            onError={(e) => {
-              (e.currentTarget.parentElement as HTMLElement).style.display = "none";
-            }}
-          />
-        </div>
-      ) : (
-        <div className="aspect-video w-full bg-gradient-to-br from-primary/10 via-card to-card flex items-center justify-center">
-          <Newspaper className="h-8 w-8 text-primary/30" />
-        </div>
-      )}
+      <div className="aspect-video w-full overflow-hidden bg-muted/30">
+        <img
+          src={item.image || newsPlaceholder}
+          alt=""
+          loading="lazy"
+          referrerPolicy="no-referrer"
+          className="w-full h-full object-cover group-hover:scale-[1.03] transition-transform duration-300"
+          onError={(e) => {
+            const img = e.currentTarget as HTMLImageElement;
+            if (img.src !== newsPlaceholder) img.src = newsPlaceholder;
+          }}
+        />
+      </div>
       <div className="p-3 flex flex-col gap-1.5 flex-1">
         <div className="flex items-center gap-2 text-[10px] uppercase tracking-wider font-mono text-muted-foreground">
           <span className="inline-flex items-center gap-1 px-1.5 py-0.5 rounded bg-primary/10 text-primary">
