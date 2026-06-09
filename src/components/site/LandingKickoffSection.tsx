@@ -4,7 +4,7 @@ import { Clock, ArrowRight } from "lucide-react";
 import { HeroCountdown } from "./HeroCountdown";
 import { MatchCountdown } from "./MatchCountdown";
 import { TeamCrest } from "./TeamCrest";
-import { useI18n, fmtNumber } from "@/lib/i18n";
+import { useI18n } from "@/lib/i18n";
 import { formatKickoff } from "@/lib/time";
 import type { MatchRow } from "./MatchCard";
 
@@ -23,7 +23,7 @@ export function LandingKickoffSection({
   nextUpcoming: MatchRow | null;
   emojiMap: Record<string, string | null>;
 }) {
-  const { t, tn, locale, banglaNumerals } = useI18n();
+  const { t, tn, locale } = useI18n();
   const [mounted, setMounted] = React.useState(false);
   React.useEffect(() => {
     setMounted(true);
@@ -88,8 +88,6 @@ export function LandingKickoffSection({
           {formatKickoff(match.kickoff_utc, "BST", locale)}
           {match.stage ? ` · ${tn("stage", match.stage)}` : ""}
           {match.group_letter ? ` · ${t("group")} ${match.group_letter}` : ""}
-          {" · "}
-          <span>{fmtNumber("", banglaNumerals)}</span>
         </p>
       </div>
     );
