@@ -57,7 +57,7 @@ function Home() {
                 <div className="h-4 w-4 rounded-full bg-red-600 border border-slate-950" />
                 <div className="h-4 w-4 rounded-full bg-emerald-500 border border-slate-950" />
               </div>
-              <span className="text-[10px] font-bold uppercase tracking-[0.2em] text-white/70">
+              <span className="text-[10px] font-bold uppercase tracking-[0.2em] text-white/90">
                 {t("tagline")} · USA · Canada · Mexico
               </span>
             </div>
