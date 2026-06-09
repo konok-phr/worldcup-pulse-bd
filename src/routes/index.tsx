@@ -48,8 +48,8 @@ function Home() {
         <div className="pointer-events-none absolute -top-24 -right-24 h-72 w-72 rounded-full bg-blue-600/20 blur-[80px]" />
         <div className="pointer-events-none absolute -bottom-24 -left-24 h-72 w-72 rounded-full bg-emerald-500/10 blur-[80px]" />
 
-        <div className="relative z-10 flex flex-col lg:flex-row items-start lg:items-center justify-between gap-6 p-5 md:p-8 lg:p-10">
-          <div className="max-w-2xl">
+        <div className="relative z-10 p-5 md:p-8 lg:p-10">
+          <div className="w-full">
             <div className="inline-flex items-center gap-3 rounded-full border border-white/10 bg-white/5 px-3 py-1 mb-3">
               <div className="flex -space-x-2">
                 <div className="h-4 w-4 rounded-full bg-blue-600 border border-slate-950" />
@@ -61,25 +61,23 @@ function Home() {
               </span>
             </div>
 
-            <h1 className="text-3xl md:text-5xl lg:text-6xl font-black uppercase tracking-tighter leading-[0.95] text-white">
+            <h1 className="text-3xl md:text-5xl lg:text-7xl xl:text-8xl font-black uppercase tracking-tighter leading-[0.95] text-white whitespace-normal">
               {locale === "bn" ? (
                 <>
-                  ফিফা বিশ্বকাপ ২০২৬ —{" "}
-                  <span className="bg-gradient-to-r from-blue-400 via-emerald-400 to-yellow-400 bg-clip-text text-transparent">
+                  ফিফা বিশ্বকাপ ২০২৬ — <span className="bg-gradient-to-r from-blue-400 via-emerald-400 to-yellow-400 bg-clip-text text-transparent">
                     সব তথ্য এক জায়গায়।
                   </span>
                 </>
               ) : (
                 <>
-                  FIFA WORLD CUP 2026 —{" "}
-                  <span className="bg-gradient-to-r from-blue-400 via-emerald-400 to-yellow-400 bg-clip-text text-transparent">
+                  FIFA WORLD CUP 2026 — <span className="bg-gradient-to-r from-blue-400 via-emerald-400 to-yellow-400 bg-clip-text text-transparent">
                     EVERY MATCH, EVERY MOMENT.
                   </span>
                 </>
               )}
             </h1>
 
-            <p className="mt-3 max-w-lg text-sm md:text-base leading-relaxed text-slate-400">
+            <p className="mt-3 max-w-3xl text-sm md:text-base leading-relaxed text-slate-400">
               {t("about")}
             </p>
 
