@@ -5,6 +5,7 @@ import { getNews, type NewsItem } from "@/lib/news.functions";
 import { useI18n } from "@/lib/i18n";
 import { buildHead } from "@/lib/seo";
 import { Newspaper, Globe, ExternalLink } from "lucide-react";
+import newsPlaceholder from "@/assets/news-placeholder.jpg";
 
 const newsQO = queryOptions({
   queryKey: ["news"],
