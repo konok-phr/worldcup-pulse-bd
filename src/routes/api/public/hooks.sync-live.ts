@@ -1,4 +1,5 @@
 import { createFileRoute } from "@tanstack/react-router";
+import { WC26_VENUES } from "@/lib/wc26-venues";
 import { supabaseAdmin } from "@/integrations/supabase/client.server";
 
 // Polls Football-Data.org for World Cup 2026 (competition WC) live matches
