@@ -1,3 +1,4 @@
+import * as React from "react";
 import { Link } from "@tanstack/react-router";
 import { useQuery } from "@tanstack/react-query";
 import { getNews, type NewsItem } from "@/lib/news.functions";
@@ -58,6 +59,7 @@ export function LandingNewsSection() {
 
 function CompactNewsCard({ item, locale }: { item: NewsItem; locale: "en" | "bn" }) {
   const ago = timeAgo(item.pubDate, locale);
+  const [isPlaceholder, setIsPlaceholder] = React.useState(!item.image);
   return (
     <a
       href={item.link}
@@ -65,16 +67,23 @@ function CompactNewsCard({ item, locale }: { item: NewsItem; locale: "en" | "bn"
       rel="noopener noreferrer"
       className="group flex flex-col rounded-lg border border-border/60 bg-card/60 overflow-hidden hover:border-primary/50 hover:bg-card/80 transition-colors"
     >
-      <div className="aspect-video w-full overflow-hidden bg-muted/30">
+      <div className="aspect-video w-full overflow-hidden bg-[#0a1929]">
         <img
           src={item.image || newsPlaceholder}
           alt=""
           loading="lazy"
           referrerPolicy="no-referrer"
-          className="w-full h-full object-cover group-hover:scale-[1.03] transition-transform duration-300"
+          className={
+            isPlaceholder
+              ? "w-full h-full object-contain object-center group-hover:scale-[1.03] transition-transform duration-300"
+              : "w-full h-full object-cover group-hover:scale-[1.03] transition-transform duration-300"
+          }
           onError={(e) => {
             const img = e.currentTarget as HTMLImageElement;
-            if (img.src !== newsPlaceholder) img.src = newsPlaceholder;
+            if (!img.src.endsWith(newsPlaceholder)) {
+              img.src = newsPlaceholder;
+              setIsPlaceholder(true);
+            }
           }}
         />
       </div>
