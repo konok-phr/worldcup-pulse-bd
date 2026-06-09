@@ -78,12 +78,16 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
       { title: "WC26 Hub — FIFA World Cup 2026 Live Scores, Fixtures & Standings" },
       { name: "description", content: "Live scores, fixtures, groups, knockout bracket, teams, stadiums, history and records for the FIFA World Cup 2026. Bangladesh time (BST), bilingual EN/বাংলা." },
       { name: "author", content: "WC26 Hub" },
-      { property: "og:title", content: "WC26 Hub — FIFA World Cup 2026" },
-      { property: "og:description", content: "Live scores, fixtures, standings, teams, stadiums and records — Bangladesh time, bilingual." },
+      { property: "og:title", content: "WC26 Hub — FIFA World Cup 2026 Live Scores, Fixtures & Standings" },
+      { property: "og:description", content: "Live scores, fixtures, groups, knockout bracket, teams, stadiums, history and records for the FIFA World Cup 2026. Bangladesh time (BST), bilingual EN/বাংলা." },
       { property: "og:type", content: "website" },
       { property: "og:site_name", content: "WC26 Hub" },
       { name: "twitter:card", content: "summary" },
       { name: "theme-color", content: "#0a0a0b" },
+      { name: "twitter:title", content: "WC26 Hub — FIFA World Cup 2026 Live Scores, Fixtures & Standings" },
+      { name: "twitter:description", content: "Live scores, fixtures, groups, knockout bracket, teams, stadiums, history and records for the FIFA World Cup 2026. Bangladesh time (BST), bilingual EN/বাংলা." },
+      { property: "og:image", content: "https://storage.googleapis.com/gpt-engineer-file-uploads/attachments/og-images/a4d8aed7-0228-4955-8a46-7f88ad727a5d" },
+      { name: "twitter:image", content: "https://storage.googleapis.com/gpt-engineer-file-uploads/attachments/og-images/a4d8aed7-0228-4955-8a46-7f88ad727a5d" },
     ],
     links: [{ rel: "stylesheet", href: appCss }],
   }),
@@ -95,7 +99,7 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
 
 function RootShell({ children }: { children: React.ReactNode }) {
   return (
-    <html lang="en">
+    <html lang="en" className="dark">
       <head>
         <HeadContent />
       </head>
