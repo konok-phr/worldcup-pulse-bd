@@ -41,6 +41,9 @@ function Flag({ cc, size = 20 }: { cc?: string | null; size?: number }) {
   );
 }
 
+const isValidCC = (cc?: string | null): cc is string =>
+  !!cc && /^[A-Za-z]{2}$/.test(cc) && cc.toUpperCase() !== "XX";
+
 const statsQO = queryOptions({
   queryKey: ["visit-stats"],
   queryFn: () => getVisitStats(),
@@ -72,11 +75,11 @@ function StatisticsPage() {
 
   // Hide rows with no country detected.
   const totalsByCountry = useMemo(
-    () => data.totalsByCountry.filter((c) => c.country_code),
+    () => data.totalsByCountry.filter((c) => isValidCC(c.country_code)),
     [data.totalsByCountry],
   );
   const dailyByCountry = useMemo(
-    () => data.dailyByCountry.filter((r) => r.country_code),
+    () => data.dailyByCountry.filter((r) => isValidCC(r.country_code)),
     [data.dailyByCountry],
   );
   const maxDay = useMemo(
@@ -91,7 +94,7 @@ function StatisticsPage() {
   const today = new Date().toISOString().slice(0, 10);
   const todayCount = data.totalsByDay.find((d) => d.day === today)?.count ?? 0;
   const online = data.online ?? { total: 0, byPage: [], byCountry: [] };
-  const onlineByCountry = online.byCountry.filter((c) => c.country_code);
+  const onlineByCountry = online.byCountry.filter((c) => isValidCC(c.country_code));
   const maxOnlinePage = Math.max(1, ...online.byPage.map((p) => p.count));
 
   return (
