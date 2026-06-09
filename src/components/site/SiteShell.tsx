@@ -123,9 +123,13 @@ export function SiteShell({ children }: { children: React.ReactNode }) {
               height={28}
               className="h-7 w-7 object-contain drop-shadow-[0_0_6px_rgba(var(--primary-rgb,59_130_246)/0.3)]"
             />
-            <span className="font-mono text-xs font-bold tracking-tight text-foreground">{t("brand")}</span>
+          <span className="font-mono text-xs font-bold tracking-tight text-foreground">{t("brand")}</span>
           </div>
-          <div className="flex items-center gap-2 font-mono text-xs text-muted-foreground/80">
+          <div className="flex items-center gap-3 font-mono text-xs text-muted-foreground/80">
+            <Link to="/statistics-data" className="hover:text-primary transition-colors">
+              {t("nav_statistics")}
+            </Link>
+            <span>·</span>
             <span>Made with care by</span>
             <span className="text-foreground/90 font-semibold">Khaled Saifullah Sadi</span>
             <span className="mx-1">·</span>
