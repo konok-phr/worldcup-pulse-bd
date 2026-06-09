@@ -14,11 +14,11 @@ function applyTheme(t: Theme) {
 }
 
 export function ThemeProvider({ children }: { children: React.ReactNode }) {
-  const [theme, setThemeState] = React.useState<Theme>("dark");
+  const [theme, setThemeState] = React.useState<Theme>("light");
 
   React.useEffect(() => {
     const saved = localStorage.getItem("wc26.theme") as Theme | null;
-    const initial: Theme = saved === "light" || saved === "dark" ? saved : "dark";
+    const initial: Theme = saved === "light" || saved === "dark" ? saved : "light";
     setThemeState(initial);
     applyTheme(initial);
   }, []);
@@ -43,6 +43,6 @@ export function ThemeProvider({ children }: { children: React.ReactNode }) {
 
 export function useTheme(): Ctx {
   const ctx = React.useContext(ThemeContext);
-  if (!ctx) return { theme: "dark", setTheme: () => {}, toggle: () => {} };
+  if (!ctx) return { theme: "light", setTheme: () => {}, toggle: () => {} };
   return ctx;
 }

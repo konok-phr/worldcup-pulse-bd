@@ -44,24 +44,24 @@ function Home() {
       )}
 
       {/* Hero / countdown */}
-      <section className="relative overflow-hidden rounded-[2rem] border border-white/10 bg-gradient-to-br from-indigo-950 via-slate-950 to-emerald-950 shadow-2xl">
-        <div className="pointer-events-none absolute -top-24 -right-24 h-96 w-96 rounded-full bg-blue-600/25 blur-[100px]" />
-        <div className="pointer-events-none absolute -bottom-24 -left-24 h-96 w-96 rounded-full bg-emerald-500/15 blur-[100px]" />
+      <section className="relative overflow-hidden rounded-2xl border border-border bg-gradient-to-br from-blue-950 via-slate-900 to-emerald-950 shadow-xl">
+        <div className="pointer-events-none absolute -top-24 -right-24 h-72 w-72 rounded-full bg-blue-600/20 blur-[80px]" />
+        <div className="pointer-events-none absolute -bottom-24 -left-24 h-72 w-72 rounded-full bg-emerald-500/10 blur-[80px]" />
 
-        <div className="relative z-10 flex flex-col lg:flex-row items-start lg:items-center justify-between gap-10 p-6 md:p-12 lg:p-16">
+        <div className="relative z-10 flex flex-col lg:flex-row items-start lg:items-center justify-between gap-6 p-5 md:p-8 lg:p-10">
           <div className="max-w-2xl">
-            <div className="inline-flex items-center gap-3 rounded-full border border-white/10 bg-white/5 px-4 py-1.5 mb-6">
+            <div className="inline-flex items-center gap-3 rounded-full border border-white/10 bg-white/5 px-3 py-1 mb-3">
               <div className="flex -space-x-2">
-                <div className="h-5 w-5 rounded-full bg-blue-600 border border-slate-950" />
-                <div className="h-5 w-5 rounded-full bg-red-600 border border-slate-950" />
-                <div className="h-5 w-5 rounded-full bg-emerald-500 border border-slate-950" />
+                <div className="h-4 w-4 rounded-full bg-blue-600 border border-slate-950" />
+                <div className="h-4 w-4 rounded-full bg-red-600 border border-slate-950" />
+                <div className="h-4 w-4 rounded-full bg-emerald-500 border border-slate-950" />
               </div>
               <span className="text-[10px] font-bold uppercase tracking-[0.2em] text-white/70">
                 {t("tagline")} · USA · Canada · Mexico
               </span>
             </div>
 
-            <h1 className="text-4xl md:text-6xl lg:text-7xl font-black uppercase tracking-tighter leading-[0.95] text-white">
+            <h1 className="text-3xl md:text-5xl lg:text-6xl font-black uppercase tracking-tighter leading-[0.95] text-white">
               {locale === "bn" ? (
                 <>
                   ফিফা বিশ্বকাপ ২০২৬ —{" "}
@@ -79,14 +79,14 @@ function Home() {
               )}
             </h1>
 
-            <p className="mt-6 max-w-lg text-base md:text-lg leading-relaxed text-slate-400">
+            <p className="mt-3 max-w-lg text-sm md:text-base leading-relaxed text-slate-400">
               {t("about")}
             </p>
 
-            <div className="mt-8 flex items-center gap-4">
+            <div className="mt-5 flex items-center gap-4">
               <Link
                 to="/live"
-                className="group inline-flex items-center gap-2 rounded-2xl bg-emerald-500 px-7 py-3.5 text-sm font-black uppercase tracking-tight text-slate-950 transition-transform hover:scale-[1.03]"
+                className="group inline-flex items-center gap-2 rounded-xl bg-emerald-500 px-5 py-2.5 text-sm font-black uppercase tracking-tight text-slate-950 transition-transform hover:scale-[1.03]"
               >
                 {t("nav_live")}
                 <ArrowRight className="h-4 w-4 transition-transform group-hover:translate-x-0.5" strokeWidth={3} />
