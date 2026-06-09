@@ -70,18 +70,28 @@ function StatisticsPage() {
   const fetcher = useServerFn(getVisitStats);
   const { data } = useSuspenseQuery({ ...statsQO, queryFn: () => fetcher() });
 
+  // Hide rows with no country detected.
+  const totalsByCountry = useMemo(
+    () => data.totalsByCountry.filter((c) => c.country_code),
+    [data.totalsByCountry],
+  );
+  const dailyByCountry = useMemo(
+    () => data.dailyByCountry.filter((r) => r.country_code),
+    [data.dailyByCountry],
+  );
   const maxDay = useMemo(
     () => Math.max(1, ...data.totalsByDay.map((d) => d.count)),
     [data.totalsByDay],
   );
   const maxCountry = useMemo(
-    () => Math.max(1, ...data.totalsByCountry.map((c) => c.count)),
-    [data.totalsByCountry],
+    () => Math.max(1, ...totalsByCountry.map((c) => c.count)),
+    [totalsByCountry],
   );
 
   const today = new Date().toISOString().slice(0, 10);
   const todayCount = data.totalsByDay.find((d) => d.day === today)?.count ?? 0;
   const online = data.online ?? { total: 0, byPage: [], byCountry: [] };
+  const onlineByCountry = online.byCountry.filter((c) => c.country_code);
   const maxOnlinePage = Math.max(1, ...online.byPage.map((p) => p.count));
 
   return (
@@ -101,7 +111,7 @@ function StatisticsPage() {
         <KpiCard label="Online now" value={online.total} accent />
         <KpiCard label="Total visits (30d)" value={data.total} />
         <KpiCard label="Today" value={todayCount} />
-        <KpiCard label="Countries" value={data.totalsByCountry.length} />
+        <KpiCard label="Countries" value={totalsByCountry.length} />
         <KpiCard label="Active days" value={data.totalsByDay.length} />
       </div>
 
@@ -148,11 +158,11 @@ function StatisticsPage() {
             </span>
             Online now · by country
           </h2>
-          {online.byCountry.length === 0 ? (
+          {onlineByCountry.length === 0 ? (
             <p className="text-sm text-muted-foreground">No one online right now.</p>
           ) : (
             <ul className="space-y-2">
-              {online.byCountry.slice(0, 20).map((c) => (
+              {onlineByCountry.slice(0, 20).map((c) => (
                 <li
                   key={c.country_code ?? "unk"}
                   className="flex items-center gap-3 text-xs"
@@ -200,11 +210,11 @@ function StatisticsPage() {
           <h2 className="text-sm font-mono uppercase tracking-wider text-muted-foreground mb-4">
             <span className="text-primary">▸</span> Top countries
           </h2>
-          {data.totalsByCountry.length === 0 ? (
+          {totalsByCountry.length === 0 ? (
             <p className="text-sm text-muted-foreground">No visits recorded yet.</p>
           ) : (
             <ul className="space-y-2">
-              {data.totalsByCountry.slice(0, 20).map((c) => (
+              {totalsByCountry.slice(0, 20).map((c) => (
                 <li key={c.country_code ?? "unk"} className="flex items-center gap-3 text-xs">
                   <Flag cc={c.country_code} />
                   <span className="w-40 shrink-0 truncate">
@@ -229,7 +239,7 @@ function StatisticsPage() {
         <h2 className="text-sm font-mono uppercase tracking-wider text-muted-foreground mb-4">
           <span className="text-primary">▸</span> Daily breakdown by country
         </h2>
-        {data.dailyByCountry.length === 0 ? (
+        {dailyByCountry.length === 0 ? (
           <p className="text-sm text-muted-foreground">No data yet.</p>
         ) : (
           <div className="overflow-x-auto">
@@ -242,7 +252,7 @@ function StatisticsPage() {
                 </tr>
               </thead>
               <tbody>
-                {data.dailyByCountry.slice(0, 200).map((row, i) => (
+                {dailyByCountry.slice(0, 200).map((row, i) => (
                   <tr key={i} className="border-b border-border/30">
                     <td className="py-1.5 pr-4">{row.day}</td>
                     <td className="py-1.5 pr-4">
