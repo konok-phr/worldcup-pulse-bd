@@ -1,0 +1,1 @@
+UPDATE public.matches SET group_letter = REPLACE(group_letter, 'GROUP_', '') WHERE tournament_year = 2026 AND group_letter LIKE 'GROUP_%';
