@@ -88,7 +88,7 @@ export const Route = createFileRoute("/api/public/hooks/sync-live")({
               external_id: externalId,
               tournament_year: 2026,
               stage: mapStage(m.stage),
-              group_letter: m.group ? m.group.replace(/Group\s+/i, "") : null,
+              group_letter: m.group ? m.group.replace(/Group[\s_]+/i, "") : null,
               home_team_name: m.homeTeam?.name ?? null,
               away_team_name: m.awayTeam?.name ?? null,
               home_team_code: m.homeTeam?.tla ?? null,
