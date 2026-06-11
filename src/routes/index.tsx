@@ -39,6 +39,41 @@ function Home() {
 
   return (
     <div className="mx-auto max-w-7xl px-4 py-6 space-y-6">
+      {/* Live TV promo banner */}
+      <Link
+        to="/live-tv"
+        className="group relative block overflow-hidden rounded-2xl border border-rose-500/30 bg-gradient-to-r from-rose-600 via-red-600 to-orange-500 p-4 md:p-5 shadow-lg shadow-rose-500/20 transition-transform hover:scale-[1.01]"
+      >
+        <div className="pointer-events-none absolute -top-10 -right-10 h-32 w-32 rounded-full bg-white/10 blur-2xl" />
+        <div className="relative flex items-center gap-4">
+          <div className="flex h-12 w-12 shrink-0 items-center justify-center rounded-xl bg-white/15 backdrop-blur">
+            <span className="relative flex h-3 w-3">
+              <span className="absolute inline-flex h-full w-full animate-ping rounded-full bg-white opacity-75" />
+              <span className="relative inline-flex h-3 w-3 rounded-full bg-white" />
+            </span>
+          </div>
+          <div className="min-w-0 flex-1">
+            <div className="text-[10px] font-mono uppercase tracking-[0.25em] text-white/80">
+              {locale === "bn" ? "লাইভ টিভি · ফ্রি" : "Live TV · Free"}
+            </div>
+            <div className="text-base md:text-xl font-black tracking-tight text-white">
+              {locale === "bn"
+                ? "এখানে দেখুন বিশ্বকাপ ২০২৬ লাইভ খেলা"
+                : "Watch FIFA World Cup 2026 live — right here"}
+            </div>
+            <div className="text-xs text-white/85 mt-0.5">
+              {locale === "bn"
+                ? "একাধিক চ্যানেল · এক ক্লিকে স্যুইচ"
+                : "Multiple channels · One-tap switching"}
+            </div>
+          </div>
+          <div className="hidden sm:inline-flex items-center gap-1 rounded-xl bg-white px-4 py-2 text-xs font-black uppercase tracking-wider text-rose-600">
+            {locale === "bn" ? "এখনই দেখুন" : "Watch now"}
+            <ArrowRight className="h-3.5 w-3.5" strokeWidth={3} />
+          </div>
+        </div>
+      </Link>
+
       {/* Next match strip */}
       {nextMatch && (
         <NextMatchWidget match={nextMatch} emojiMap={emojiMap} />

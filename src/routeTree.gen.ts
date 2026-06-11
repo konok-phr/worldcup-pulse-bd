@@ -17,6 +17,8 @@ import { Route as SearchRouteImport } from './routes/search'
 import { Route as RecordsRouteImport } from './routes/records'
 import { Route as PlayersRouteImport } from './routes/players'
 import { Route as NewsRouteImport } from './routes/news'
+import { Route as LiveTvAddForWorldCup2026AdRouteImport } from './routes/live-tv-add-for-world-cup-2026-ad'
+import { Route as LiveTvRouteImport } from './routes/live-tv'
 import { Route as LiveRouteImport } from './routes/live'
 import { Route as KnockoutRouteImport } from './routes/knockout'
 import { Route as HistoryRouteImport } from './routes/history'
@@ -70,6 +72,17 @@ const PlayersRoute = PlayersRouteImport.update({
 const NewsRoute = NewsRouteImport.update({
   id: '/news',
   path: '/news',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const LiveTvAddForWorldCup2026AdRoute =
+  LiveTvAddForWorldCup2026AdRouteImport.update({
+    id: '/live-tv-add-for-world-cup-2026-ad',
+    path: '/live-tv-add-for-world-cup-2026-ad',
+    getParentRoute: () => rootRouteImport,
+  } as any)
+const LiveTvRoute = LiveTvRouteImport.update({
+  id: '/live-tv',
+  path: '/live-tv',
   getParentRoute: () => rootRouteImport,
 } as any)
 const LiveRoute = LiveRouteImport.update({
@@ -150,6 +163,8 @@ export interface FileRoutesByFullPath {
   '/history': typeof HistoryRoute
   '/knockout': typeof KnockoutRoute
   '/live': typeof LiveRoute
+  '/live-tv': typeof LiveTvRoute
+  '/live-tv-add-for-world-cup-2026-ad': typeof LiveTvAddForWorldCup2026AdRoute
   '/news': typeof NewsRouteWithChildren
   '/players': typeof PlayersRoute
   '/records': typeof RecordsRoute
@@ -174,6 +189,8 @@ export interface FileRoutesByTo {
   '/history': typeof HistoryRoute
   '/knockout': typeof KnockoutRoute
   '/live': typeof LiveRoute
+  '/live-tv': typeof LiveTvRoute
+  '/live-tv-add-for-world-cup-2026-ad': typeof LiveTvAddForWorldCup2026AdRoute
   '/news': typeof NewsRouteWithChildren
   '/players': typeof PlayersRoute
   '/records': typeof RecordsRoute
@@ -199,6 +216,8 @@ export interface FileRoutesById {
   '/history': typeof HistoryRoute
   '/knockout': typeof KnockoutRoute
   '/live': typeof LiveRoute
+  '/live-tv': typeof LiveTvRoute
+  '/live-tv-add-for-world-cup-2026-ad': typeof LiveTvAddForWorldCup2026AdRoute
   '/news': typeof NewsRouteWithChildren
   '/players': typeof PlayersRoute
   '/records': typeof RecordsRoute
@@ -225,6 +244,8 @@ export interface FileRouteTypes {
     | '/history'
     | '/knockout'
     | '/live'
+    | '/live-tv'
+    | '/live-tv-add-for-world-cup-2026-ad'
     | '/news'
     | '/players'
     | '/records'
@@ -249,6 +270,8 @@ export interface FileRouteTypes {
     | '/history'
     | '/knockout'
     | '/live'
+    | '/live-tv'
+    | '/live-tv-add-for-world-cup-2026-ad'
     | '/news'
     | '/players'
     | '/records'
@@ -273,6 +296,8 @@ export interface FileRouteTypes {
     | '/history'
     | '/knockout'
     | '/live'
+    | '/live-tv'
+    | '/live-tv-add-for-world-cup-2026-ad'
     | '/news'
     | '/players'
     | '/records'
@@ -298,6 +323,8 @@ export interface RootRouteChildren {
   HistoryRoute: typeof HistoryRoute
   KnockoutRoute: typeof KnockoutRoute
   LiveRoute: typeof LiveRoute
+  LiveTvRoute: typeof LiveTvRoute
+  LiveTvAddForWorldCup2026AdRoute: typeof LiveTvAddForWorldCup2026AdRoute
   NewsRoute: typeof NewsRouteWithChildren
   PlayersRoute: typeof PlayersRoute
   RecordsRoute: typeof RecordsRoute
@@ -369,6 +396,20 @@ declare module '@tanstack/react-router' {
       path: '/news'
       fullPath: '/news'
       preLoaderRoute: typeof NewsRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/live-tv-add-for-world-cup-2026-ad': {
+      id: '/live-tv-add-for-world-cup-2026-ad'
+      path: '/live-tv-add-for-world-cup-2026-ad'
+      fullPath: '/live-tv-add-for-world-cup-2026-ad'
+      preLoaderRoute: typeof LiveTvAddForWorldCup2026AdRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/live-tv': {
+      id: '/live-tv'
+      path: '/live-tv'
+      fullPath: '/live-tv'
+      preLoaderRoute: typeof LiveTvRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/live': {
@@ -510,6 +551,8 @@ const rootRouteChildren: RootRouteChildren = {
   HistoryRoute: HistoryRoute,
   KnockoutRoute: KnockoutRoute,
   LiveRoute: LiveRoute,
+  LiveTvRoute: LiveTvRoute,
+  LiveTvAddForWorldCup2026AdRoute: LiveTvAddForWorldCup2026AdRoute,
   NewsRoute: NewsRouteWithChildren,
   PlayersRoute: PlayersRoute,
   RecordsRoute: RecordsRoute,
