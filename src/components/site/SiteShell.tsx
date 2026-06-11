@@ -34,7 +34,7 @@ export function SiteShell({ children }: { children: React.ReactNode }) {
     <div className="min-h-screen flex flex-col bg-background text-foreground">
       {/* Top broadcast bar */}
       <div className="h-7 bg-primary/10 border-b border-primary/20 text-primary text-[10px] uppercase tracking-[0.2em] font-mono flex items-center justify-center px-3">
-        <span className="truncate">★ FIFA World Cup 2026 · USA · Canada · Mexico · June 11 – July 19 · Bangladesh Time (BST)</span>
+        <span className="truncate">★ FIFA World Cup 2026 · USA · Canada · Mexico · June 12 – July 20 · Bangladesh Time (BST)</span>
       </div>
 
       <LiveScoreRail />

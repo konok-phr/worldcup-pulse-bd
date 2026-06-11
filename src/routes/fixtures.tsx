@@ -194,7 +194,13 @@ function FixturesPage() {
                     handleSelectDate(date);
                     setPopoverOpen(false);
                   }}
-                  defaultMonth={new Date("2026-06-11")}
+                  defaultMonth={new Date(2026, 5, 12)}
+                  startMonth={new Date(2026, 5)}
+                  endMonth={new Date(2026, 6)}
+                  disabled={{
+                    before: new Date(2026, 5, 12),
+                    after: new Date(2026, 6, 20)
+                  }}
                   className="rounded-md border border-border/40"
                 />
               </PopoverContent>

@@ -134,11 +134,7 @@ function LiveTvPage() {
         </>
       )}
 
-      <div className="pt-4 text-center text-xs text-muted-foreground">
-        <Link to="/live-tv-add-for-world-cup-2026-ad" className="hover:text-primary underline-offset-4 hover:underline">
-          {locale === "bn" ? "চ্যানেল যোগ/সম্পাদনা করুন" : "Add or edit channels"}
-        </Link>
-      </div>
+
     </div>
   );
 }
