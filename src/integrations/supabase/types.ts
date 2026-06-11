@@ -29,6 +29,39 @@ export type Database = {
         }
         Relationships: []
       }
+      live_tv_channels: {
+        Row: {
+          created_at: string
+          id: string
+          is_active: boolean
+          logo_url: string | null
+          name: string
+          sort_order: number
+          stream_url: string
+          updated_at: string
+        }
+        Insert: {
+          created_at?: string
+          id?: string
+          is_active?: boolean
+          logo_url?: string | null
+          name: string
+          sort_order?: number
+          stream_url: string
+          updated_at?: string
+        }
+        Update: {
+          created_at?: string
+          id?: string
+          is_active?: boolean
+          logo_url?: string | null
+          name?: string
+          sort_order?: number
+          stream_url?: string
+          updated_at?: string
+        }
+        Relationships: []
+      }
       match_events: {
         Row: {
           added_time: number | null
