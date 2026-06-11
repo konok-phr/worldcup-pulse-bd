@@ -24,7 +24,6 @@ export const Route = createFileRoute("/live-tv-add-for-world-cup-2026-ad")({
       title: "Manage Live TV Channels — WC26 Hub",
       description: "Add and update live TV channels for WC26 Hub.",
       path: "/live-tv-add-for-world-cup-2026-ad",
-      noindex: true,
     }),
   }),
   component: AdminPage,
