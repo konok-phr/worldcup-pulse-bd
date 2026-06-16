@@ -21,6 +21,11 @@ const NAV = [
   { to: "/news", key: "nav_news" as const },
 ];
 
+const EXTRA_NAV = [
+  { to: "/predictions", label: "Predict" },
+  { to: "/leaderboard", label: "Leaderboard" },
+];
+
 export function SiteShell({ children }: { children: React.ReactNode }) {
   const { t } = useI18n();
   const [openMobile, setOpenMobile] = React.useState(false);
@@ -66,6 +71,16 @@ export function SiteShell({ children }: { children: React.ReactNode }) {
                 {t(n.key)}
               </Link>
             ))}
+            {EXTRA_NAV.map((n) => (
+              <Link
+                key={n.to}
+                to={n.to}
+                className="px-2.5 py-1.5 rounded hover:bg-secondary/60 hover:text-foreground text-muted-foreground transition-colors"
+                activeProps={{ className: "px-2.5 py-1.5 rounded bg-secondary text-primary" }}
+              >
+                {n.label}
+              </Link>
+            ))}
           </nav>
 
           <div className="flex-1" />
@@ -101,6 +116,16 @@ export function SiteShell({ children }: { children: React.ReactNode }) {
                   activeOptions={{ exact: n.to === "/" }}
                 >
                   {t(n.key)}
+                </Link>
+              ))}
+              {EXTRA_NAV.map((n) => (
+                <Link
+                  key={n.to}
+                  to={n.to}
+                  className="py-2 px-2 text-muted-foreground hover:text-primary"
+                  activeProps={{ className: "py-2 px-2 text-primary" }}
+                >
+                  {n.label}
                 </Link>
               ))}
               <Link to="/search" className="py-2 px-2 text-muted-foreground">
