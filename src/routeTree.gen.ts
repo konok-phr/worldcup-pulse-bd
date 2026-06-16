@@ -21,6 +21,7 @@ import { Route as NewsRouteImport } from './routes/news'
 import { Route as LiveTvAddForWorldCup2026AdRouteImport } from './routes/live-tv-add-for-world-cup-2026-ad'
 import { Route as LiveTvRouteImport } from './routes/live-tv'
 import { Route as LiveRouteImport } from './routes/live'
+import { Route as LeaderboardRouteImport } from './routes/leaderboard'
 import { Route as KnockoutRouteImport } from './routes/knockout'
 import { Route as HistoryRouteImport } from './routes/history'
 import { Route as GroupsRouteImport } from './routes/groups'
@@ -96,6 +97,11 @@ const LiveRoute = LiveRouteImport.update({
   path: '/live',
   getParentRoute: () => rootRouteImport,
 } as any)
+const LeaderboardRoute = LeaderboardRouteImport.update({
+  id: '/leaderboard',
+  path: '/leaderboard',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const KnockoutRoute = KnockoutRouteImport.update({
   id: '/knockout',
   path: '/knockout',
@@ -168,6 +174,7 @@ export interface FileRoutesByFullPath {
   '/groups': typeof GroupsRouteWithChildren
   '/history': typeof HistoryRoute
   '/knockout': typeof KnockoutRoute
+  '/leaderboard': typeof LeaderboardRoute
   '/live': typeof LiveRoute
   '/live-tv': typeof LiveTvRoute
   '/live-tv-add-for-world-cup-2026-ad': typeof LiveTvAddForWorldCup2026AdRoute
@@ -195,6 +202,7 @@ export interface FileRoutesByTo {
   '/groups': typeof GroupsRouteWithChildren
   '/history': typeof HistoryRoute
   '/knockout': typeof KnockoutRoute
+  '/leaderboard': typeof LeaderboardRoute
   '/live': typeof LiveRoute
   '/live-tv': typeof LiveTvRoute
   '/live-tv-add-for-world-cup-2026-ad': typeof LiveTvAddForWorldCup2026AdRoute
@@ -223,6 +231,7 @@ export interface FileRoutesById {
   '/groups': typeof GroupsRouteWithChildren
   '/history': typeof HistoryRoute
   '/knockout': typeof KnockoutRoute
+  '/leaderboard': typeof LeaderboardRoute
   '/live': typeof LiveRoute
   '/live-tv': typeof LiveTvRoute
   '/live-tv-add-for-world-cup-2026-ad': typeof LiveTvAddForWorldCup2026AdRoute
@@ -252,6 +261,7 @@ export interface FileRouteTypes {
     | '/groups'
     | '/history'
     | '/knockout'
+    | '/leaderboard'
     | '/live'
     | '/live-tv'
     | '/live-tv-add-for-world-cup-2026-ad'
@@ -279,6 +289,7 @@ export interface FileRouteTypes {
     | '/groups'
     | '/history'
     | '/knockout'
+    | '/leaderboard'
     | '/live'
     | '/live-tv'
     | '/live-tv-add-for-world-cup-2026-ad'
@@ -306,6 +317,7 @@ export interface FileRouteTypes {
     | '/groups'
     | '/history'
     | '/knockout'
+    | '/leaderboard'
     | '/live'
     | '/live-tv'
     | '/live-tv-add-for-world-cup-2026-ad'
@@ -334,6 +346,7 @@ export interface RootRouteChildren {
   GroupsRoute: typeof GroupsRouteWithChildren
   HistoryRoute: typeof HistoryRoute
   KnockoutRoute: typeof KnockoutRoute
+  LeaderboardRoute: typeof LeaderboardRoute
   LiveRoute: typeof LiveRoute
   LiveTvRoute: typeof LiveTvRoute
   LiveTvAddForWorldCup2026AdRoute: typeof LiveTvAddForWorldCup2026AdRoute
@@ -437,6 +450,13 @@ declare module '@tanstack/react-router' {
       path: '/live'
       fullPath: '/live'
       preLoaderRoute: typeof LiveRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/leaderboard': {
+      id: '/leaderboard'
+      path: '/leaderboard'
+      fullPath: '/leaderboard'
+      preLoaderRoute: typeof LeaderboardRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/knockout': {
@@ -570,6 +590,7 @@ const rootRouteChildren: RootRouteChildren = {
   GroupsRoute: GroupsRouteWithChildren,
   HistoryRoute: HistoryRoute,
   KnockoutRoute: KnockoutRoute,
+  LeaderboardRoute: LeaderboardRoute,
   LiveRoute: LiveRoute,
   LiveTvRoute: LiveTvRoute,
   LiveTvAddForWorldCup2026AdRoute: LiveTvAddForWorldCup2026AdRoute,
