@@ -15,6 +15,7 @@ import { Route as StadiumsRouteImport } from './routes/stadiums'
 import { Route as SimulatorRouteImport } from './routes/simulator'
 import { Route as SearchRouteImport } from './routes/search'
 import { Route as RecordsRouteImport } from './routes/records'
+import { Route as PredictionsRouteImport } from './routes/predictions'
 import { Route as PlayersRouteImport } from './routes/players'
 import { Route as NewsRouteImport } from './routes/news'
 import { Route as LiveTvAddForWorldCup2026AdRouteImport } from './routes/live-tv-add-for-world-cup-2026-ad'
@@ -62,6 +63,11 @@ const SearchRoute = SearchRouteImport.update({
 const RecordsRoute = RecordsRouteImport.update({
   id: '/records',
   path: '/records',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const PredictionsRoute = PredictionsRouteImport.update({
+  id: '/predictions',
+  path: '/predictions',
   getParentRoute: () => rootRouteImport,
 } as any)
 const PlayersRoute = PlayersRouteImport.update({
@@ -167,6 +173,7 @@ export interface FileRoutesByFullPath {
   '/live-tv-add-for-world-cup-2026-ad': typeof LiveTvAddForWorldCup2026AdRoute
   '/news': typeof NewsRouteWithChildren
   '/players': typeof PlayersRoute
+  '/predictions': typeof PredictionsRoute
   '/records': typeof RecordsRoute
   '/search': typeof SearchRoute
   '/simulator': typeof SimulatorRoute
@@ -193,6 +200,7 @@ export interface FileRoutesByTo {
   '/live-tv-add-for-world-cup-2026-ad': typeof LiveTvAddForWorldCup2026AdRoute
   '/news': typeof NewsRouteWithChildren
   '/players': typeof PlayersRoute
+  '/predictions': typeof PredictionsRoute
   '/records': typeof RecordsRoute
   '/search': typeof SearchRoute
   '/simulator': typeof SimulatorRoute
@@ -220,6 +228,7 @@ export interface FileRoutesById {
   '/live-tv-add-for-world-cup-2026-ad': typeof LiveTvAddForWorldCup2026AdRoute
   '/news': typeof NewsRouteWithChildren
   '/players': typeof PlayersRoute
+  '/predictions': typeof PredictionsRoute
   '/records': typeof RecordsRoute
   '/search': typeof SearchRoute
   '/simulator': typeof SimulatorRoute
@@ -248,6 +257,7 @@ export interface FileRouteTypes {
     | '/live-tv-add-for-world-cup-2026-ad'
     | '/news'
     | '/players'
+    | '/predictions'
     | '/records'
     | '/search'
     | '/simulator'
@@ -274,6 +284,7 @@ export interface FileRouteTypes {
     | '/live-tv-add-for-world-cup-2026-ad'
     | '/news'
     | '/players'
+    | '/predictions'
     | '/records'
     | '/search'
     | '/simulator'
@@ -300,6 +311,7 @@ export interface FileRouteTypes {
     | '/live-tv-add-for-world-cup-2026-ad'
     | '/news'
     | '/players'
+    | '/predictions'
     | '/records'
     | '/search'
     | '/simulator'
@@ -327,6 +339,7 @@ export interface RootRouteChildren {
   LiveTvAddForWorldCup2026AdRoute: typeof LiveTvAddForWorldCup2026AdRoute
   NewsRoute: typeof NewsRouteWithChildren
   PlayersRoute: typeof PlayersRoute
+  PredictionsRoute: typeof PredictionsRoute
   RecordsRoute: typeof RecordsRoute
   SearchRoute: typeof SearchRoute
   SimulatorRoute: typeof SimulatorRoute
@@ -382,6 +395,13 @@ declare module '@tanstack/react-router' {
       path: '/records'
       fullPath: '/records'
       preLoaderRoute: typeof RecordsRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/predictions': {
+      id: '/predictions'
+      path: '/predictions'
+      fullPath: '/predictions'
+      preLoaderRoute: typeof PredictionsRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/players': {
@@ -555,6 +575,7 @@ const rootRouteChildren: RootRouteChildren = {
   LiveTvAddForWorldCup2026AdRoute: LiveTvAddForWorldCup2026AdRoute,
   NewsRoute: NewsRouteWithChildren,
   PlayersRoute: PlayersRoute,
+  PredictionsRoute: PredictionsRoute,
   RecordsRoute: RecordsRoute,
   SearchRoute: SearchRoute,
   SimulatorRoute: SimulatorRoute,
