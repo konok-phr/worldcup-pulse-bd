@@ -14,6 +14,41 @@ export type Database = {
   }
   public: {
     Tables: {
+      commentary: {
+        Row: {
+          created_at: string
+          id: number
+          match_id: number
+          message: string
+          minute: number | null
+          username: string
+        }
+        Insert: {
+          created_at?: string
+          id?: never
+          match_id: number
+          message: string
+          minute?: number | null
+          username: string
+        }
+        Update: {
+          created_at?: string
+          id?: never
+          match_id?: number
+          message?: string
+          minute?: number | null
+          username?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "commentary_match_id_fkey"
+            columns: ["match_id"]
+            isOneToOne: false
+            referencedRelation: "matches"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
       groups_2026: {
         Row: {
           letter: string

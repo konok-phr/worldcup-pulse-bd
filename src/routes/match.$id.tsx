@@ -9,6 +9,7 @@ import { useI18n, fmtNumber } from "@/lib/i18n";
 import { buildHead } from "@/lib/seo";
 import { ArrowLeft, Goal, Square, ArrowLeftRight, Flag, Users, Info } from "lucide-react";
 import * as React from "react";
+import { LiveCommentary } from "@/components/site/LiveCommentary";
 
 const matchQO = (id: number) =>
   queryOptions({
@@ -241,6 +242,9 @@ function MatchPage() {
 
       {/* Head-to-head */}
       {homeCode && awayCode && <HeadToHead home={homeCode} away={awayCode} />}
+
+      {/* Live Commentary */}
+      <LiveCommentary matchId={id} currentMinute={m.minute} />
     </div>
   );
 }
