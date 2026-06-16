@@ -320,6 +320,50 @@ export type Database = {
           },
         ]
       }
+      predictions: {
+        Row: {
+          created_at: string
+          id: string
+          match_id: number
+          points: number
+          predicted_away: number
+          predicted_home: number
+          scored: boolean
+          updated_at: string
+          username: string
+        }
+        Insert: {
+          created_at?: string
+          id?: string
+          match_id: number
+          points?: number
+          predicted_away: number
+          predicted_home: number
+          scored?: boolean
+          updated_at?: string
+          username: string
+        }
+        Update: {
+          created_at?: string
+          id?: string
+          match_id?: number
+          points?: number
+          predicted_away?: number
+          predicted_home?: number
+          scored?: boolean
+          updated_at?: string
+          username?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "predictions_match_id_fkey"
+            columns: ["match_id"]
+            isOneToOne: false
+            referencedRelation: "matches"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
       records: {
         Row: {
           category: string
@@ -607,6 +651,7 @@ export type Database = {
     }
     Functions: {
       cleanup_old_page_visits: { Args: never; Returns: undefined }
+      recompute_prediction_points: { Args: never; Returns: number }
     }
     Enums: {
       [_ in never]: never
